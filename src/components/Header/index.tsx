@@ -52,14 +52,18 @@ export const Header = () => {
           <div className="flex justify-center items-center gap-6">
             <nav
               id="navbarCollapse"
-              className={`navbar absolute right-0 z-30 w-[250px] rounded border-[.5px] border-body-color/50 bg-white py-4 px-6 duration-300 dark:border-body-color/20 dark:bg-dark lg:visible lg:static lg:w-auto lg:border-none lg:!bg-transparent lg:p-0 lg:opacity-100 invisible top-[120%] opacity-0 `}
+              className={
+                'navbar absolute right-0 z-30 w-[250px] rounded border-[.5px] border-body-color/50 bg-white py-4 px-6 duration-300 dark:border-body-color/20 dark:bg-dark lg:visible lg:static lg:w-auto lg:border-none lg:!bg-transparent lg:p-0 lg:opacity-100 invisible top-[120%] opacity-0'
+              }
             >
               <ul className="block lg:flex lg:space-x-12">
-                {menuData.map((menuItem, index) => (
+                {menuData.map((menuItem) => (
                   <li key={menuItem.id} className="group relative">
                     <Link
                       href={menuItem.path || '/'}
-                      className={`flex text-base text-dark font-medium font-['Mulish'] leading-relaxed group-hover:opacity-70 dark:text-white lg:mr-0 lg:inline-flex lg:px-0`}
+                      className={
+                        'flex text-base text-dark font-medium leading-relaxed group-hover:opacity-70 dark:text-white lg:mr-0 lg:inline-flex lg:px-0'
+                      }
                     >
                       {menuItem.title}
                     </Link>

@@ -22,9 +22,11 @@ export default function RootLayout({
       <head />
       <body className={mulish.className}>
         <Providers>
-          <Header />
-          {children}
-          <Footer />
+          <div className="flex flex-col min-h-screen">
+            <Header />
+            <main className="flex-grow">{children}</main>
+            <Footer />
+          </div>
         </Providers>
       </body>
     </html>
