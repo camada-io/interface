@@ -1,6 +1,9 @@
 import '@/styles/globals.css'
 import type { Metadata } from 'next'
 import { Mulish } from 'next/font/google'
+import { Providers } from './provider'
+import { Header } from '@/components/Header'
+import { Footer } from '@/components/Footer'
 
 const mulish = Mulish({ subsets: ['latin'] })
 
@@ -15,8 +18,15 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
-      <body className={mulish.className}>{children}</body>
+    <html suppressHydrationWarning lang="en">
+      <head />
+      <body className={mulish.className}>
+        <Providers>
+          <Header />
+          {children}
+          <Footer />
+        </Providers>
+      </body>
     </html>
   )
 }
