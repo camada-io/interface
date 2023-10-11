@@ -32,7 +32,7 @@ export const Header = () => {
       }`}
     >
       <div className="container">
-        <div className="relative -mx-4 justify-between items-center">
+        <div className="relative -mx-4 lg:justify-between justify-center items-center">
           <div className="w-52 max-w-full">
             <Link
               href="/"
@@ -77,7 +77,7 @@ export const Header = () => {
           </div>
           <button
             type="button"
-            className="flex max-w-[212px] h-[45px] pl-4 pr-6 py-4 bg-cyan-500 rounded-[5px] justify-center items-center gap-4"
+            className="hidden lg:inline-flex max-w-[212px] h-[45px] pl-4 pr-6 py-4 bg-cyan-500 rounded-[5px] justify-center items-center gap-4"
           >
             <BiWallet size={'1.5rem'} />
             <div className="text-white text-lg font-bold ">Connect Wallet</div>
