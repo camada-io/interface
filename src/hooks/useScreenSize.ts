@@ -1,5 +1,5 @@
-import { BREAKPOINTS } from "@/types/breakpoints"
-import { useEffect, useState } from "react"
+import { BREAKPOINTS } from '@/types/breakpoints'
+import { useEffect, useState } from 'react'
 
 const isClient = typeof window !== 'undefined'
 
@@ -7,9 +7,11 @@ function getScreenSize(): Record<keyof typeof BREAKPOINTS, boolean> {
   return Object.keys(BREAKPOINTS).reduce(
     (obj, key) =>
       Object.assign(obj, {
-        [key]: isClient ? window.innerWidth >= BREAKPOINTS[key as keyof typeof BREAKPOINTS] : false,
+        [key]: isClient
+          ? window.innerWidth >= BREAKPOINTS[key as keyof typeof BREAKPOINTS]
+          : false,
       }),
-    {} as Record<keyof typeof BREAKPOINTS, boolean>
+    {} as Record<keyof typeof BREAKPOINTS, boolean>,
   )
 }
 

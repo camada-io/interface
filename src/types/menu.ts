@@ -11,7 +11,6 @@ export type Menu = {
   submenu?: Menu[]
 }
 
-
 export const menuItems = [
   {
     label: 'About us',
@@ -33,4 +32,4 @@ export const menuItems = [
     label: 'Contact',
     icon: AiOutlineMail,
   },
-];
+]

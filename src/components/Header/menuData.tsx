@@ -39,7 +39,6 @@ export const menuData: Menu[] = [
   },
 ]
 
-
 export const menuDataFooter: Menu[] = [
   {
     id: 1,
