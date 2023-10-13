@@ -25,13 +25,13 @@ export const Header = () => {
 
   return (
     <header
-      className={`header top-0 z-40 flex w-full justify-center items-center bg-transparent h-[105px] ${
+      className={`header top-0 z-40 flex w-full lg:px-[130px] justify-center items-center bg-transparent h-[105px] ${
         sticky
           ? '!fixed !z-[9999] !bg-white !bg-opacity-80 shadow-sticky backdrop-blur-sm !transition dark:!bg-primary dark:!bg-opacity-20'
           : 'absolute'
       }`}
     >
-      <div className="relative w-full -mx-4 lg:justify-evenly justify-center items-center">
+      <div className="relative w-full lg:justify-between justify-center items-center">
         <div className="w-52 max-w-full">
           <Link
             href="/"
@@ -55,7 +55,7 @@ export const Header = () => {
               'navbar absolute right-0 z-30 w-full rounded border-[.5px] border-body-color/50 bg-white py-4 px-6 duration-300 dark:border-body-color/20 dark:bg-dark lg:visible lg:static lg:w-auto lg:border-none lg:!bg-transparent lg:p-0 lg:opacity-100 invisible top-[120%] opacity-0'
             }
           >
-            <ul className="block lg:flex xl:space-x-12 lg:space-x-6">
+            <ul className="block lg:flex lg:space-x-6">
               {menuData.map((menuItem) => (
                 <li key={menuItem.id} className="group relative">
                   <Link
