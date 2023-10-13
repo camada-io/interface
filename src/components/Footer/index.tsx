@@ -1,19 +1,12 @@
 'use client'
+
 import Image from 'next/image'
 import Link from 'next/link'
 import { FaTelegramPlane } from 'react-icons/fa'
 import { FooterMenu } from '../FooterMenu'
-import { useIsMobile } from '@/hooks/useIsMobile'
-import { useMemo } from 'react'
+import { colors } from '@/utils/colors'
 
 export const Footer = () => {
-  const isMobile = useIsMobile()
-
-  const colorIcon = useMemo(
-    () => (isMobile ? 'white' : 'var(--gray-900)'),
-    [isMobile],
-  )
-
   return (
     <>
       <footer className="bg-primary bg-opacity-5">
@@ -103,7 +96,7 @@ export const Footer = () => {
                 </Link>
               </div>
               <div className="flex-col justify-start items-start gap-5 inline-flex">
-                <div className="w-[39.25px] h-10 relative justify-center items-center rounded-[25.29px] bg-whiteAlpha-300 lg:bg-brandBlue-100">
+                <div className="w-[39.25px] h-10 relative justify-center items-center rounded-[25.29px] bg-brandBlue-100">
                   <svg
                     width="22"
                     height="22"
@@ -113,12 +106,12 @@ export const Footer = () => {
                   >
                     <path
                       d="M0.0612323 0L9.77692 13.2374L0 24H2.20057L10.7604 14.5769L17.6763 24H25.1644L14.9019 10.0182L24.0023 0H21.8017L13.9188 8.67818L7.54933 0H0.0612323ZM3.29726 1.65155H6.73726L21.928 22.3484H18.488L3.29726 1.65155Z"
-                      fill={colorIcon}
+                      fill={colors.gray[900]}
                     />
                   </svg>
                 </div>
-                <div className="w-[39.25px] h-10 relative justify-center items-center rounded-[25.29px] bg-whiteAlpha-300 lg:bg-brandBlue-100">
-                  <FaTelegramPlane size={'1.375rem'} color={colorIcon} />
+                <div className="w-[39.25px] h-10 relative justify-center items-center rounded-[25.29px] bg-brandBlue-100 fill-black">
+                  <FaTelegramPlane size={'1.375rem'} color={colors.gray[900]} />
                 </div>
               </div>
             </div>
