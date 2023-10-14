@@ -28,9 +28,8 @@ export default function RootLayout({
             <Image
               src="/images/background.svg"
               alt="logo"
-              objectFit="cover"
-              layout="fill"
-              className="absolute z-0"
+              style={{ objectFit: 'cover' }}
+              fill
             />
           </div>
           <div className="flex flex-col min-h-screen">
