@@ -9,7 +9,7 @@ export const FooterMenu = () => {
 
   return (
     <div className="fixed bottom-0 w-full">
-      <div className="w-full h-[46px] justify-between items-start inline-flex bg-gray-600">
+      <div className="w-full h-[46px] justify-between items-start inline-flex">
         {/* TODO: refactor to Button with interaction state */}
         <div className="px-8 h-full bg-brandBlue-200 rounded-tr-[100px] justify-center items-center gap-2 flex">
           <div className="text-white text-sm font-bold leading-normal">
