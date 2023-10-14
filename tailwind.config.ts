@@ -1,5 +1,5 @@
+/* eslint-disable quotes */
 import type { Config } from 'tailwindcss'
-const defaultTheme = require('tailwindcss/defaultTheme')
 
 const config: Config = {
   content: [
@@ -14,27 +14,27 @@ const config: Config = {
   },
   theme: {
     screens: {
-      'sm': '640px',
-      'md': '768px',
-      'lg': '1024px',
-      'xl': '1280px',
-      '2xl': '1536px'
+      sm: '640px',
+      md: '768px',
+      lg: '1024px',
+      xl: '1280px',
+      '2xl': '1536px',
     },
     extend: {
       colors: {
         transparent: 'transparent',
         current: 'currentColor',
-        'whiteAlpha': {
+        whiteAlpha: {
           100: '#FFFFFF0F',
           300: '#FFFFFF29',
           500: '#FFFFFF5C',
           1000: '#FFFFFF',
         },
-        'brandBlue': {
+        brandBlue: {
           100: '#81DFE4',
           200: '#15BBC6',
         },
-        'gray': {
+        gray: {
           300: '#999999',
           400: '#676767',
           500: '#3C4150',
@@ -42,8 +42,11 @@ const config: Config = {
           650: '#30354480',
           700: '#272C39',
           900: '#222631',
-        }
-      }
+        },
+      },
+      backgroundImage: {
+        'background-dark': "url('/assets/background.svg')",
+      },
     },
   },
   plugins: [],

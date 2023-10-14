@@ -1,9 +1,11 @@
+/* eslint-disable @next/next/no-img-element */
 import '@/styles/globals.css'
 import type { Metadata } from 'next'
 import { Mulish } from 'next/font/google'
 import { Providers } from './provider'
 import { Header } from '@/components/Header'
 import { Footer } from '@/components/Footer'
+import Image from 'next/image'
 
 const mulish = Mulish({ subsets: ['latin'] })
 
@@ -20,11 +22,20 @@ export default function RootLayout({
   return (
     <html suppressHydrationWarning lang="en">
       <head />
-      <body className={mulish.className}>
+      <body className={`${mulish.className} m-0 p-0 h-screen`}>
         <Providers>
+          <div className="absolute w-full h-screen bg-gray-700">
+            <Image
+              src="/images/background.svg"
+              alt="logo"
+              objectFit="cover"
+              layout="fill"
+              className="absolute z-0"
+            />
+          </div>
           <div className="flex flex-col min-h-screen">
             <Header />
-            <main className="flex-grow">{children}</main>
+            <main className="flex-grow ">{children}</main>
             <Footer />
           </div>
         </Providers>

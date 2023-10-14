@@ -8,7 +8,7 @@ export const FooterMenu = () => {
   const pathname = usePathname()
 
   return (
-    <div className="fixed bottom-0 w-full">
+    <div className="fixed bottom-0 w-full lg:hidden">
       <div className="w-full h-[46px] justify-between items-start inline-flex">
         {/* TODO: refactor to Button with interaction state */}
         <div className="px-8 h-full bg-brandBlue-200 rounded-tr-[100px] justify-center items-center gap-2 flex">
@@ -22,7 +22,7 @@ export const FooterMenu = () => {
           </Link>
         </button>
       </div>
-      <div className="w-full h-[74px] bg-gray-500 py-4 px-6 lg:hidden">
+      <div className="w-full h-[74px] bg-gray-500 py-4 px-6">
         <div className="flex justify-center items-center gap-5">
           {menuDataFooter.map((item) => (
             <Link
