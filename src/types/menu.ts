@@ -9,27 +9,43 @@ export type Menu = {
   path?: string
   newTab: boolean
   submenu?: Menu[]
+  icon?: any
 }
 
-export const menuItems = [
+export const menuDataFooter: Menu[] = [
   {
-    label: 'About us',
+    id: 1,
+    title: 'About us',
+    path: '/about',
+    newTab: false,
     icon: Camada,
   },
   {
-    label: 'Stake',
+    id: 2,
+    title: 'Stake',
+    path: '/stake',
+    newTab: false,
     icon: BiCoinStack,
   },
   {
-    label: 'Projects',
+    id: 3,
+    title: 'Projects',
+    path: '/projects',
+    newTab: false,
     icon: RiFunctionLine,
   },
   {
-    label: 'Apply',
+    id: 4,
+    title: 'Apply',
+    path: '/apply',
+    newTab: false,
     icon: RiTodoLine,
   },
   {
-    label: 'Contact',
+    id: 5,
+    title: 'Contact us',
+    path: '/contact',
+    newTab: false,
     icon: AiOutlineMail,
   },
 ]
