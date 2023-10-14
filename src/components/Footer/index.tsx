@@ -9,7 +9,7 @@ import { colors } from '@/utils/colors'
 export const Footer = () => {
   return (
     <>
-      <footer className="bg-primary bg-opacity-5">
+      <footer className="bg-primary bg-opacity-5 mb-[120px] lg:mb-[0px]">
         <div className="w-full py-[30px] lg:py-[60px] px-6 lg:px-[136px] bg-gray-600 justify-between items-center flex-col xl:flex-row gap-6">
           <div className="flex flex-col justify-center items-center lg:items-start gap-6 ">
             <div className="justify-start items-start inline-flex">
