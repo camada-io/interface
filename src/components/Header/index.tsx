@@ -1,13 +1,23 @@
 'use client'
+
 import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { menuData } from './menuData'
 import { usePathname } from 'next/navigation'
 import { BiWallet } from 'react-icons/bi'
+import { useDisclosure } from '@/hooks/useDisclosure'
+import { ConnectWallet } from '../ConnectWallet'
+import { useAccount } from 'wagmi'
 
 export const Header = () => {
   const pathname = usePathname()
+
+  const modalConnectDisclosure = useDisclosure()
+
+  const { address, isConnected } = useAccount()
+
+  const [isClient, setIsClient] = useState(false)
 
   // Sticky Navbar
   const [sticky, setSticky] = useState(false)
@@ -20,6 +30,10 @@ export const Header = () => {
   }
 
   useEffect(() => {
+    setIsClient(true)
+  }, [])
+
+  useEffect(() => {
     window.addEventListener('scroll', handleStickyNavbar)
   })
 
@@ -27,11 +41,11 @@ export const Header = () => {
     <header
       className={`header top-0 z-40 flex w-full lg:px-[130px] justify-center items-center bg-transparent h-[105px] ${
         sticky
-          ? '!fixed !z-[9999] !bg-gray-900 !bg-opacity-80 shadow-sticky backdrop-blur-sm !transition dark:!bg-primary dark:!bg-opacity-20'
+          ? '!fixed !bg-gray-900 !bg-opacity-80 shadow-sticky backdrop-blur-sm !transition dark:!bg-primary dark:!bg-opacity-20'
           : 'absolute'
       }`}
     >
-      <div className="relative w-full lg:justify-between justify-center items-center">
+      <div className="relative flex w-full lg:justify-between justify-center items-center">
         <div className="w-52 max-w-full">
           <Link
             href="/"
@@ -76,11 +90,21 @@ export const Header = () => {
         </div>
         <button
           type="button"
-          className="hidden lg:flex max-w-[212px] h-[45px] pl-4 pr-6 py-4 bg-brandBlue-200 rounded-[5px] justify-center items-center gap-4"
+          className="hidden lg:flex max-w-[212px] h-[45px] pl-4 pr-6 py-4 bg-brandBlue-200 rounded-[5px] justify-center items-center gap-4 font-size-[14px]"
+          onClick={!isConnected ? modalConnectDisclosure.onOpen : undefined}
         >
           <BiWallet size={'1.5rem'} />
-          <div className="text-white text-lg font-bold ">Connect Wallet</div>
+          <div className="text-white text-lg font-bold">
+            {isClient && address
+              ? `${address.slice(0, 6)}...${address.slice(-4)}`
+              : 'Connect Wallet'}
+          </div>
         </button>
+
+        <ConnectWallet
+          isOpen={modalConnectDisclosure.isOpen}
+          onClose={modalConnectDisclosure.onClose}
+        />
       </div>
     </header>
   )

@@ -5,7 +5,6 @@ import { Mulish } from 'next/font/google'
 import { Providers } from './provider'
 import { Header } from '@/components/Header'
 import { Footer } from '@/components/Footer'
-import Image from 'next/image'
 
 const mulish = Mulish({ subsets: ['latin'] })
 
@@ -50,17 +49,11 @@ export default function RootLayout({
       </head>
       <body className={`${mulish.className} m-0 p-0 h-screen`}>
         <Providers>
-          <div className="absolute w-full h-screen bg-gray-700">
-            <Image
-              src="/images/background.svg"
-              alt="logo"
-              style={{ objectFit: 'cover' }}
-              fill
-            />
-          </div>
-          <div className="flex flex-col min-h-screen">
+          <div className="flex min-h-screen bg-gray-700 flex-col bg-cover bg-repeat-x bg-[url('/images/background.svg')]">
             <Header />
-            <main className="flex-grow ">{children}</main>
+            <main className="flex-grow mt-[105px] lg:px-[130px]">
+              {children}
+            </main>
             <Footer />
           </div>
         </Providers>
