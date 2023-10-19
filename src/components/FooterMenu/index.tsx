@@ -1,21 +1,41 @@
+import { useDisclosure } from '@/hooks/useDisclosure'
 import { menuDataFooter } from '@/types/menu'
 import { colors } from '@/utils/colors'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { useEffect, useState } from 'react'
 import { RiHome2Line } from 'react-icons/ri'
+import { useAccount } from 'wagmi'
+import { ConnectWallet } from '../ConnectWallet'
 
 export const FooterMenu = () => {
+  const [isClient, setIsClient] = useState(false)
+
   const pathname = usePathname()
+
+  const modalConnectDisclosure = useDisclosure()
+
+  const { address, isConnected } = useAccount()
+
+  useEffect(() => {
+    setIsClient(true)
+  }, [])
 
   return (
     <div className="fixed bottom-0 w-full lg:hidden">
       <div className="w-full h-[46px] justify-between items-start inline-flex">
         {/* TODO: refactor to Button with interaction state */}
-        <div className="px-8 h-full bg-brandBlue-200 rounded-tr-[100px] justify-center items-center gap-2 flex">
+        <button
+          type="button"
+          className="px-8 h-full bg-brandBlue-200 rounded-tr-[100px] justify-center items-center gap-2 flex"
+          onClick={!isConnected ? modalConnectDisclosure.onOpen : undefined}
+        >
           <div className="text-white text-sm font-bold leading-normal">
-            sys1q...dk4jd
+            {isClient && address
+              ? `${address.slice(0, 6)}...${address.slice(-4)}`
+              : 'Connect Wallet'}
           </div>
-        </div>
+        </button>
         <button className="pl-7 pr-8 h-full bg-brandBlue-100 rounded-tl-[100px] justify-start items-center gap-2.5 flex">
           <Link href={'/'}>
             <RiHome2Line size={'1.5rem'} />
@@ -43,14 +63,14 @@ export const FooterMenu = () => {
                     stroke={
                       pathname === item.path ? colors.brandBlue[100] : 'white'
                     }
-                    stroke-width="1.8"
+                    strokeWidth="1.8"
                   />
                   <path
                     d="M20.4707 11.0363H23.1001V17.5511H18.5497C16.7676 17.5511 14.9902 18.0255 13.6607 19.0224C12.4782 19.9086 11.537 20.7162 10.7207 21.4238L10.7206 21.4239L10.5013 21.614L10.5002 21.615C9.77625 22.2449 9.15281 22.7856 8.53667 23.2331L8.53607 23.2335C7.86021 23.7252 7.18695 24.1109 6.39505 24.3739L6.39435 24.3742C5.59862 24.6391 4.68209 24.7814 3.52953 24.7814H0.900122V18.2666H5.45047C7.2326 18.2666 9.01001 17.7922 10.3395 16.7953C11.522 15.9091 12.4632 15.1015 13.2795 14.3939L13.2796 14.3938L13.4989 14.2037L13.5 14.2027C14.2237 13.573 14.8473 13.0321 15.4637 12.5838C16.1398 12.0926 16.8132 11.7068 17.6052 11.4438L17.6059 11.4436C18.4016 11.1786 19.3181 11.0363 20.4707 11.0363Z"
                     stroke={
                       pathname === item.path ? colors.brandBlue[100] : 'white'
                     }
-                    stroke-width="1.8"
+                    strokeWidth="1.8"
                   />
                 </svg>
               ) : (
@@ -67,6 +87,10 @@ export const FooterMenu = () => {
           ))}
         </div>
       </div>
+      <ConnectWallet
+        isOpen={modalConnectDisclosure.isOpen}
+        onClose={modalConnectDisclosure.onClose}
+      />
     </div>
   )
 }
