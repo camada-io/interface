@@ -1,7 +1,5 @@
-import { url } from 'inspector'
-import Image from 'next/image'
+import Link from 'next/link'
 
-/* eslint-disable @next/next/no-img-element */
 export const Hero = () => {
   return (
     <div className="w-full h-[454px] relative flex justify-center items-start gap-6">
@@ -20,33 +18,39 @@ export const Hero = () => {
           Transparency, accessibility, and innovation to financial markets.
         </p>
         <div className="flex gap-4">
-          <button className="px-6 py-4 bg-brandBlue-200 rounded-[5px] flex items-center gap-2.5">
+          <Link
+            href={'/projects'}
+            className="px-6 py-4 bg-brandBlue-200 rounded-[5px] flex items-center gap-2.5"
+          >
             <span className="text-white text-lg font-bold">
               See all projects
             </span>
-          </button>
-          <button className="px-6 py-4 border border-brandBlue-200 rounded-[5px] flex items-center gap-2.5">
+          </Link>
+          <Link
+            href={'/stake'}
+            className="px-6 py-4 border border-brandBlue-200 rounded-[5px] flex items-center gap-2.5"
+          >
             <span className="text-white text-lg font-bold">Stake now</span>
-          </button>
+          </Link>
         </div>
       </div>
 
       <div className="flex flex-col gap-6 items-end">
-        <div className="relative w-[509px] h-[225px] mb-[-273px] bg-gray-700 rounded-[20px]"></div>
+        <div className="relative w-[509px] h-[225px] mb-[-273px] bg-gray-600 rounded-[20px]"></div>
         <div className="w-[310px] h-[177px] relative">
-          <Image
+          {/* <Image
             className="left-0 top-0 absolute rounded-[20px]"
             src="https://via.placeholder.com/310x177"
             alt="backgroundHero"
             style={{ objectFit: 'cover' }}
             fill
-          />
+          /> */}
           <div className="w-[202px] h-7 pl-[5px] pr-[18px] py-0.5 left-[10px] top-[86px] absolute bg-white bg-opacity-40 rounded-[100px] backdrop-blur-sm justify-start items-center gap-2 inline-flex">
-            <Image
+            {/* <Image
               className="w-5 h-5 rounded-full"
               src="https://via.placeholder.com/20x20"
               alt="heroImage"
-            />
+            /> */}
             <div className="text-white text-sm font-bold font-['Mulish'] leading-normal">
               Pegasys Finance PSYS
             </div>
