@@ -5,7 +5,7 @@ export const Hero = () => {
   const defaultImage = '/images/backgroundCardDefault.svg'
 
   return (
-    <div className="w-full flex-col lg:flex-row lg:h-[454px] relative flex justify-center items-center lg:items-start gap-6 lg:gap-0">
+    <div className="w-full flex-col lg:flex-row lg:h-[454px] relative flex justify-center items-center lg:items-start gap-6 lg:gap-0 lg:px-[130px]">
       <div className="flex flex-col gap-6  w-[310px] lg:w-[616px]">
         <div className="max-w-[520px] text-3xl lg:text-[55px] font-extrabold lg:leading-[70px]">
           <span className="text-white">Launching the Future, </span>

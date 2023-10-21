@@ -51,9 +51,7 @@ export default function RootLayout({
         <Providers>
           <div className="flex min-h-screen bg-gray-700 flex-col bg-cover bg-repeat-x bg-[url('/images/background.svg')]">
             <Header />
-            <main className="flex-grow mt-[105px] lg:px-[130px]">
-              {children}
-            </main>
+            <main className="flex-grow mt-[105px]">{children}</main>
             <Footer />
           </div>
         </Providers>
