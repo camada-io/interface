@@ -4,7 +4,7 @@ import Link from 'next/link'
 export const Apply = () => {
   return (
     <div className="flex w-full lg:h-[476px] py-20 bg-brandBlue-100 justify-center items-center">
-      <div className="lg:h-[316px] justify-start items-center gap-6 lg:gap-[90px] flex flex-col lg:flex-row">
+      <div className="lg:h-[316px] justify-start items-center gap-6 flex flex-col lg:flex-row">
         <div className="flex flex-col h-full justify-start items-start gap-6">
           <div className="w-[310px] lg:w-[417.90px] text-gray-900 text-3xl lg:text-[40px] font-extrabold leading-[38px] lg:leading-[60px]">
             Unlock your future project with us!
