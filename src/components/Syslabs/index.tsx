@@ -8,11 +8,17 @@ const ImageComponent = ({
 }: {
   src: string
   alt: string
-  width: string
-  height: string
+  width: number
+  height: number
 }) => (
-  <div className={`relative w-[${width}] h-[${height}] `}>
-    <Image src={src} alt={alt} layout="fill" objectFit="contain" />
+  <div>
+    <Image
+      src={src}
+      alt={alt}
+      width={width}
+      height={height}
+      objectFit="contain"
+    />
   </div>
 )
 
@@ -20,29 +26,29 @@ export const Syslabs = () => {
   const images = [
     {
       src: 'images/rollux.svg',
-      alt: 'syslabs',
-      width: '114px',
-      height: '52px',
+      alt: 'syslabs1',
+      width: 115,
+      height: 52,
     },
-    { src: 'images/luxy.svg', alt: 'syslabs', width: '68px', height: '52px' },
+    { src: 'images/luxy.svg', alt: 'syslabs2', width: 68, height: 52 },
     {
       src: 'images/syscoin.svg',
-      alt: 'syslabs',
-      width: '129px',
-      height: '52px',
+      alt: 'syslabs3',
+      width: 129,
+      height: 52,
     },
-    { src: 'images/Pali.svg', alt: 'syslabs', width: '142px', height: '52px' },
+    { src: 'images/Pali.svg', alt: 'syslabs4', width: 142, height: 52 },
     {
       src: 'images/superDapp.svg',
-      alt: 'syslabs',
-      width: '84px',
-      height: '52px',
+      alt: 'syslabs5',
+      width: 84,
+      height: 52,
     },
     {
       src: 'images/pegasys.svg',
-      alt: 'syslabs',
-      width: '119px',
-      height: '52px',
+      alt: 'syslabs6',
+      width: 119,
+      height: 52,
     },
   ]
 
@@ -57,7 +63,7 @@ export const Syslabs = () => {
           ecosystems.
         </div>
       </div>
-      <div className="flex flex-row flex-wrap w-[310px] lg:w-full h-full lg:h-[52px] justify-center lg:justify-between items-center gap-4 lg:gap-0">
+      <div className="flex flex-row flex-wrap w-[310px] lg:w-[1010px] h-full lg:h-[52px] justify-center lg:justify-between items-center gap-4 lg:gap-0">
         {images.map((image, index) => (
           <ImageComponent key={index} {...image} />
         ))}
