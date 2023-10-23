@@ -1,3 +1,4 @@
+import { About } from '@/components/About'
 import { Apply } from '@/components/Apply'
 import { Hero } from '@/components/Hero'
 import { Stake } from '@/components/Stake'
@@ -9,6 +10,7 @@ export default function Home() {
       <Hero />
       <Apply />
       <Stake />
+      <About />
       <Syslabs />
     </div>
   )
