@@ -4,6 +4,7 @@ import 'swiper/css'
 import { Card } from '../Card'
 import { FreeMode, Navigation, Pagination } from 'swiper/modules'
 import { RiArrowLeftSLine, RiArrowRightSLine } from 'react-icons/ri'
+import { isMobile } from '@/utils/userAgent'
 
 export const Carousel = () => {
   const slides = [
@@ -51,7 +52,11 @@ export const Carousel = () => {
     // },
   ]
 
-  const slidesPerViewConfig = slides.length <= 3 ? slides.length : 3
+  const slidesPerViewConfig = isMobile
+    ? 1
+    : slides.length <= 3
+    ? slides.length
+    : 3
   const centeredSlidesConfig = slides.length < 3
 
   return (

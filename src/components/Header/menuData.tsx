@@ -27,7 +27,7 @@ export const menuData: Menu[] = [
   },
   {
     id: 5,
-    title: 'Apply',
+    title: 'Apply your project',
     path: '/apply',
     newTab: false,
   },
