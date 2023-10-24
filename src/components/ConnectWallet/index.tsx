@@ -1,17 +1,16 @@
+'use client'
+
 import { useEffect, useState } from 'react'
 import Modal from '../Modal'
 import Image from 'next/image'
 import { Connector, useConnect } from 'wagmi'
+import { useStore } from 'zustand'
+import { useConnectWallet } from '@/stores/connectWallet'
 
-type ConnectWalletProps = {
-  isOpen: boolean
-  onClose: () => void
-}
-
-export function ConnectWallet({ isOpen, onClose }: ConnectWalletProps) {
+export function ConnectWallet() {
   const { connectors, connectAsync } = useConnect()
-
   const [isPali, setIsPali] = useState(false)
+  const { isOpen, onClose } = useStore(useConnectWallet)
 
   const metamask = connectors.find((c) => c.id === 'metaMask')
   const injected = connectors.find((c) => c.id === 'injected')
@@ -78,7 +77,7 @@ export function ConnectWallet({ isOpen, onClose }: ConnectWalletProps) {
             <button
               type="button"
               disabled={!(isPali ? injected : metamask)?.ready}
-              className="p-[8px] rounded-[5px] bg-gray-900 flex items-center mt-6 gap-4 w-full border-[1px] border-gray-600"
+              className="p-[8px] rounded-[5px] bg-gray-900 flex items-center mt-6 gap-4 w-full border-[1px] border-gray-600 hover:bg-brandBlue-200 transition:all duration-300"
               onClick={() => connect(isPali ? injected : metamask)}
             >
               <Image
@@ -92,7 +91,7 @@ export function ConnectWallet({ isOpen, onClose }: ConnectWalletProps) {
 
             <button
               type="button"
-              className="p-[8px] rounded-[5px] bg-gray-900 flex items-center gap-4 mt-2 w-full border-[1px] border-gray-600"
+              className="p-[8px] rounded-[5px] bg-gray-900 flex items-center gap-4 mt-2 w-full border-[1px] border-gray-600 hover:bg-brandBlue-200 transition:all duration-300"
               onClick={() => connect(walletConnect)}
             >
               <Image

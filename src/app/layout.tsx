@@ -5,6 +5,7 @@ import { Mulish } from 'next/font/google'
 import { Providers } from './provider'
 import { Header } from '@/components/Header'
 import { Footer } from '@/components/Footer'
+import { ConnectWallet } from '@/components/ConnectWallet'
 
 const mulish = Mulish({ subsets: ['latin'] })
 
@@ -53,6 +54,7 @@ export default function RootLayout({
             <Header />
             <main className="flex-grow mt-[105px]">{children}</main>
             <Footer />
+            <ConnectWallet />
           </div>
         </Providers>
       </body>

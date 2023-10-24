@@ -33,7 +33,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts"
-  ],
+, "src/components/Tab/index.ts"  ],
   "exclude": [
     "node_modules"
   ]

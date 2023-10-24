@@ -6,14 +6,14 @@ import { useEffect, useState } from 'react'
 import { menuData } from './menuData'
 import { usePathname } from 'next/navigation'
 import { BiWallet } from 'react-icons/bi'
-import { useDisclosure } from '@/hooks/useDisclosure'
-import { ConnectWallet } from '../ConnectWallet'
 import { useAccount } from 'wagmi'
+import { useStore } from 'zustand'
+import { useConnectWallet } from '@/stores/connectWallet'
 
 export const Header = () => {
   const pathname = usePathname()
 
-  const modalConnectDisclosure = useDisclosure()
+  const { onOpen } = useStore(useConnectWallet)
 
   const { address, isConnected } = useAccount()
 
@@ -91,7 +91,7 @@ export const Header = () => {
         <button
           type="button"
           className="hidden lg:flex max-w-[212px] h-[45px] pl-4 pr-6 py-4 bg-brandBlue-200 rounded-[5px] justify-center items-center gap-4 font-size-[14px]"
-          onClick={!isConnected ? modalConnectDisclosure.onOpen : undefined}
+          onClick={!isConnected ? onOpen : undefined}
         >
           <BiWallet size={'1.5rem'} />
           <div className="text-white text-lg font-bold">
@@ -100,11 +100,6 @@ export const Header = () => {
               : 'Connect Wallet'}
           </div>
         </button>
-
-        <ConnectWallet
-          isOpen={modalConnectDisclosure.isOpen}
-          onClose={modalConnectDisclosure.onClose}
-        />
       </div>
     </header>
   )
