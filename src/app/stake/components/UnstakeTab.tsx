@@ -1,7 +1,7 @@
 'use client'
 
 import { InputNumber } from '@/components/InputNumber'
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import { useAccount } from 'wagmi'
 import { useStake } from '../hooks/useStake'
 import { TransactionModal } from '@/components/TransactionModal'
@@ -21,14 +21,23 @@ export function UnstakeTab({ stakeProps }: { stakeProps: StakeProps }) {
 
   const { onOpen } = state
 
-  const { isLoading, stakedBalance, tokenSymbol, tier, allTiers } = stakeProps
+  const { isLoading, stakedBalance, tier, allTiers } = stakeProps
 
-  const getNextTierMissingPoints = () => {
-    const currentTier = allTiers.at(tier - 1) as number
-    const nextTier = allTiers.at(tier) as number
+  const getNextTier = useCallback(() => {
+    if (!tier) return allTiers.at(0)
 
-    return nextTier - currentTier
-  }
+    const nextTierAmount = stakedBalance - amount
+
+    return allTiers.reduce((acc, tier) => {
+      if (!amount) return 0
+
+      if (tier <= nextTierAmount) {
+        acc = allTiers.indexOf(tier) + 1
+      }
+
+      return acc
+    }, 0)
+  }, [tier, amount])
 
   return !isLoading ? (
     <>
@@ -40,7 +49,6 @@ export function UnstakeTab({ stakeProps }: { stakeProps: StakeProps }) {
           balanceLabel="Your Balance:"
           tokens={[
             {
-              address: '0x0000000000000000000000000000000000000000',
               icon: '/images/spad.png',
               name: 'spad',
             },
@@ -55,12 +63,8 @@ export function UnstakeTab({ stakeProps }: { stakeProps: StakeProps }) {
             </div>
 
             <div className="flex w-full justify-between">
-              <p>Next tier missing points</p>
-              <p>
-                {!isLoading
-                  ? `${getNextTierMissingPoints()} ${tokenSymbol}`
-                  : 0}
-              </p>
+              <p>New tier after unstaking</p>
+              <p>{!isLoading ? `Tier ${getNextTier()}` : 0}</p>
             </div>
           </div>
         )}

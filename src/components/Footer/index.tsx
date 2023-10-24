@@ -93,8 +93,8 @@ export const Footer = () => {
                 Brand guide
               </Link>
             </div>
-            <div className="flex-col justify-start items-start gap-5 inline-flex">
-              <div className="w-[39.25px] h-10 relative justify-center items-center rounded-[25.29px] bg-brandBlue-100">
+            <div className="flex h-full justify-center items-center gap-5 inline-flex">
+              <div className="w-[39.25px] flex h-10 relative justify-center items-center rounded-[25.29px] bg-brandBlue-100">
                 <svg
                   width="22"
                   height="22"
@@ -108,7 +108,7 @@ export const Footer = () => {
                   />
                 </svg>
               </div>
-              <div className="w-[39.25px] h-10 relative justify-center items-center rounded-[25.29px] bg-brandBlue-100 fill-black">
+              <div className="w-[39.25px] flex h-10 relative justify-center items-center rounded-[25.29px] bg-brandBlue-100 fill-black">
                 <FaTelegramPlane size={'1.375rem'} color={colors.gray[900]} />
               </div>
             </div>

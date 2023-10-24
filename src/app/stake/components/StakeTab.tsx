@@ -22,13 +22,21 @@ export function StakeTab({ stakeProps }: { stakeProps: StakeProps }) {
 
   const { onOpen } = state
 
-  const { isLoading, tokenBalance, tokenSymbol, tier, allTiers } = stakeProps
+  const {
+    isLoading,
+    tokenBalance,
+    tokenSymbol,
+    tier,
+    allTiers,
+    stakedBalance,
+  } = stakeProps
 
   const getNextTierMissingPoints = useCallback(() => {
-    const currentTier = allTiers.at(tier - 1) as number
+    if (!tier) return allTiers.at(0)
+
     const nextTier = allTiers.at(tier) as number
 
-    return nextTier - currentTier
+    return nextTier - stakedBalance
   }, [tier])
 
   return !isLoading ? (
@@ -41,7 +49,6 @@ export function StakeTab({ stakeProps }: { stakeProps: StakeProps }) {
           balanceLabel="Your Balance:"
           tokens={[
             {
-              address: '0x0000000000000000000000000000000000000000',
               icon: '/images/spad.png',
               name: 'spad',
             },

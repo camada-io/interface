@@ -125,7 +125,7 @@ export function useStake() {
     rewardsPerDay: parseNumber(rewardsPerDay) ?? 0,
     apy: parseNumber(apy) ?? 0,
     tier: Number(tier) || 0,
-    allTiers: [0, 350, 1500, 10000, 50000],
+    allTiers: [350, 1500, 10000, 50000],
     isLoading,
   }
 }

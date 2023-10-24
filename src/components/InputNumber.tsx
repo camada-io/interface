@@ -6,7 +6,7 @@ import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/24/solid'
 import { useAccount } from 'wagmi'
 
 type Token = {
-  address: string
+  address?: string
   icon: string
   name: string
 }
@@ -97,7 +97,10 @@ export function InputNumber({
           <button
             type="button"
             className="bg-whiteAlpha-300 rounded-[100px] py-[2px] px-[16px] text-brandBlue-100"
-            onClick={() => setAmount(+balance)}
+            onClick={() => {
+              setAmount(+balance)
+              onInputChange?.(+balance)
+            }}
           >
             MAX
           </button>
