@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useMemo } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import Image from 'next/image'
 import { useAccount } from 'wagmi'
 import { TransactionModalState } from '../../../stores/transactionModal'
@@ -9,6 +9,7 @@ const appEnv = process.env.NEXT_PUBLIC_APP_ENV as 'production' | 'development'
 
 export function CheckNetwork({ state }: { state: TransactionModalState }) {
   const { connector } = useAccount()
+  const [isChecked, setIsChecked] = useState(false)
 
   const networkId = useMemo(
     () => ({
@@ -17,6 +18,11 @@ export function CheckNetwork({ state }: { state: TransactionModalState }) {
     }),
     [],
   )
+
+  const chainName = {
+    57000: 'Rollux Tanembaum',
+    570: 'Rollux',
+  }[networkId[appEnv]] as string
 
   const switchNetwork = async () => {
     if (connector?.switchChain) {
@@ -43,19 +49,31 @@ export function CheckNetwork({ state }: { state: TransactionModalState }) {
 
         <p className="mt-10">You need to be connected to:</p>
 
-        <button
-          type="button"
-          className="p-[8px] rounded-[5px] bg-gray-900 flex items-center gap-4 mt-2 w-full border-[1px] border-gray-600 hover:bg-brandBlue-200 transition:all duration-300"
-          onClick={() => {}}
-        >
-          <Image
-            src={'/images/wallet-connect.png'}
-            width={30}
-            height={30}
-            alt=""
-          />
-          <p>Wallet Connect</p>
-        </button>
+        <label htmlFor={chainName}>
+          <div
+            className={`p-[8px] rounded-[5px] bg-gray-900 flex items-center gap-4 mt-2 w-full border-[1px]
+            border-gray-600 transition:all duration-300 cursor-pointer ${
+              isChecked && '!bg-brandBlue-200'
+            }`}
+          >
+            <Image
+              src={
+                'https://raw.githubusercontent.com/SYS-Labs/brand-kits/9ba824f0cabfa8bbc11dfadad879efcdf34b3dc2/rollux/SVG/rollux_logo.svg'
+              }
+              width={30}
+              height={30}
+              alt=""
+            />
+            <p>{chainName}</p>
+            <input
+              type="checkbox"
+              name={chainName}
+              id={chainName}
+              onChange={() => setIsChecked(!isChecked)}
+              className="hidden"
+            />
+          </div>
+        </label>
 
         <p className="mt-2">
           Add the network to your wallet and/or confirm the network change.
@@ -70,9 +88,12 @@ export function CheckNetwork({ state }: { state: TransactionModalState }) {
             Cancel
           </button>
           <button
+            disabled={!isChecked}
             onClick={switchNetwork}
             type="button"
-            className="p-[8px] rounded-[5px] bg-brandBlue-200 mt-6 text-center w-full border-[1px] border-brandBlue-100 hover:bg-whiteAlpha-100"
+            className={`p-[8px] rounded-[5px] mt-6 text-center w-full border-[1px] disabled:cursor-not-allowed border-brandBlue-100 ${
+              isChecked && 'bg-brandBlue-200'
+            }`}
           >
             Switch
           </button>

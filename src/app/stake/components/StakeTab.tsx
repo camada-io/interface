@@ -32,7 +32,7 @@ export function StakeTab({ stakeProps }: { stakeProps: StakeProps }) {
   } = stakeProps
 
   const getNextTierMissingPoints = useCallback(() => {
-    if (!tier) return allTiers.at(0)
+    if (!tier) return 0
 
     const nextTier = allTiers.at(tier) as number
 
@@ -65,7 +65,7 @@ export function StakeTab({ stakeProps }: { stakeProps: StakeProps }) {
             <div className="flex w-full justify-between">
               <p>Next tier missing points</p>
               <p>
-                {!isLoading
+                {!isLoading && getNextTierMissingPoints()
                   ? `${getNextTierMissingPoints()} ${tokenSymbol}`
                   : 0}
               </p>

@@ -10,10 +10,27 @@ type Address = `0x${string}`
 const contractAddres = process.env.NEXT_PUBLIC_STAKE_CONTRACT as Address
 const tokenAdress = process.env.NEXT_PUBLIC_TOKEN_CONTRACT as Address
 const lauchpadAdress = process.env.NEXT_PUBLIC_LAUNCHPAD_CONTRACT as Address
+const appEnv = process.env.NEXT_PUBLIC_APP_ENV as string
 
 export function useStake() {
   const [isLoading, setLoading] = useState(true)
-  const { address } = useAccount()
+  const { address, connector } = useAccount()
+  const [isAllowedChain, setIsAllowedChain] = useState(false)
+
+  useEffect(() => {
+    ;(async () => {
+      const chainId = await connector?.getChainId()
+
+      const allowedChain = {
+        development: 57000,
+        production: 570,
+      }[appEnv]
+
+      if (chainId === allowedChain) {
+        setIsAllowedChain(!isAllowedChain)
+      }
+    })()
+  }, [connector])
 
   const { data: stakedBalance, isLoading: stakedBalanceLoading } =
     useContractRead({
@@ -21,8 +38,8 @@ export function useStake() {
       abi: abi,
       functionName: 'balanceOf',
       args: [address as Address],
-      enabled: !!address,
-      watch: !!address,
+      enabled: !!address && isAllowedChain,
+      watch: !!address && isAllowedChain,
     })
 
   const { data: earnedBalance, isLoading: earnedBalanceLoading } =
@@ -31,7 +48,7 @@ export function useStake() {
       abi: abi,
       functionName: 'earned',
       args: [address as Address],
-      enabled: !!address,
+      enabled: !!address && isAllowedChain,
     })
 
   const { data: totalStaked, isLoading: totalStakedLoading } = useContractRead({
@@ -59,8 +76,8 @@ export function useStake() {
       abi,
       functionName: 'balanceOf',
       args: [address as Address],
-      enabled: !!address,
-      watch: !!address,
+      enabled: !!address && isAllowedChain,
+      watch: !!address && isAllowedChain,
     })
 
   const { data: tokenAllowance, isLoading: tokenAllowanceLoading } =
@@ -69,8 +86,8 @@ export function useStake() {
       abi: tokenAbi,
       functionName: 'allowance',
       args: [address as Address, contractAddres],
-      enabled: !!address,
-      watch: !!address,
+      enabled: !!address && isAllowedChain,
+      watch: !!address && isAllowedChain,
     })
 
   const { data: tokenSymbol, isLoading: tokenSymbolLoading } = useContractRead({
@@ -84,8 +101,8 @@ export function useStake() {
     abi: launchpadAbi,
     functionName: 'getTier',
     args: [address as Address],
-    enabled: !!address,
-    watch: !!address,
+    enabled: !!address && isAllowedChain,
+    watch: !!address && isAllowedChain,
   })
 
   useEffect(() => {
