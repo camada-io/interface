@@ -5,16 +5,16 @@ type Props = {
 }
 export const HeroCard = ({ defaultImage }: Props) => {
   return (
-    <div className="flex lg:w-[624px] flex-col">
-      <div className="hidden lg:flex absolute right-0 w-[509px] h-[225px] bg-gray-600 rounded-[20px]"></div>
-      <div className="hidden lg:flex absolute z-10 right-[21px] top-[33px] w-[262.47px] h-[92px] rounded-none">
+    <div className="flex flex-col lg:w-[624px] relative">
+      <div className="hidden lg:block absolute right-0 max-w-[509px] w-full h-[225px] bg-gray-600 rounded-[20px]"></div>
+      <div className="hidden lg:block absolute z-10 right-4 top-[33px] max-w-[262.47px] w-full h-[92px]">
         <Image src="images/heroOne.svg" alt="heroImage" fill />
       </div>
-      <div className="hidden lg:flex absolute z-10 right-0 bottom-0 w-[195px] h-[208px] rounded-none">
+      <div className="hidden lg:block absolute z-10 right-0 top-64 max-w-[195px] w-full  h-[208px]">
         <Image src="images/heroTwo.svg" alt="heroImage" fill />
       </div>
       <div
-        className="flex top-14 lg:absolute flex-col w-[310px] lg:w-[570px] h-[224px] lg:h-[320px] bg-no-repeat py-6 bg-cover rounded-[20px] justify-between"
+        className="flex flex-col bg-cover bg-no-repeat rounded-[20px] justify-between h-[224px] lg:h-[320px] top-14 lg:absolute w-[310px] max-w-[570px] lg:w-full py-6"
         style={{ backgroundImage: `url(${defaultImage})` }}
       >
         <div className="flex items-center h-6 lg:h-8 top-[19px] lg:top-[25px] left-0 relative">
@@ -53,7 +53,7 @@ export const HeroCard = ({ defaultImage }: Props) => {
               40%
             </div>
           </div>
-          <div className="w-[178px] h-6 left-[10px] justify-start items-start gap-2 inline-flex">
+          <div className="flex items-center space-x-2">
             <div className="text-white text-sm font-bold leading-normal">
               Total Raised:
             </div>
