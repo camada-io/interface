@@ -13,7 +13,7 @@ export function PageHeader({ title, description }: PageHeaderProps) {
     max-[639px]:after:right-0 max-[639px]:after:absolute max-[639px]:after:bottom-0 max-[639px]:flex-col py-[30px] max-[639px]:px-[64px] text-center"
     >
       <h1 className="font-extrabold text-3xl text-white">{title}</h1>
-      <p className="font-medium text-[16px] text-white">{description ?? ''}</p>
+      <p className="font-medium text-[16px] text-white">{description ?? ""}</p>
       <div className="flex w-[calc(100%-272px)] max-[639px]:w-[calc(100%-64px)] absolute bottom-0 border-b-[2px] border-brandBlue-200"></div>
     </div>
   )

@@ -1,5 +1,5 @@
-import Image from 'next/image'
-import Link from 'next/link'
+import Image from "next/image"
+import Link from "next/link"
 
 export const Stake = () => {
   return (
@@ -20,7 +20,7 @@ export const Stake = () => {
           adipiscing elit.
         </div>
         <div className="w-full">
-          <Link href={'/stake'}>
+          <Link href={"/stake"}>
             <button className="flex w-full lg:w-[325px] h-[55px] px-6 py-4 bg-brandBlue-200 rounded-[5px] justify-center items-center gap-2.5">
               <div className="text-white text-lg font-bold">Start now</div>
             </button>

@@ -1,11 +1,11 @@
-'use client'
+"use client"
 
-import { parseEther } from 'ethers'
-import Image from 'next/image'
-import { useContractWrite, useWaitForTransaction } from 'wagmi'
-import { TransactionModalState } from '../../../stores/transactionModal'
-import abi from '@/contracts/stakeAbi'
-import { useEffect } from 'react'
+import { parseEther } from "ethers"
+import Image from "next/image"
+import { useContractWrite, useWaitForTransaction } from "wagmi"
+import { TransactionModalState } from "../../../stores/transactionModal"
+import abi from "@/contracts/stakeAbi"
+import { useEffect } from "react"
 
 type ApproveProps = {
   state: TransactionModalState
@@ -20,7 +20,7 @@ export function UnstakeToken({ state, amount }: ApproveProps) {
   const unstake = useContractWrite({
     address: contractAddres,
     abi: abi,
-    functionName: 'withdraw',
+    functionName: "withdraw",
   })
 
   const transaction = useWaitForTransaction({
@@ -43,11 +43,11 @@ export function UnstakeToken({ state, amount }: ApproveProps) {
       <div className="p-[20px] py-[40px] w-full max-w-[400px] max-[639px]:px-[30px] h-full text-left flex flex-col justify-center justify-between">
         <h3 className="font-bold text-2xl">Unstake </h3>
 
-        <div className="flex h-full flex justify-between mt-4">
+        <div className="flex h-full justify-between mt-4">
           <p>Unstaking amount</p>
 
           <div className="flex items-start gap-[10px]">
-            <Image width={30} height={30} alt="" src={'/images/spad.png'} />
+            <Image width={30} height={30} alt="" src={"/images/spad.png"} />
             <p>{amount} SPAD</p>
           </div>
         </div>
@@ -59,12 +59,12 @@ export function UnstakeToken({ state, amount }: ApproveProps) {
               width={70}
               height={70}
               alt=""
-              src={'/images/loader.svg'}
+              src={"/images/loader.svg"}
             />
           </div>
         ) : transaction.isSuccess ? (
           <div className="w-70 h-70 mx-auto">
-            <Image width={70} height={70} alt="" src={'/images/check.svg'} />
+            <Image width={70} height={70} alt="" src={"/images/check.svg"} />
           </div>
         ) : null}
 

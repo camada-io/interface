@@ -1,16 +1,16 @@
-'use client'
+"use client"
 
-import { parseEther } from 'ethers'
-import Image from 'next/image'
+import { parseEther } from "ethers"
+import Image from "next/image"
 import {
   useAccount,
   useContractRead,
   useContractWrite,
   useWaitForTransaction,
-} from 'wagmi'
-import { TransactionModalState } from '../../../stores/transactionModal'
-import abi from '@/contracts/erc20Abi'
-import { useEffect } from 'react'
+} from "wagmi"
+import { TransactionModalState } from "../../../stores/transactionModal"
+import abi from "@/contracts/erc20Abi"
+import { useEffect } from "react"
 
 type ApproveProps = {
   state: TransactionModalState
@@ -28,7 +28,7 @@ export function ApproveToken({ state, amount }: ApproveProps) {
   const { data: allowance } = useContractRead({
     address: tokenAdress,
     abi,
-    functionName: 'allowance',
+    functionName: "allowance",
     args: [address as Address, contractAddres],
     enabled: !!address,
     watch: !!address,
@@ -37,7 +37,7 @@ export function ApproveToken({ state, amount }: ApproveProps) {
   const approve = useContractWrite({
     address: tokenAdress,
     abi,
-    functionName: 'approve',
+    functionName: "approve",
   })
 
   const transaction = useWaitForTransaction({
@@ -50,20 +50,20 @@ export function ApproveToken({ state, amount }: ApproveProps) {
 
   useEffect(() => {
     if (transaction.isSuccess) {
-      setTimeout(() => state.dispatchStep({ type: 'NEXT_STEP' }), 2000)
+      setTimeout(() => state.dispatchStep({ type: "NEXT_STEP" }), 2000)
     }
   }, [transaction.isSuccess, state])
 
   useEffect(() => {
     if (parseNumber(allowance) >= amount) {
-      state.dispatchStep({ type: 'NEXT_STEP' })
+      state.dispatchStep({ type: "NEXT_STEP" })
     }
   }, [allowance, amount, state])
 
   return (
     <div className="bg-gray-700 w-full rounded-[20px] flex max-[639px]:min-h-[320px]">
       <div className="flex w-full max-[639px]:hidden h-full bg-no-repeat bg-[url('/images/approve-modal-bg.webp')] bg-contain rounded-[20px]"></div>
-      <div className="p-[20px] py-[30px] w-full max-w-[400px]  h-full text-left flex flex-col justify-center justify-between">
+      <div className="p-[20px] py-[30px] w-full max-w-[400px]  h-full text-left flex flex-col justify-center item-between">
         <h3 className="font-bold text-2xl">Approve contract</h3>
 
         {approve.isLoading || transaction.isLoading ? (
@@ -73,12 +73,12 @@ export function ApproveToken({ state, amount }: ApproveProps) {
               width={70}
               height={70}
               alt=""
-              src={'/images/loader.svg'}
+              src={"/images/loader.svg"}
             />
           </div>
         ) : transaction.isSuccess ? (
           <div className=" w-70 h-70 mx-auto">
-            <Image width={70} height={70} alt="" src={'/images/check.svg'} />
+            <Image width={70} height={70} alt="" src={"/images/check.svg"} />
           </div>
         ) : (
           <p className="my-4">
