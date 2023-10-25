@@ -1,8 +1,8 @@
-import Link from 'next/link'
-import { HeroCard } from './HeroCard'
+import Link from "next/link"
+import { HeroCard } from "./HeroCard"
 
 export const Hero = () => {
-  const defaultImage = '/images/backgroundCardDefault.svg'
+  const defaultImage = "/images/backgroundCardDefault.svg"
 
   return (
     <div className="w-full flex-col lg:flex-row lg:h-[454px] relative flex justify-center items-center lg:items-start gap-6 lg:gap-0 lg:px-[130px]">
@@ -18,7 +18,7 @@ export const Hero = () => {
         </p>
         <div className="flex gap-4 flex-col lg:flex-row">
           <Link
-            href={'/projects'}
+            href={"/projects"}
             className="px-6 py-4 bg-brandBlue-200 rounded-[5px] flex items-center justify-center gap-2.5"
           >
             <span className="text-white text-lg font-bold">
@@ -26,7 +26,7 @@ export const Hero = () => {
             </span>
           </Link>
           <Link
-            href={'/stake'}
+            href={"/stake"}
             className="px-6 py-4 border border-brandBlue-200 rounded-[5px] flex items-center  justify-center gap-2.5"
           >
             <span className="text-white text-lg font-bold">Stake now</span>

@@ -1,9 +1,9 @@
-import { About } from '@/components/About'
-import { Apply } from '@/components/Apply'
-import { Hero } from '@/components/Hero'
-import { Projects } from '@/components/Projects'
-import { Stake } from '@/components/Stake'
-import { Syslabs } from '@/components/Syslabs'
+import { About } from "@/components/About"
+import { Apply } from "@/components/Apply"
+import { Hero } from "@/components/Hero"
+import { Projects } from "@/components/Projects"
+import { Stake } from "@/components/Stake"
+import { Syslabs } from "@/components/Syslabs"
 
 export default function Home() {
   return (

@@ -1,11 +1,11 @@
-'use client'
+"use client"
 
-import { useEffect, useMemo, useState } from 'react'
-import Image from 'next/image'
-import { useAccount } from 'wagmi'
-import { TransactionModalState } from '../../../stores/transactionModal'
+import { useEffect, useMemo, useState } from "react"
+import Image from "next/image"
+import { useAccount } from "wagmi"
+import { TransactionModalState } from "../../../stores/transactionModal"
 
-const appEnv = process.env.NEXT_PUBLIC_APP_ENV as 'production' | 'development'
+const appEnv = process.env.NEXT_PUBLIC_APP_ENV as "production" | "development"
 
 export function CheckNetwork({ state }: { state: TransactionModalState }) {
   const { connector } = useAccount()
@@ -20,14 +20,14 @@ export function CheckNetwork({ state }: { state: TransactionModalState }) {
   )
 
   const chainName = {
-    57000: 'Rollux Tanembaum',
-    570: 'Rollux',
+    57000: "Rollux Tanembaum",
+    570: "Rollux",
   }[networkId[appEnv]] as string
 
   const switchNetwork = async () => {
     if (connector?.switchChain) {
       await connector.switchChain(networkId[appEnv])
-      state.dispatchStep({ type: 'NEXT_STEP' })
+      state.dispatchStep({ type: "NEXT_STEP" })
     }
   }
 
@@ -36,7 +36,7 @@ export function CheckNetwork({ state }: { state: TransactionModalState }) {
       const chainId = await connector?.getChainId()
 
       if (chainId && networkId[appEnv] === chainId) {
-        state.dispatchStep({ type: 'NEXT_STEP' })
+        state.dispatchStep({ type: "NEXT_STEP" })
       }
     })()
   }, [connector, state, networkId])
@@ -53,12 +53,12 @@ export function CheckNetwork({ state }: { state: TransactionModalState }) {
           <div
             className={`p-[8px] rounded-[5px] bg-gray-900 flex items-center gap-4 mt-2 w-full border-[1px]
             border-gray-600 transition:all duration-300 cursor-pointer ${
-              isChecked && '!bg-brandBlue-200'
+              isChecked && "!bg-brandBlue-200"
             }`}
           >
             <Image
               src={
-                'https://raw.githubusercontent.com/SYS-Labs/brand-kits/9ba824f0cabfa8bbc11dfadad879efcdf34b3dc2/rollux/SVG/rollux_logo.svg'
+                "https://raw.githubusercontent.com/SYS-Labs/brand-kits/9ba824f0cabfa8bbc11dfadad879efcdf34b3dc2/rollux/SVG/rollux_logo.svg"
               }
               width={30}
               height={30}
@@ -92,7 +92,7 @@ export function CheckNetwork({ state }: { state: TransactionModalState }) {
             onClick={switchNetwork}
             type="button"
             className={`p-[8px] rounded-[5px] mt-6 text-center w-full border-[1px] disabled:cursor-not-allowed border-brandBlue-100 ${
-              isChecked && 'bg-brandBlue-200'
+              isChecked && "bg-brandBlue-200"
             }`}
           >
             Switch

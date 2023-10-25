@@ -7,6 +7,7 @@ import { FaGlobe, FaTelegramPlane, FaDiscord } from "react-icons/fa"
 import { RiFileCopyLine } from "react-icons/ri"
 import Link from "next/link"
 import Image from "next/image"
+import { BadgeTime } from "@/components/BadgeTime"
 
 export default function Project({ params }: { params: { project: string } }) {
   const getInfoProject = (project: string) => {
@@ -16,6 +17,7 @@ export default function Project({ params }: { params: { project: string } }) {
           title: "PEGASYS",
           description:
             "Vulcano's metaverse! An NFT fighting game between light and darkness. These spheres engage in fierce fights constantly looking for power.",
+          image: "/images/backgroundCardDefault.svg",
         }
 
       default:
@@ -23,6 +25,7 @@ export default function Project({ params }: { params: { project: string } }) {
           title: "PEGASYS",
           description:
             "Vulcano's metaverse! An NFT fighting game between light and darkness. These spheres engage in fierce fights constantly looking for power.",
+          image: "/images/backgroundCardDefault.svg",
         }
     }
   }
@@ -31,7 +34,103 @@ export default function Project({ params }: { params: { project: string } }) {
   return (
     <>
       <PageHeader title={project.title} description={project.description} />
-      <>
+      <div className="flex flex-col py-32 gap-32">
+        <div className="w-full max-h-[331.23px] h-full justify-center items-start gap-[60px]">
+          <div
+            className="max-w-[590px] w-full h-[331.23px] pt-6 rounded-[20px] flex-col justify-between items-start inline-flex bg-cover bg-no-repeat"
+            style={{ backgroundImage: `url(${project.image})` }}
+          >
+            <BadgeTime type={3} />
+            <div className="w-5 h-5 justify-center items-center inline-flex">
+              <div className="w-5 h-5 relative"></div>
+            </div>
+            <div className="self-stretch justify-start items-center gap-2 inline-flex">
+              <div className="w-[551px] h-2 relative rounded-[100px]">
+                <div className="w-[551px] h-2 left-0 top-0 absolute bg-white bg-opacity-40"></div>
+                <div className="w-[220.40px] h-2 left-0 top-0 absolute bg-cyan-500"></div>
+                <div className="w-[3.44px] h-2 left-[110.20px] top-0 absolute bg-white"></div>
+              </div>
+              <div className="text-white text-sm font-bold leading-normal">
+                40%
+              </div>
+            </div>
+
+            <div className="self-stretch h-16 px-6 pt-4 pb-6 bg-gray-650 bg-opacity-50 backdrop-blur-sm flex-col justify-start items-start gap-2 flex rounded-bl-[20px] rounded-br-[20px]">
+              <div className="justify-start items-start gap-2 inline-flex">
+                <div className="text-white text-sm font-bold leading-normal">
+                  Total Raised:
+                </div>
+                <div className="text-white text-sm font-bold leading-normal">
+                  $11,549,430
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="w-[590px] p-6 bg-zinc-700 bg-opacity-50 rounded-[10px] flex-col justify-start items-start gap-6 inline-flex">
+            <div className="self-stretch justify-between items-center inline-flex">
+              <div className="text-white text-lg font-bold leading-7">
+                Invest on Pegasys
+              </div>
+              <div className="h-6 justify-end items-center gap-2 flex">
+                <div className="text-white text-sm font-medium leading-normal">
+                  Your current allocation:
+                </div>
+                <img
+                  className="w-5 h-5 rounded-full"
+                  src="https://via.placeholder.com/20x20"
+                />
+                <div className="text-white text-sm font-medium leading-normal">
+                  5 PSYS
+                </div>
+              </div>
+            </div>
+            <div className="self-stretch px-3.5 py-2.5 bg-gray-700 rounded-lg shadow border border-white border-opacity-5 justify-start items-center gap-4 inline-flex">
+              <div className="p-2 bg-zinc-700 bg-opacity-50 rounded-[10px] justify-start items-center gap-2 flex">
+                <div className="w-[45px] h-[45px] justify-center items-center flex"></div>
+                <div className="w-4 h-4 relative"></div>
+              </div>
+              <div className="grow shrink basis-0 flex-col justify-center items-start gap-1 inline-flex">
+                <div className="self-stretch h-5 justify-between items-center inline-flex">
+                  <div className="text-white text-opacity-40 text-sm font-normal leading-normal">
+                    Amount
+                  </div>
+                  <div className="text-white text-opacity-40 text-sm font-normal leading-normal">
+                    You are on Tier 4 = 500 USD
+                  </div>
+                </div>
+                <div className="self-stretch justify-start items-center gap-2 inline-flex">
+                  <div className="grow shrink basis-0 text-white text-lg font-bold leading-7">
+                    400
+                  </div>
+                  <div className="px-4 py-0.5 bg-white bg-opacity-20 rounded-[100px] justify-center items-center gap-2.5 flex">
+                    <div className="text-sky-300 text-sm font-medium leading-normal">
+                      MAX
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="self-stretch justify-between items-start inline-flex">
+              <div className="text-white text-base font-normal leading-relaxed">
+                You will receive
+              </div>
+              <div className="h-[26px] justify-end items-center gap-2 flex">
+                <img
+                  className="w-5 h-5 rounded-full"
+                  src="https://via.placeholder.com/20x20"
+                />
+                <div className="text-white text-base font-normal leading-relaxed">
+                  10 PSYS
+                </div>
+              </div>
+            </div>
+            <div className="self-stretch h-[55px] px-6 py-4 bg-cyan-500 rounded-[5px] justify-center items-center gap-2.5 inline-flex">
+              <div className="text-white text-lg font-bold">Invest now</div>
+            </div>
+          </div>
+        </div>
+
         <div className="flex w-full max-h-[592.50px] h-full items-start justify-center gap-[60px]">
           <div className="flex-col justify-end items-start gap-6 inline-flex">
             <div className="max-h-[467px] max-w-[590px] w-full h-full p-6 bg-gray-600 flex-col justify-end items-start gap-2 flex">
@@ -200,7 +299,7 @@ export default function Project({ params }: { params: { project: string } }) {
             </div>
           </div>
         </div>
-      </>
+      </div>
     </>
   )
 }

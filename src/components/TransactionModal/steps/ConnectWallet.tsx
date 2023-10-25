@@ -1,18 +1,18 @@
-'use client'
+"use client"
 
-import { useEffect, useState } from 'react'
-import Image from 'next/image'
-import { Connector, useAccount, useConnect } from 'wagmi'
-import { TransactionModalState } from '../../../stores/transactionModal'
+import { useEffect, useState } from "react"
+import Image from "next/image"
+import { Connector, useAccount, useConnect } from "wagmi"
+import { TransactionModalState } from "../../../stores/transactionModal"
 
 export function ConnectWallet({ state }: { state: TransactionModalState }) {
   const { connectors, connectAsync } = useConnect()
   const { isConnected } = useAccount()
   const [isPali, setIsPali] = useState(false)
 
-  const metamask = connectors.find((c) => c.id === 'metaMask')
-  const injected = connectors.find((c) => c.id === 'injected')
-  const walletConnect = connectors.find((c) => c.id === 'walletConnect')
+  const metamask = connectors.find((c) => c.id === "metaMask")
+  const injected = connectors.find((c) => c.id === "injected")
+  const walletConnect = connectors.find((c) => c.id === "walletConnect")
 
   const connect = async (connector: Connector<any, any> | undefined) => {
     try {
@@ -25,14 +25,14 @@ export function ConnectWallet({ state }: { state: TransactionModalState }) {
   const getPaliConnector = async () => {
     const provider = await injected?.getProvider()
 
-    if (provider && provider?.wallet === 'pali-v2') {
+    if (provider && provider?.wallet === "pali-v2") {
       setIsPali(true)
     }
   }
 
   useEffect(() => {
     if (isConnected && state?.dispatchStep) {
-      state.dispatchStep({ type: 'NEXT_STEP' })
+      state.dispatchStep({ type: "NEXT_STEP" })
     }
 
     getPaliConnector()
@@ -51,12 +51,12 @@ export function ConnectWallet({ state }: { state: TransactionModalState }) {
           onClick={() => connect(isPali ? injected : metamask)}
         >
           <Image
-            src={`/images/${isPali ? 'pali' : 'metamask'}.png`}
+            src={`/images/${isPali ? "pali" : "metamask"}.png`}
             width={30}
             height={30}
             alt=""
           />
-          <p>{isPali ? 'Pali Wallet' : 'Metamask'}</p>
+          <p>{isPali ? "Pali Wallet" : "Metamask"}</p>
         </button>
 
         <button
@@ -65,7 +65,7 @@ export function ConnectWallet({ state }: { state: TransactionModalState }) {
           onClick={() => connect(walletConnect)}
         >
           <Image
-            src={'/images/wallet-connect.png'}
+            src={"/images/wallet-connect.png"}
             width={30}
             height={30}
             alt=""

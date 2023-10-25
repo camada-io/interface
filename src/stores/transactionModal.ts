@@ -1,4 +1,4 @@
-import { create } from 'zustand'
+import { create } from "zustand"
 
 export type TransactionModalState = {
   isOpen: boolean
@@ -15,10 +15,10 @@ type StepsState = {
 }
 
 type StepsAction =
-  | { type: 'NEXT_STEP' }
-  | { type: 'PREV_STEP' }
-  | { type: 'RESET' }
-  | { type: 'SET_MAX_STEP'; payload: number }
+  | { type: "NEXT_STEP" }
+  | { type: "PREV_STEP" }
+  | { type: "RESET" }
+  | { type: "SET_MAX_STEP"; payload: number }
 
 export const useTransactionModal = create<TransactionModalState>(
   (set, get) => ({
@@ -35,27 +35,27 @@ export const useTransactionModal = create<TransactionModalState>(
 
 function stepsReducer(state: StepsState, action: StepsAction) {
   switch (action.type) {
-    case 'NEXT_STEP':
+    case "NEXT_STEP":
       if (state.maxStep === state.currentStep + 1) return state
 
       return {
         currentStep: state.currentStep + 1,
       }
-    case 'PREV_STEP':
+    case "PREV_STEP":
       if (state.currentStep === 0) return state
 
       return {
         currentStep: state.currentStep - 1,
       }
-    case 'SET_MAX_STEP':
+    case "SET_MAX_STEP":
       return {
         maxStep: action.payload,
       }
-    case 'RESET':
+    case "RESET":
       return {
         currentStep: 0,
       }
     default:
-      throw new Error('Unhandled action type')
+      throw new Error("Unhandled action type")
   }
 }

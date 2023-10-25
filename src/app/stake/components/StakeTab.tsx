@@ -1,15 +1,15 @@
-'use client'
+"use client"
 
-import { InputNumber } from '@/components/InputNumber'
-import { useCallback, useState } from 'react'
-import { useAccount } from 'wagmi'
-import { useStake } from '../hooks/useStake'
-import { useTransactionModal } from '@/stores/transactionModal'
-import { TransactionModal } from '@/components/TransactionModal'
-import { ApproveToken } from '@/components/TransactionModal/steps/ApproveToken'
-import { CheckNetwork } from '@/components/TransactionModal/steps/CheckNetwork'
-import { ConnectWallet } from '@/components/TransactionModal/steps/ConnectWallet'
-import { StakeToken } from '@/components/TransactionModal/steps/StakeToken'
+import { InputNumber } from "@/components/InputNumber"
+import { useCallback, useState } from "react"
+import { useAccount } from "wagmi"
+import { useStake } from "../hooks/useStake"
+import { useTransactionModal } from "@/stores/transactionModal"
+import { TransactionModal } from "@/components/TransactionModal"
+import { ApproveToken } from "@/components/TransactionModal/steps/ApproveToken"
+import { CheckNetwork } from "@/components/TransactionModal/steps/CheckNetwork"
+import { ConnectWallet } from "@/components/TransactionModal/steps/ConnectWallet"
+import { StakeToken } from "@/components/TransactionModal/steps/StakeToken"
 
 type StakeProps = ReturnType<typeof useStake>
 
@@ -49,8 +49,8 @@ export function StakeTab({ stakeProps }: { stakeProps: StakeProps }) {
           balanceLabel="Your Balance:"
           tokens={[
             {
-              icon: '/images/spad.png',
-              name: 'spad',
+              icon: "/images/spad.png",
+              name: "spad",
             },
           ]}
         />
@@ -80,7 +80,7 @@ export function StakeTab({ stakeProps }: { stakeProps: StakeProps }) {
           text-center text-[18px] font-bold text-white bg-brandBlue-200 disabled:opacity-[0.5] disabled:cursor-not-allowed hover:bg-brandBlue-100 transition:all duration-300"
           onClick={onOpen}
         >
-          {isConnected ? 'Stake now' : 'Connect Wallet'}
+          {isConnected ? "Stake now" : "Connect Wallet"}
         </button>
       </div>
 

@@ -1,5 +1,5 @@
-import Image from 'next/image'
-import { Tag, TagProject } from '../Tag'
+import Image from "next/image"
+import { Tag, TagProject } from "../Tag"
 
 export const Card = ({ defaultImage }: { defaultImage: string }) => {
   return (
@@ -28,7 +28,7 @@ export const Card = ({ defaultImage }: { defaultImage: string }) => {
           <div className="flex h-2 w-full bg-white bg-opacity-40 rounded-[100px] items-center justify-start">
             <div
               className="flex h-2 text-xs leading-none text-center text-white bg-brandBlue-200 rounded-[100px]"
-              style={{ width: '45%' }}
+              style={{ width: "45%" }}
             />
             <div className="flex absolute z-10 ml-[54px] lg:ml-[64px] w-0.5 h-2  bg-white" />
           </div>

@@ -1,7 +1,7 @@
-'use client'
-import { connectionConfig } from '@/connection'
-import { ThemeProvider } from 'next-themes'
-import { WagmiConfig } from 'wagmi'
+"use client"
+import { connectionConfig } from "@/connection"
+import { ThemeProvider } from "next-themes"
+import { WagmiConfig } from "wagmi"
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (

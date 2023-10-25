@@ -1,11 +1,11 @@
-'use client'
+"use client"
 
-import { PageHeader } from '@/components/PageHeader'
-import { Tabs, Tab } from '@/components/Tab'
-import { StakeTab } from './components/StakeTab'
-import { useStake } from './hooks/useStake'
-import { UnstakeTab } from './components/UnstakeTab'
-import { ClaimTab } from './components/ClaimTab'
+import { PageHeader } from "@/components/PageHeader"
+import { Tabs, Tab } from "@/components/Tab"
+import { StakeTab } from "./components/StakeTab"
+import { useStake } from "./hooks/useStake"
+import { UnstakeTab } from "./components/UnstakeTab"
+import { ClaimTab } from "./components/ClaimTab"
 
 export default function Stake() {
   const stakeProps = useStake()

@@ -1,33 +1,33 @@
-'use client'
-import { Swiper, SwiperSlide } from 'swiper/react'
-import 'swiper/css'
-import { Card } from '../Card'
-import { FreeMode, Navigation, Pagination } from 'swiper/modules'
-import { RiArrowLeftSLine, RiArrowRightSLine } from 'react-icons/ri'
-import { isMobile } from '@/utils/userAgent'
+"use client"
+import { Swiper, SwiperSlide } from "swiper/react"
+import "swiper/css"
+import { Card } from "../Card"
+import { FreeMode, Navigation, Pagination } from "swiper/modules"
+import { RiArrowLeftSLine, RiArrowRightSLine } from "react-icons/ri"
+import { isMobile } from "@/utils/userAgent"
 
 export const Carousel = () => {
   const slides = [
     {
-      defaultImage: '/images/backgroundCardDefault.svg',
-      letter: 'A',
-      description: 'BLOCK A',
-      progress: '40%',
-      expectedRaise: '$11,549,430',
+      defaultImage: "/images/backgroundCardDefault.svg",
+      letter: "A",
+      description: "BLOCK A",
+      progress: "40%",
+      expectedRaise: "$11,549,430",
     },
     {
-      defaultImage: '/images/backgroundCardDefault.svg',
-      letter: 'B',
-      description: 'BLOCK B',
-      progress: '20%',
-      expectedRaise: '$11,549,430',
+      defaultImage: "/images/backgroundCardDefault.svg",
+      letter: "B",
+      description: "BLOCK B",
+      progress: "20%",
+      expectedRaise: "$11,549,430",
     },
     {
-      defaultImage: '/images/backgroundCardDefault.svg',
-      letter: 'C',
-      description: 'BLOCK C',
-      progress: '80%',
-      expectedRaise: '$11,549,430',
+      defaultImage: "/images/backgroundCardDefault.svg",
+      letter: "C",
+      description: "BLOCK C",
+      progress: "80%",
+      expectedRaise: "$11,549,430",
     },
     // {
     //   defaultImage: '/images/backgroundCardDefault.svg',
@@ -69,26 +69,26 @@ export const Carousel = () => {
         simulateTouch={false}
         preventClicks={true}
         pagination={{
-          el: '.swiper-pagination',
+          el: ".swiper-pagination",
           clickable: true,
-          bulletClass: 'swiper-pagination-bullet',
-          bulletActiveClass: 'swiper-pagination-bullet-active',
+          bulletClass: "swiper-pagination-bullet",
+          bulletActiveClass: "swiper-pagination-bullet-active",
         }}
         scrollbar={false}
         className="w-full relative"
         modules={[Navigation, Pagination, FreeMode]}
         navigation={{
-          nextEl: '.swiper-button-next',
-          prevEl: '.swiper-button-prev',
+          nextEl: ".swiper-button-next",
+          prevEl: ".swiper-button-prev",
         }}
       >
         {slides.map((card, index) => (
           <SwiperSlide
             key={index}
             style={{
-              maxWidth: '398px',
-              display: 'flex',
-              justifyContent: 'center',
+              maxWidth: "398px",
+              display: "flex",
+              justifyContent: "center",
             }}
           >
             <Card defaultImage={card.defaultImage} />

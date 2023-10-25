@@ -1,20 +1,20 @@
-'use client'
+"use client"
 
-import { useEffect, useState } from 'react'
-import Modal from '../Modal'
-import Image from 'next/image'
-import { Connector, useConnect } from 'wagmi'
-import { useStore } from 'zustand'
-import { useConnectWallet } from '@/stores/connectWallet'
+import { useEffect, useState } from "react"
+import Modal from "../Modal"
+import Image from "next/image"
+import { Connector, useConnect } from "wagmi"
+import { useStore } from "zustand"
+import { useConnectWallet } from "@/stores/connectWallet"
 
 export function ConnectWallet() {
   const { connectors, connectAsync } = useConnect()
   const [isPali, setIsPali] = useState(false)
   const { isOpen, onClose } = useStore(useConnectWallet)
 
-  const metamask = connectors.find((c) => c.id === 'metaMask')
-  const injected = connectors.find((c) => c.id === 'injected')
-  const walletConnect = connectors.find((c) => c.id === 'walletConnect')
+  const metamask = connectors.find((c) => c.id === "metaMask")
+  const injected = connectors.find((c) => c.id === "injected")
+  const walletConnect = connectors.find((c) => c.id === "walletConnect")
 
   const connect = async (connector: Connector<any, any> | undefined) => {
     try {
@@ -28,7 +28,7 @@ export function ConnectWallet() {
   const getPaliConnector = async () => {
     const provider = await injected?.getProvider()
 
-    if (provider && provider?.wallet === 'pali-v2') {
+    if (provider && provider?.wallet === "pali-v2") {
       setIsPali(true)
     }
   }
@@ -36,15 +36,15 @@ export function ConnectWallet() {
   useEffect(() => {
     getPaliConnector()
 
-    addEventListener('keydown', (event) => {
-      if (event.key === 'Escape') {
+    addEventListener("keydown", (event) => {
+      if (event.key === "Escape") {
         onClose()
       }
     })
 
     return () => {
-      addEventListener('keydown', (event) => {
-        if (event.key === 'Escape') {
+      addEventListener("keydown", (event) => {
+        if (event.key === "Escape") {
           onClose()
         }
       })
@@ -67,7 +67,7 @@ export function ConnectWallet() {
           <div className="px-[48px] max-w-[400px] max-[639px]:px-[30px] h-full text-left flex flex-col justify-center">
             <h3 className="font-bold text-2xl">Connect Wallet</h3>
             <p className="mt-4 text-gray-300">
-              By connecting a wallet, you agree to the CAMADA{' '}
+              By connecting a wallet, you agree to the CAMADA{" "}
               <a href="#" className="underline">
                 Terms of Use
               </a>
@@ -81,12 +81,12 @@ export function ConnectWallet() {
               onClick={() => connect(isPali ? injected : metamask)}
             >
               <Image
-                src={`/images/${isPali ? 'pali' : 'metamask'}.png`}
+                src={`/images/${isPali ? "pali" : "metamask"}.png`}
                 width={30}
                 height={30}
                 alt=""
               />
-              <p>{isPali ? 'Pali Wallet' : 'Metamask'}</p>
+              <p>{isPali ? "Pali Wallet" : "Metamask"}</p>
             </button>
 
             <button
@@ -95,7 +95,7 @@ export function ConnectWallet() {
               onClick={() => connect(walletConnect)}
             >
               <Image
-                src={'/images/wallet-connect.png'}
+                src={"/images/wallet-connect.png"}
                 width={30}
                 height={30}
                 alt=""

@@ -1,4 +1,4 @@
-import { Carousel } from '../Carousel'
+import { Carousel } from "../Carousel"
 
 export const Projects = () => {
   return (
@@ -8,7 +8,7 @@ export const Projects = () => {
           Know the Projects
         </div>
         <div className="text-white text-xl font-medium leading-[30px]">
-          Know the projects and invest on great ideas with security!{' '}
+          Know the projects and invest on great ideas with security!{" "}
         </div>
       </div>
       <div className="w-full justify-center items-center gap-6 flex">

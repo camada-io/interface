@@ -1,8 +1,8 @@
-import { useScreenSize } from './useScreenSize'
+import { useScreenSize } from "./useScreenSize"
 
 export function useIsMobile(): boolean {
   const isScreenSize = useScreenSize()
-  const isMobile = !isScreenSize['sm']
+  const isMobile = !isScreenSize["sm"]
 
   return isMobile
 }
