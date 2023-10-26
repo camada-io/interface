@@ -9,6 +9,8 @@ import Link from "next/link"
 import Image from "next/image"
 import { BadgeTime } from "@/components/BadgeTime"
 import { Carousel } from "@/components/Carousel"
+import { InvestCard } from "@/components/InvestCard"
+import { CardProjectType } from "@/utils/constant"
 
 export default function Project({ params }: { params: { project: string } }) {
   const getInfoProject = (project: string) => {
@@ -31,6 +33,11 @@ export default function Project({ params }: { params: { project: string } }) {
     }
   }
   const project = getInfoProject(params.project)
+
+  const tokensMock = [
+    { icon: "/images/usdc.svg", name: "USDC" },
+    { icon: "/images/usdt.svg", name: "USDT" },
+  ]
 
   return (
     <>
@@ -73,67 +80,7 @@ export default function Project({ params }: { params: { project: string } }) {
               </div>
             </div>
           </div>
-
-          <div className="max-w-[590px] w-full p-6 bg-gray-650 backdrop-blur-sm rounded-[10px] flex-col justify-start items-start gap-6 inline-flex">
-            <div className="self-stretch justify-between items-center inline-flex">
-              <div className="text-white text-lg font-bold leading-7">
-                Invest on Pegasys
-              </div>
-              <div className="h-6 justify-end items-center gap-2 flex">
-                <div className="text-white text-sm font-medium leading-normal">
-                  Your current allocation:
-                </div>
-                <div className="w-6 h-6 relative flex justify-center items-center">
-                  <Image src="../images/favicon.svg" alt="symbol" fill />
-                </div>
-                <div className="text-white text-sm font-medium leading-normal">
-                  5 PSYS
-                </div>
-              </div>
-            </div>
-            <div className="self-stretch px-3.5 py-2.5 bg-gray-500 rounded-lg shadow border border-white border-opacity-5 justify-start items-center gap-4 inline-flex">
-              <div className="p-2 bg-gray-650 rounded-[10px] justify-start items-center gap-2 flex">
-                <div className="w-[45px] h-[45px] justify-center items-center flex"></div>
-                <div className="w-4 h-4 relative"></div>
-              </div>
-              <div className="grow shrink basis-0 flex-col justify-center items-start gap-1 inline-flex">
-                <div className="self-stretch h-5 justify-between items-center inline-flex">
-                  <div className="text-white text-opacity-40 text-sm font-normal leading-normal">
-                    Amount
-                  </div>
-                  <div className="text-white text-opacity-40 text-sm font-normal leading-normal">
-                    You are on Tier 4 = 500 USD
-                  </div>
-                </div>
-                <div className="self-stretch justify-start items-center gap-2 inline-flex">
-                  <div className="grow shrink basis-0 text-white text-lg font-bold leading-7">
-                    400
-                  </div>
-                  <div className="px-4 py-0.5 bg-white bg-opacity-20 rounded-[100px] justify-center items-center gap-2.5 flex">
-                    <div className="text-sky-300 text-sm font-medium leading-normal">
-                      MAX
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="self-stretch justify-between items-start inline-flex">
-              <div className="text-white text-base font-normal leading-relaxed">
-                You will receive
-              </div>
-              <div className="h-[26px] justify-end items-center gap-2 flex">
-                <div className="w-6 h-6 relative flex justify-center items-center">
-                  <Image src="../images/favicon.svg" alt="symbol" fill />
-                </div>
-                <div className="text-white text-base font-normal leading-relaxed">
-                  10 PSYS
-                </div>
-              </div>
-            </div>
-            <button className="self-stretch h-[55px] px-6 py-4 bg-brandBlue-200 rounded-[5px] justify-center items-center gap-2.5 inline-flex">
-              <div className="text-white text-lg font-bold">Invest now</div>
-            </button>
-          </div>
+          <InvestCard type={CardProjectType.INVEST} tokens={tokensMock} />
         </div>
 
         <div className="flex w-full max-h-[592.50px] h-full items-start justify-center gap-[60px]">

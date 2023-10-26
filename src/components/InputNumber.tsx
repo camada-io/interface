@@ -81,7 +81,7 @@ export function InputNumber({
             <p>{amountLabel}</p>
             <p className="max-[639px]:hidden">{`${balanceLabel} ${Number(
               balance,
-            ).toFixed()}`}</p>
+            ).toFixed()} USD`}</p>
           </div>
         )}
         <div className="flex w-full gap-8">
