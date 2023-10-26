@@ -29,7 +29,7 @@ export function StakeToken({ state, amount }: ApproveProps) {
 
   useEffect(() => {
     if (!amount) state.onClose()
-  }, [])
+  }, [amount, state])
 
   useEffect(() => {
     if (transaction.isSuccess) {
@@ -40,7 +40,7 @@ export function StakeToken({ state, amount }: ApproveProps) {
   return (
     <div className="bg-gray-700 w-full rounded-[20px] flex max-[639px]:min-h-[320px]">
       <div className="flex w-full max-[639px]:hidden relative h-full bg-no-repeat bg-[url('/images/approve-modal-bg.webp')] bg-contain rounded-[20px]"></div>
-      <div className="p-[20px] py-[40px] w-full max-w-[400px] max-[639px]:px-[30px] h-full text-left flex flex-col justify-center justify-between">
+      <div className="p-[20px] py-[40px] w-full max-w-[400px] max-[639px]:px-[30px] h-full text-left flex flex-col justify-center lg:justify-between">
         <h3 className="font-bold text-2xl">Stake </h3>
 
         <div className="flex h-full items-start">
