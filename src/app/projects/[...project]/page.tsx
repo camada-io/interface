@@ -4,10 +4,11 @@
 import { PageHeader } from "@/components/PageHeader"
 import { GrMedium } from "react-icons/gr"
 import { FaGlobe, FaTelegramPlane, FaDiscord } from "react-icons/fa"
-import { RiFileCopyLine } from "react-icons/ri"
+import { RiFileCopyLine, RiQuestionLine } from "react-icons/ri"
 import Link from "next/link"
 import Image from "next/image"
 import { BadgeTime } from "@/components/BadgeTime"
+import { Carousel } from "@/components/Carousel"
 
 export default function Project({ params }: { params: { project: string } }) {
   const getInfoProject = (project: string) => {
@@ -40,18 +41,24 @@ export default function Project({ params }: { params: { project: string } }) {
             className="max-w-[590px] w-full h-[331.23px] pt-6 rounded-[20px] flex-col justify-between items-start inline-flex bg-cover bg-no-repeat"
             style={{ backgroundImage: `url(${project.image})` }}
           >
-            <BadgeTime type={3} />
-            <div className="w-5 h-5 justify-center items-center inline-flex">
-              <div className="w-5 h-5 relative"></div>
+            <div>
+              <BadgeTime type={3} />
             </div>
-            <div className="self-stretch justify-start items-center gap-2 inline-flex">
-              <div className="w-[551px] h-2 relative rounded-[100px]">
-                <div className="w-[551px] h-2 left-0 top-0 absolute bg-white bg-opacity-40"></div>
-                <div className="w-[220.40px] h-2 left-0 top-0 absolute bg-cyan-500"></div>
-                <div className="w-[3.44px] h-2 left-[110.20px] top-0 absolute bg-white"></div>
+            <div className="pt-[100px]">
+              <div className="relative flex w-full">
+                <div className="absolute left-90px mb-4 w-5 h-5 justify-center items-center inline-flex">
+                  <RiQuestionLine size={20} />
+                </div>
               </div>
-              <div className="text-white text-sm font-bold leading-normal">
-                40%
+              <div className="self-stretch justify-center items-center gap-2 inline-flex">
+                <div className="w-[551px] h-2 relative rounded-[100px]">
+                  <div className="w-[551px] h-2 left-0 top-0 absolute bg-white bg-opacity-40"></div>
+                  <div className="w-[220.40px] h-2 left-0 top-0 absolute bg-cyan-500"></div>
+                  <div className="w-[3.44px] h-2 left-[110.20px] top-0 absolute bg-white"></div>
+                </div>
+                <div className="text-white text-sm font-bold leading-normal">
+                  40%
+                </div>
               </div>
             </div>
 
@@ -67,7 +74,7 @@ export default function Project({ params }: { params: { project: string } }) {
             </div>
           </div>
 
-          <div className="w-[590px] p-6 bg-zinc-700 bg-opacity-50 rounded-[10px] flex-col justify-start items-start gap-6 inline-flex">
+          <div className="max-w-[590px] w-full p-6 bg-gray-650 backdrop-blur-sm rounded-[10px] flex-col justify-start items-start gap-6 inline-flex">
             <div className="self-stretch justify-between items-center inline-flex">
               <div className="text-white text-lg font-bold leading-7">
                 Invest on Pegasys
@@ -76,17 +83,16 @@ export default function Project({ params }: { params: { project: string } }) {
                 <div className="text-white text-sm font-medium leading-normal">
                   Your current allocation:
                 </div>
-                <img
-                  className="w-5 h-5 rounded-full"
-                  src="https://via.placeholder.com/20x20"
-                />
+                <div className="w-6 h-6 relative flex justify-center items-center">
+                  <Image src="../images/favicon.svg" alt="symbol" fill />
+                </div>
                 <div className="text-white text-sm font-medium leading-normal">
                   5 PSYS
                 </div>
               </div>
             </div>
-            <div className="self-stretch px-3.5 py-2.5 bg-gray-700 rounded-lg shadow border border-white border-opacity-5 justify-start items-center gap-4 inline-flex">
-              <div className="p-2 bg-zinc-700 bg-opacity-50 rounded-[10px] justify-start items-center gap-2 flex">
+            <div className="self-stretch px-3.5 py-2.5 bg-gray-500 rounded-lg shadow border border-white border-opacity-5 justify-start items-center gap-4 inline-flex">
+              <div className="p-2 bg-gray-650 rounded-[10px] justify-start items-center gap-2 flex">
                 <div className="w-[45px] h-[45px] justify-center items-center flex"></div>
                 <div className="w-4 h-4 relative"></div>
               </div>
@@ -116,18 +122,17 @@ export default function Project({ params }: { params: { project: string } }) {
                 You will receive
               </div>
               <div className="h-[26px] justify-end items-center gap-2 flex">
-                <img
-                  className="w-5 h-5 rounded-full"
-                  src="https://via.placeholder.com/20x20"
-                />
+                <div className="w-6 h-6 relative flex justify-center items-center">
+                  <Image src="../images/favicon.svg" alt="symbol" fill />
+                </div>
                 <div className="text-white text-base font-normal leading-relaxed">
                   10 PSYS
                 </div>
               </div>
             </div>
-            <div className="self-stretch h-[55px] px-6 py-4 bg-cyan-500 rounded-[5px] justify-center items-center gap-2.5 inline-flex">
+            <button className="self-stretch h-[55px] px-6 py-4 bg-brandBlue-200 rounded-[5px] justify-center items-center gap-2.5 inline-flex">
               <div className="text-white text-lg font-bold">Invest now</div>
-            </div>
+            </button>
           </div>
         </div>
 
@@ -298,6 +303,13 @@ export default function Project({ params }: { params: { project: string } }) {
               sunt in culpa qui officia deserunt mollit anim id est laborum.
             </div>
           </div>
+        </div>
+
+        <div className="flex w-full flex-col justify-center items-center gap-6">
+          <div className="text-white text-3xl font-extrabold leading-[50px]">
+            You also must like
+          </div>
+          <Carousel />
         </div>
       </div>
     </>
