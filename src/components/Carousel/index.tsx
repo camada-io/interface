@@ -91,7 +91,13 @@ export const Carousel = () => {
               justifyContent: "center",
             }}
           >
-            <Card defaultImage={card.defaultImage} />
+            <Card
+              defaultImage={card.defaultImage}
+              typeBadge={1}
+              icon={""}
+              maxWidth="398px"
+              height="224px"
+            />
           </SwiperSlide>
         ))}
         <RiArrowRightSLine size={24} className="swiper-button-next" />

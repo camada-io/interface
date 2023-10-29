@@ -4,14 +4,14 @@
 import { PageHeader } from "@/components/PageHeader"
 import { GrMedium } from "react-icons/gr"
 import { FaGlobe, FaTelegramPlane, FaDiscord } from "react-icons/fa"
-import { RiFileCopyLine, RiQuestionLine } from "react-icons/ri"
+import { RiFileCopyLine } from "react-icons/ri"
 import Link from "next/link"
 import Image from "next/image"
-import { BadgeTime } from "@/components/BadgeTime"
 import { Carousel } from "@/components/Carousel"
 import { InvestCard } from "@/components/InvestCard"
 import { CardProjectType } from "@/utils/constant"
 import { useIsMobile } from "@/hooks/useIsMobile"
+import { Card } from "@/components/Card"
 
 export default function Project({ params }: { params: { project: string } }) {
   const getInfoProject = (project: string) => {
@@ -45,44 +45,18 @@ export default function Project({ params }: { params: { project: string } }) {
       <PageHeader title={project.title} description={project.description} />
       <div className="flex flex-col py-32 gap-32 px-8 lg:px-0">
         <div className="w-full lg:max-h-[331.23px] flex-col lg:flex-row h-full justify-center items-start gap-[60px]">
-          <div
-            className="max-w-[590px] w-full h-[331.23px] pt-6 rounded-[20px] flex-col justify-between items-start inline-flex bg-cover bg-no-repeat"
-            style={{ backgroundImage: `url(${project.image})` }}
-          >
-            <div>
-              <BadgeTime type={3} />
-            </div>
-            <div className="pt-[100px]">
-              <div className="relative flex w-full">
-                <div className="absolute left-90px mb-4 w-5 h-5 justify-center items-center inline-flex">
-                  <RiQuestionLine size={20} />
-                </div>
-              </div>
-              <div className="self-stretch justify-center items-center gap-2 inline-flex">
-                <div className="w-[551px] h-2 relative rounded-[100px]">
-                  <div className="w-[551px] h-2 left-0 top-0 absolute bg-white bg-opacity-40"></div>
-                  <div className="w-[220.40px] h-2 left-0 top-0 absolute bg-cyan-500"></div>
-                  <div className="w-[3.44px] h-2 left-[110.20px] top-0 absolute bg-white"></div>
-                </div>
-                <div className="text-white text-sm font-bold leading-normal">
-                  40%
-                </div>
-              </div>
-            </div>
-
-            <div className="self-stretch h-16 px-6 pt-4 pb-6 bg-gray-650 bg-opacity-50 backdrop-blur-sm flex-col justify-start items-start gap-2 flex rounded-bl-[20px] rounded-br-[20px]">
-              <div className="justify-start items-start gap-2 inline-flex">
-                <div className="text-white text-sm font-bold leading-normal">
-                  Total Raised:
-                </div>
-                <div className="text-white text-sm font-bold leading-normal">
-                  $11,549,430
-                </div>
-              </div>
-            </div>
+          <div className="max-w-[590px] w-full h-[331.23px] rounded-[20px] flex-col justify-between items-start inline-flex">
+            <Card
+              defaultImage={project.image}
+              typeBadge={2}
+              maxWidth="590px"
+              height={isMobile ? "224px" : "331.23px"}
+              icon={"../images/favicon.svg"}
+            />
           </div>
+
           <InvestCard
-            type={CardProjectType.INVEST}
+            type={CardProjectType.REFUND}
             tokens={tokensMock}
             isLoading={false}
           />
@@ -202,8 +176,13 @@ export default function Project({ params }: { params: { project: string } }) {
                   </div>
                 </div>
                 <div className="self-stretch h-[45px] pl-4 pr-6 py-4 rounded-[5px] border border-brandBlue-100 justify-center items-center gap-4 inline-flex">
-                  <div className="w-6 h-6 justify-center items-center flex">
-                    <div className="w-6 h-6 relative"></div>
+                  <div className="justify-center items-center flex">
+                    <Image
+                      src={"../images/projectPaper.svg"}
+                      alt="project"
+                      width={24}
+                      height={24}
+                    />
                   </div>
                   <div className="text-white text-lg font-bold">
                     Project white paper
@@ -346,8 +325,13 @@ export default function Project({ params }: { params: { project: string } }) {
                   </div>
                 </div>
                 <div className="self-stretch h-[45px] pl-4 pr-6 py-4 rounded-[5px] border border-brandBlue-100 justify-center items-center gap-4 inline-flex">
-                  <div className="w-6 h-6 justify-center items-center flex">
-                    <div className="w-6 h-6 relative"></div>
+                  <div className="justify-center items-center flex">
+                    <Image
+                      src={"../images/projectPaper.svg"}
+                      alt="project"
+                      width={24}
+                      height={24}
+                    />
                   </div>
                   <div className="text-white text-lg font-bold">
                     Project white paper
