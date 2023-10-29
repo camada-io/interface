@@ -22,6 +22,7 @@ export default function Project({ params }: { params: { project: string } }) {
           description:
             "Vulcano's metaverse! An NFT fighting game between light and darkness. These spheres engage in fierce fights constantly looking for power.",
           image: "/images/backgroundCardDefault.svg",
+          icon: "/images/pegasysLogo.svg",
         }
 
       default:
@@ -30,6 +31,7 @@ export default function Project({ params }: { params: { project: string } }) {
           description:
             "Vulcano's metaverse! An NFT fighting game between light and darkness. These spheres engage in fierce fights constantly looking for power.",
           image: "/images/backgroundCardDefault.svg",
+          icon: "/images/pegasysLogo.svg",
         }
     }
   }
@@ -42,7 +44,12 @@ export default function Project({ params }: { params: { project: string } }) {
 
   return (
     <>
-      <PageHeader title={project.title} description={project.description} />
+      <PageHeader
+        title={project.title}
+        description={isMobile ? undefined : project.description}
+        icon={project.icon}
+        symbol="PSYS"
+      />
       <div className="flex flex-col py-32 gap-32 px-8 lg:px-0">
         <div className="w-full lg:max-h-[331.23px] flex-col lg:flex-row h-full justify-center items-start gap-[60px]">
           <div className="max-w-[590px] w-full h-[331.23px] rounded-[20px] flex-col justify-between items-start inline-flex">
@@ -51,7 +58,7 @@ export default function Project({ params }: { params: { project: string } }) {
               typeBadge={2}
               maxWidth="590px"
               height={isMobile ? "224px" : "331.23px"}
-              icon={"../images/favicon.svg"}
+              icon={project.icon}
             />
           </div>
 
