@@ -37,6 +37,7 @@ export function StakeTab({ stakeProps }: { stakeProps: StakeProps }) {
     const nextTier = allTiers.at(tier) as number
 
     return nextTier - stakedBalance
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tier])
 
   return !isLoading ? (

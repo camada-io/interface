@@ -36,6 +36,7 @@ export function ConnectWallet({ state }: { state: TransactionModalState }) {
     }
 
     getPaliConnector()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isConnected, state])
 
   return (

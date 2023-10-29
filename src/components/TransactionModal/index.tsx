@@ -21,6 +21,7 @@ export function TransactionModal({ children }: TransactionModalProps) {
 
   useEffect(() => {
     dispatchStep({ type: "SET_MAX_STEP", payload: steps.length })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const renderComponent = useCallback(
