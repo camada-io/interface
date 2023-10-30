@@ -1,9 +1,9 @@
-import { useEffect, useState } from 'react'
-import { useAccount, useContractRead } from 'wagmi'
+import { useEffect, useState } from "react"
+import { useAccount, useContractRead } from "wagmi"
 
-import abi from '../../../contracts/stakeAbi'
-import tokenAbi from '../../../contracts/erc20Abi'
-import launchpadAbi from '../../../contracts/launchpadAbi'
+import abi from "../../../contracts/stakeAbi"
+import tokenAbi from "../../../contracts/erc20Abi"
+import launchpadAbi from "../../../contracts/launchpadAbi"
 
 type Address = `0x${string}`
 
@@ -37,7 +37,7 @@ export function useStake() {
     useContractRead({
       address: contractAddres,
       abi: abi,
-      functionName: 'balanceOf',
+      functionName: "balanceOf",
       args: [address as Address],
       enabled: !!address && isAllowedChain,
       watch: !!address && isAllowedChain,
@@ -47,7 +47,7 @@ export function useStake() {
     useContractRead({
       address: contractAddres,
       abi: abi,
-      functionName: 'earned',
+      functionName: "earned",
       args: [address as Address],
       enabled: !!address && isAllowedChain,
     })
@@ -55,27 +55,27 @@ export function useStake() {
   const { data: totalStaked, isLoading: totalStakedLoading } = useContractRead({
     address: contractAddres,
     abi: abi,
-    functionName: 'totalSupply',
+    functionName: "totalSupply",
   })
 
   const { data: rewardsPerDay, isLoading: rewardsPerDayLoading } =
     useContractRead({
       address: contractAddres,
       abi: abi,
-      functionName: 'rewardPerToken',
+      functionName: "rewardPerToken",
     })
 
   const { data: apy, isLoading: apyLoading } = useContractRead({
     address: contractAddres,
     abi: abi,
-    functionName: 'apr',
+    functionName: "apr",
   })
 
   const { data: tokenBalance, isLoading: tokenBalanceLoading } =
     useContractRead({
       address: tokenAdress,
       abi,
-      functionName: 'balanceOf',
+      functionName: "balanceOf",
       args: [address as Address],
       enabled: !!address && isAllowedChain,
       watch: !!address && isAllowedChain,
@@ -85,7 +85,7 @@ export function useStake() {
     useContractRead({
       address: tokenAdress,
       abi: tokenAbi,
-      functionName: 'allowance',
+      functionName: "allowance",
       args: [address as Address, contractAddres],
       enabled: !!address && isAllowedChain,
       watch: !!address && isAllowedChain,
@@ -94,13 +94,13 @@ export function useStake() {
   const { data: tokenSymbol, isLoading: tokenSymbolLoading } = useContractRead({
     address: tokenAdress,
     abi: tokenAbi,
-    functionName: 'symbol',
+    functionName: "symbol",
   })
 
   const { data: tier } = useContractRead({
     address: lauchpadAdress,
     abi: launchpadAbi,
-    functionName: 'getTier',
+    functionName: "getTier",
     args: [address as Address],
     enabled: !!address && isAllowedChain,
     watch: !!address && isAllowedChain,

@@ -1,10 +1,10 @@
-'use client'
+"use client"
 
-import Image from 'next/image'
-import Link from 'next/link'
-import { FaTelegramPlane } from 'react-icons/fa'
-import { FooterMenu } from '../FooterMenu'
-import { colors } from '@/utils/colors'
+import Image from "next/image"
+import Link from "next/link"
+import { FaTelegramPlane } from "react-icons/fa"
+import { FooterMenu } from "../FooterMenu"
+import { colors } from "@/utils/colors"
 
 export const Footer = () => {
   return (
@@ -29,20 +29,20 @@ export const Footer = () => {
           <div className="hidden justify-between items-start lg:inline-flex">
             <div className="flex-col justify-center items-start gap-3 inline-flex">
               <Link
-                href={'/'}
-                className={'text-white text-base font-medium leading-relaxed'}
+                href={"/"}
+                className={"text-white text-base font-medium leading-relaxed"}
               >
                 Home
               </Link>
               <Link
-                href={'/about'}
-                className={'text-white text-base font-medium leading-relaxed'}
+                href={"/about"}
+                className={"text-white text-base font-medium leading-relaxed"}
               >
                 About us
               </Link>
               <Link
-                href={'/stake'}
-                className={'text-white text-base font-medium leading-relaxed'}
+                href={"/stake"}
+                className={"text-white text-base font-medium leading-relaxed"}
               >
                 Stake
               </Link>
@@ -52,20 +52,20 @@ export const Footer = () => {
           <div className="hidden justify-between items-start lg:inline-flex">
             <div className="flex-col justify-center items-start gap-3 inline-flex">
               <Link
-                href={'/projects'}
-                className={'text-white text-base font-medium leading-relaxed'}
+                href={"/projects"}
+                className={"text-white text-base font-medium leading-relaxed"}
               >
                 Projects
               </Link>
               <Link
-                href={'/apply'}
-                className={'text-white text-base font-medium leading-relaxed'}
+                href={"/apply"}
+                className={"text-white text-base font-medium leading-relaxed"}
               >
                 Apply your project
               </Link>
               <Link
-                href={'/contact'}
-                className={'text-white text-base font-medium leading-relaxed'}
+                href={"/contact"}
+                className={"text-white text-base font-medium leading-relaxed"}
               >
                 Contact us
               </Link>
@@ -75,25 +75,25 @@ export const Footer = () => {
           <div className="w-[310px] justify-between items-start inline-flex">
             <div className="flex-col justify-center items-start gap-3 inline-flex">
               <Link
-                href={'/documentation'}
-                className={'text-white text-base font-medium leading-relaxed'}
+                href={"/documentation"}
+                className={"text-white text-base font-medium leading-relaxed"}
               >
                 Documentation
               </Link>
               <Link
-                href={'/terms'}
-                className={'text-white text-base font-medium leading-relaxed'}
+                href={"/terms"}
+                className={"text-white text-base font-medium leading-relaxed"}
               >
                 Terms of privacy
               </Link>
               <Link
-                href={'/brand'}
-                className={'text-white text-base font-medium leading-relaxed'}
+                href={"/brand"}
+                className={"text-white text-base font-medium leading-relaxed"}
               >
                 Brand guide
               </Link>
             </div>
-            <div className="flex h-full justify-center items-center gap-5 inline-flex">
+            <div className="flex h-full justify-center items-center gap-5">
               <div className="w-[39.25px] flex h-10 relative justify-center items-center rounded-[25.29px] bg-brandBlue-100">
                 <svg
                   width="22"
@@ -109,7 +109,7 @@ export const Footer = () => {
                 </svg>
               </div>
               <div className="w-[39.25px] flex h-10 relative justify-center items-center rounded-[25.29px] bg-brandBlue-100 fill-black">
-                <FaTelegramPlane size={'1.375rem'} color={colors.gray[900]} />
+                <FaTelegramPlane size={"1.375rem"} color={colors.gray[900]} />
               </div>
             </div>
           </div>

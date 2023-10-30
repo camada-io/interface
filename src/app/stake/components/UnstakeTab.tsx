@@ -1,14 +1,14 @@
-'use client'
+"use client"
 
-import { InputNumber } from '@/components/InputNumber'
-import { useCallback, useState } from 'react'
-import { useAccount } from 'wagmi'
-import { useStake } from '../hooks/useStake'
-import { TransactionModal } from '@/components/TransactionModal'
-import { CheckNetwork } from '@/components/TransactionModal/steps/CheckNetwork'
-import { ConnectWallet } from '@/components/TransactionModal/steps/ConnectWallet'
-import { useTransactionModal } from '@/stores/transactionModal'
-import { UnstakeToken } from '@/components/TransactionModal/steps/UnstakeToken'
+import { InputNumber } from "@/components/InputNumber"
+import { useCallback, useState } from "react"
+import { useAccount } from "wagmi"
+import { useStake } from "../hooks/useStake"
+import { TransactionModal } from "@/components/TransactionModal"
+import { CheckNetwork } from "@/components/TransactionModal/steps/CheckNetwork"
+import { ConnectWallet } from "@/components/TransactionModal/steps/ConnectWallet"
+import { useTransactionModal } from "@/stores/transactionModal"
+import { UnstakeToken } from "@/components/TransactionModal/steps/UnstakeToken"
 
 type StakeProps = ReturnType<typeof useStake>
 
@@ -49,8 +49,8 @@ export function UnstakeTab({ stakeProps }: { stakeProps: StakeProps }) {
           balanceLabel="Your Balance:"
           tokens={[
             {
-              icon: '/images/spad.png',
-              name: 'spad',
+              icon: "/images/spad.png",
+              name: "spad",
             },
           ]}
         />
@@ -76,7 +76,7 @@ export function UnstakeTab({ stakeProps }: { stakeProps: StakeProps }) {
           onClick={onOpen}
           disabled={!amount && isConnected}
         >
-          {isConnected ? 'Unstake now' : 'Connect Wallet'}
+          {isConnected ? "Unstake now" : "Connect Wallet"}
         </button>
       </div>
 

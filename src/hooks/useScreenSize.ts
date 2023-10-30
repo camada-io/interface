@@ -1,7 +1,7 @@
-import { BREAKPOINTS } from '@/types/breakpoints'
-import { useEffect, useState } from 'react'
+import { BREAKPOINTS } from "@/types/breakpoints"
+import { useEffect, useState } from "react"
 
-const isClient = typeof window !== 'undefined'
+const isClient = typeof window !== "undefined"
 
 function getScreenSize(): Record<keyof typeof BREAKPOINTS, boolean> {
   return Object.keys(BREAKPOINTS).reduce(
@@ -24,9 +24,9 @@ export function useScreenSize(): Record<keyof typeof BREAKPOINTS, boolean> {
     }
 
     if (isClient) {
-      window.addEventListener('resize', handleResize)
+      window.addEventListener("resize", handleResize)
       return () => {
-        window.removeEventListener('resize', handleResize)
+        window.removeEventListener("resize", handleResize)
       }
     }
     return undefined

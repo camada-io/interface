@@ -1,9 +1,9 @@
-'use client'
+"use client"
 
-import { useEffect, useState } from 'react'
-import Image from 'next/image'
-import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/24/solid'
-import { useAccount } from 'wagmi'
+import { useEffect, useState } from "react"
+import Image from "next/image"
+import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/24/solid"
+import { useAccount } from "wagmi"
 
 type Token = {
   address?: string
@@ -24,9 +24,9 @@ type InputNumberProps = {
 }
 
 export function InputNumber({
-  amountLabel = 'Amount',
-  balanceLabel = '',
-  balance = '',
+  amountLabel = "Amount",
+  balanceLabel = "",
+  balance = "",
   showTokenIcon = true,
   tokens = [],
   disabled = false,
@@ -34,7 +34,7 @@ export function InputNumber({
   onInputChange,
   isLoading,
 }: InputNumberProps) {
-  const [amount, setAmount] = useState<number | string>('')
+  const [amount, setAmount] = useState<number | string>("")
   const { isConnected } = useAccount()
 
   useEffect(() => {
@@ -47,7 +47,7 @@ export function InputNumber({
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.value || +e.target.value <= +balance) {
-      setAmount(+e.target.value || '')
+      setAmount(+e.target.value || "")
       !!onInputChange && onInputChange(+e.target.value || 0)
     }
   }
@@ -57,7 +57,7 @@ export function InputNumber({
       {!!tokens.length && showTokenIcon && (
         <div
           className={` rounded-[10px] ${
-            tokens.length > 1 && 'bg-gray-600 p-[8px]'
+            tokens.length > 1 && "bg-gray-600 p-[8px]"
           }`}
         >
           {tokens.length > 1 ? (
@@ -82,7 +82,7 @@ export function InputNumber({
             <p>{amountLabel}</p>
             <p className="max-[639px]:hidden">{`${balanceLabel} ${Number(
               balance,
-            ).toFixed()}`}</p>
+            ).toFixed()} USD`}</p>
           </div>
         )}
         <div className="flex w-full gap-8">
@@ -92,7 +92,7 @@ export function InputNumber({
             className="flex w-full bg-transparent outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none
           text-whiteAlpha-100 text-whiteAlpha-1000 font-bold text-[18px]"
             placeholder="0"
-            value={amount ?? ''}
+            value={amount ?? ""}
             onChange={handleInputChange}
           />
           <button
@@ -151,15 +151,15 @@ function TokenSelector({
 
       <div
         className={`absolute left-[-8px] top-[55px] w-[calc(100%+16px)] p-[8px] bg-gray-700 rounded-[10px] ${
-          isSelectorOpen ? 'flex' : 'hidden'
+          isSelectorOpen ? "flex" : "hidden"
         }`}
       >
         {tokens
           .filter((token) => token.name !== selectedToken.name)
           .map((token) => {
             return (
-              <div
-                className="cursor-pointer w-full"
+              <button
+                className="w-full"
                 key={token.name}
                 onClick={() => handleSelectToken(token)}
               >
@@ -169,7 +169,7 @@ function TokenSelector({
                   width={45}
                   height={45}
                 />
-              </div>
+              </button>
             )
           })}
       </div>

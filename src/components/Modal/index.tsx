@@ -1,6 +1,6 @@
-'use client'
+"use client"
 
-import { animated, useTransition } from '@react-spring/web'
+import { animated, useTransition } from "@react-spring/web"
 
 type ModalProps = {
   isOpen: boolean

@@ -1,14 +1,14 @@
-'use client'
+"use client"
 
-import Image from 'next/image'
-import Link from 'next/link'
-import { useEffect, useState } from 'react'
-import { menuData } from './menuData'
-import { usePathname } from 'next/navigation'
-import { BiWallet } from 'react-icons/bi'
-import { useAccount } from 'wagmi'
-import { useStore } from 'zustand'
-import { useConnectWallet } from '@/stores/connectWallet'
+import Image from "next/image"
+import Link from "next/link"
+import { useEffect, useState } from "react"
+import { menuData } from "./menuData"
+import { usePathname } from "next/navigation"
+import { BiWallet } from "react-icons/bi"
+import { useAccount } from "wagmi"
+import { useStore } from "zustand"
+import { useConnectWallet } from "@/stores/connectWallet"
 
 export const Header = () => {
   const pathname = usePathname()
@@ -34,15 +34,15 @@ export const Header = () => {
   }, [])
 
   useEffect(() => {
-    window.addEventListener('scroll', handleStickyNavbar)
+    window.addEventListener("scroll", handleStickyNavbar)
   })
 
   return (
     <header
       className={`header top-0 z-40 flex w-full lg:px-[130px] justify-center items-center bg-transparent h-[105px] ${
         sticky
-          ? '!fixed !bg-gray-900 !bg-opacity-80 shadow-sticky backdrop-blur-sm !transition dark:!bg-primary dark:!bg-opacity-20'
-          : 'absolute'
+          ? "!fixed !bg-gray-900 !bg-opacity-80 shadow-sticky backdrop-blur-sm !transition dark:!bg-primary dark:!bg-opacity-20"
+          : "absolute"
       }`}
     >
       <div className="relative flex w-full lg:justify-between justify-center items-center">
@@ -50,7 +50,7 @@ export const Header = () => {
           <Link
             href="/"
             className={`header-logo block w-full ${
-              sticky ? 'py-5 lg:py-2' : 'py-8'
+              sticky ? "py-5 lg:py-2" : "py-8"
             } `}
           >
             <Image
@@ -66,16 +66,16 @@ export const Header = () => {
           <nav
             id="navbarCollapse"
             className={
-              'navbar absolute right-0 z-30 w-full rounded border-[.5px] border-body-color/50 bg-white py-4 px-6 duration-300 dark:border-body-color/20 dark:bg-dark lg:visible lg:static lg:w-auto lg:border-none lg:!bg-transparent lg:p-0 lg:opacity-100 invisible top-[120%] opacity-0'
+              "navbar absolute right-0 z-30 w-full rounded border-[.5px] border-body-color/50 bg-white py-4 px-6 duration-300 dark:border-body-color/20 dark:bg-dark lg:visible lg:static lg:w-auto lg:border-none lg:!bg-transparent lg:p-0 lg:opacity-100 invisible top-[120%] opacity-0"
             }
           >
             <ul className="block lg:flex lg:space-x-6">
               {menuData.map((menuItem) => (
                 <li key={menuItem.id} className="group relative">
                   <Link
-                    href={menuItem.path || '/'}
+                    href={menuItem.path || "/"}
                     className={
-                      'flex text-base text-dark font-medium leading-relaxed group-hover:opacity-70 dark:text-white lg:mr-0 lg:inline-flex lg:px-0'
+                      "flex text-base text-dark font-medium leading-relaxed group-hover:opacity-70 dark:text-white lg:mr-0 lg:inline-flex lg:px-0"
                     }
                   >
                     {menuItem.title}
@@ -93,11 +93,11 @@ export const Header = () => {
           className="hidden lg:flex max-w-[212px] h-[45px] pl-4 pr-6 py-4 bg-brandBlue-200 rounded-[5px] justify-center items-center gap-4 font-size-[14px]"
           onClick={!isConnected ? onOpen : undefined}
         >
-          <BiWallet size={'1.5rem'} />
+          <BiWallet size={"1.5rem"} />
           <div className="text-white text-lg font-bold">
             {isClient && address
               ? `${address.slice(0, 6)}...${address.slice(-4)}`
-              : 'Connect Wallet'}
+              : "Connect Wallet"}
           </div>
         </button>
       </div>

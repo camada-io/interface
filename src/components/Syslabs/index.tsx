@@ -1,4 +1,4 @@
-import Image from 'next/image'
+import Image from "next/image"
 
 const ImageComponent = ({
   src,
@@ -25,28 +25,28 @@ const ImageComponent = ({
 export const Syslabs = () => {
   const images = [
     {
-      src: 'images/rollux.svg',
-      alt: 'syslabs1',
+      src: "images/rollux.svg",
+      alt: "syslabs1",
       width: 115,
       height: 52,
     },
-    { src: 'images/luxy.svg', alt: 'syslabs2', width: 68, height: 52 },
+    { src: "images/luxy.svg", alt: "syslabs2", width: 68, height: 52 },
     {
-      src: 'images/syscoin.svg',
-      alt: 'syslabs3',
+      src: "images/syscoin.svg",
+      alt: "syslabs3",
       width: 129,
       height: 52,
     },
-    { src: 'images/Pali.svg', alt: 'syslabs4', width: 142, height: 52 },
+    { src: "images/Pali.svg", alt: "syslabs4", width: 142, height: 52 },
     {
-      src: 'images/superDapp.svg',
-      alt: 'syslabs5',
+      src: "images/superDapp.svg",
+      alt: "syslabs5",
       width: 84,
       height: 52,
     },
     {
-      src: 'images/pegasys.svg',
-      alt: 'syslabs6',
+      src: "images/pegasys.svg",
+      alt: "syslabs6",
       width: 119,
       height: 52,
     },

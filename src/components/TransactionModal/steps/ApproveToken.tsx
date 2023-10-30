@@ -64,7 +64,7 @@ export function ApproveToken({ state, amount }: ApproveProps) {
   return (
     <div className="bg-gray-700 w-full rounded-[20px] flex max-[639px]:min-h-[320px]">
       <div className="flex w-full max-[639px]:hidden h-full bg-no-repeat bg-[url('/images/approve-modal-bg.webp')] bg-contain rounded-[20px]"></div>
-      <div className="p-[20px] py-[30px] w-full max-w-[400px]  h-full text-left flex flex-col justify-center justify-between">
+      <div className="p-[20px] py-[30px] w-full max-w-[400px]  h-full text-left flex flex-col justify-center item-between">
         <h3 className="font-bold text-2xl">Approve contract</h3>
 
         {approve.isLoading || transaction.isLoading ? (
@@ -107,7 +107,7 @@ export function ApproveToken({ state, amount }: ApproveProps) {
               })
             }
             type="button"
-            className="p-[8px] rounded-[5px] bg-brandBlue-200 mt-6 text-center w-full font-bold text-white bg-brandBlue-200 disabled:opacity-[0.5] disabled:cursor-not-allowed hover:bg-brandBlue-100 transition:all duration-300"
+            className="p-[8px] rounded-[5px] bg-brandBlue-200 mt-6 text-center w-full font-bold text-white disabled:opacity-[0.5] disabled:cursor-not-allowed hover:bg-brandBlue-100 transition:all duration-300"
           >
             Approve
           </button>
