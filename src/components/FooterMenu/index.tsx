@@ -87,10 +87,7 @@ export const FooterMenu = () => {
           ))}
         </div>
       </div>
-      <ConnectWallet
-        isOpen={modalConnectDisclosure.isOpen}
-        onClose={modalConnectDisclosure.onClose}
-      />
+      <ConnectWallet />
     </div>
   )
 }
