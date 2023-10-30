@@ -70,14 +70,5 @@ export const TagProject = ({ type }: { type: number }) => {
           </div>
         </div>
       )
-
-    default:
-      return (
-        <div className="px-4 py-0.5 bg-cyan-500 rounded-[100px] justify-center items-center gap-2.5 flex">
-          <div className="text-white text-sm font-medium leading-normal">
-            On going
-          </div>
-        </div>
-      )
   }
 }

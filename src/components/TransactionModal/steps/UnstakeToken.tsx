@@ -1,11 +1,12 @@
 'use client'
 
 import { parseEther } from 'ethers'
+import { useEffect } from 'react'
 import Image from 'next/image'
 import { useContractWrite, useWaitForTransaction } from 'wagmi'
-import { TransactionModalState } from '../../../stores/transactionModal'
+
 import abi from '@/contracts/stakeAbi'
-import { useEffect } from 'react'
+import { TransactionModalState } from '../../../stores/transactionModal'
 
 type ApproveProps = {
   state: TransactionModalState
@@ -29,6 +30,7 @@ export function UnstakeToken({ state, amount }: ApproveProps) {
 
   useEffect(() => {
     if (!amount) state.onClose()
+    // eslint-disable-next-line
   }, [])
 
   useEffect(() => {

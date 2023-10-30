@@ -1,5 +1,6 @@
 'use client'
 
+import { useEffect } from 'react'
 import { parseEther } from 'ethers'
 import Image from 'next/image'
 import {
@@ -8,9 +9,9 @@ import {
   useContractWrite,
   useWaitForTransaction,
 } from 'wagmi'
-import { TransactionModalState } from '../../../stores/transactionModal'
+
 import abi from '@/contracts/erc20Abi'
-import { useEffect } from 'react'
+import { TransactionModalState } from '../../../stores/transactionModal'
 
 type ApproveProps = {
   state: TransactionModalState

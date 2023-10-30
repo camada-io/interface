@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import Image from 'next/image'
 import { useAccount } from 'wagmi'
+
 import { TransactionModalState } from '../../../stores/transactionModal'
 
 const appEnv = process.env.NEXT_PUBLIC_APP_ENV as 'production' | 'development'

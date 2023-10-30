@@ -30,6 +30,7 @@ export function useStake() {
         setIsAllowedChain(!isAllowedChain)
       }
     })()
+    // eslint-disable-next-line
   }, [connector])
 
   const { data: stakedBalance, isLoading: stakedBalanceLoading } =

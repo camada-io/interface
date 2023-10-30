@@ -37,7 +37,7 @@ export function UnstakeTab({ stakeProps }: { stakeProps: StakeProps }) {
 
       return acc
     }, 0)
-  }, [tier, amount])
+  }, [tier, amount, stakedBalance, allTiers])
 
   return !isLoading ? (
     <>

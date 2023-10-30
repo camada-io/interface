@@ -37,7 +37,7 @@ export function StakeTab({ stakeProps }: { stakeProps: StakeProps }) {
     const nextTier = allTiers.at(tier) as number
 
     return nextTier - stakedBalance
-  }, [tier])
+  }, [tier, allTiers, stakedBalance])
 
   return !isLoading ? (
     <>

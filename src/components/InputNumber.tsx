@@ -42,6 +42,7 @@ export function InputNumber({
       setAmount(+balance)
       !!onInputChange && onInputChange(+balance)
     }
+    // eslint-disable-next-line
   }, [])
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {

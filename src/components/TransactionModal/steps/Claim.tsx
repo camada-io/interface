@@ -28,6 +28,7 @@ export function Claim({ state, amount }: ApproveProps) {
 
   useEffect(() => {
     if (!amount) state.onClose()
+    // eslint-disable-next-line
   }, [])
 
   useEffect(() => {

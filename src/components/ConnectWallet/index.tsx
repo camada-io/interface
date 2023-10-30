@@ -1,11 +1,12 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import Modal from '../Modal'
 import Image from 'next/image'
 import { Connector, useConnect } from 'wagmi'
 import { useStore } from 'zustand'
+
 import { useConnectWallet } from '@/stores/connectWallet'
+import Modal from '../Modal'
 
 export function ConnectWallet() {
   const { connectors, connectAsync } = useConnect()
@@ -49,6 +50,7 @@ export function ConnectWallet() {
         }
       })
     }
+    // eslint-disable-next-line
   }, [])
 
   return (
