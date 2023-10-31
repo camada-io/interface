@@ -20,7 +20,7 @@ export default function Apply() {
         <div className="w-full h-full lg:h-[842px] flex-col justify-start items-end gap-6 inline-flex">
           <div className="max-w-[1240px] w-full justify-start items-center gap-6 inline-flex">
             <div className="h-[45px] w-[45px] pt-2 pb-[7px] bg-gray-600 rounded-[5px] border border-brandBlue-100 justify-center items-center flex">
-              <div className="text-sky-300 text-xl font-bold leading-[30px]">
+              <div className="text-brandBlue-100 text-xl font-bold leading-[30px]">
                 1
               </div>
             </div>
@@ -133,7 +133,7 @@ export default function Apply() {
           </div>
           <div className="max-w-[1240px] w-full justify-start items-center gap-6 inline-flex">
             <div className="h-[45px] w-[45px] pt-2 pb-[7px] bg-gray-600 rounded-[5px] border border-brandBlue-100 justify-center items-center flex">
-              <div className="text-sky-300 text-xl font-bold leading-[30px]">
+              <div className="text-brandBlue-100 text-xl font-bold leading-[30px]">
                 2
               </div>
             </div>
@@ -146,7 +146,7 @@ export default function Apply() {
           </div>
           <div className="max-w-[1240px] w-full justify-start items-center gap-6 inline-flex">
             <div className="h-[45px] w-[45px] pt-2 pb-[7px] bg-gray-600 rounded-[5px] border border-brandBlue-100 justify-center items-center flex">
-              <div className="text-sky-300 text-xl font-bold leading-[30px]">
+              <div className="text-brandBlue-100 text-xl font-bold leading-[30px]">
                 3
               </div>
             </div>
@@ -159,7 +159,7 @@ export default function Apply() {
           </div>
           <div className="max-w-[1240px] w-full justify-start items-center gap-6 inline-flex">
             <div className="h-[45px] w-[45px] pt-2 pb-[7px] bg-gray-600 rounded-[5px] border border-brandBlue-100 justify-center items-center flex">
-              <div className="text-sky-300 text-xl font-bold leading-[30px]">
+              <div className="text-brandBlue-100 text-xl font-bold leading-[30px]">
                 4
               </div>
             </div>
@@ -172,7 +172,7 @@ export default function Apply() {
           </div>
           <div className="max-w-[1240px] w-full justify-start items-center gap-6 inline-flex">
             <div className="h-[45px] w-[45px] pt-2 pb-[7px] bg-gray-600 rounded-[5px] border border-brandBlue-100 justify-center items-center flex">
-              <div className="text-sky-300 text-xl font-bold leading-[30px]">
+              <div className="text-brandBlue-100 text-xl font-bold leading-[30px]">
                 5
               </div>
             </div>
