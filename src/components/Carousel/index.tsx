@@ -4,9 +4,11 @@ import "swiper/css"
 import { Card } from "../Card"
 import { FreeMode, Navigation, Pagination } from "swiper/modules"
 import { RiArrowLeftSLine, RiArrowRightSLine } from "react-icons/ri"
-import { isMobile } from "@/utils/userAgent"
+import { useUA } from "@/hooks/useUA"
 
 export const Carousel = () => {
+  const { isMobile } = useUA()
+
   const slides = [
     {
       defaultImage: "/images/backgroundCardDefault.svg",
@@ -94,7 +96,6 @@ export const Carousel = () => {
             <Card
               defaultImage={card.defaultImage}
               typeBadge={1}
-              icon={""}
               maxWidth="398px"
               height="224px"
             />

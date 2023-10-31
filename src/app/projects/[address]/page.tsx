@@ -1,70 +1,135 @@
-/* eslint-disable prettier/prettier */
 "use client"
 
-import { PageHeader } from "@/components/PageHeader"
-import { GrMedium } from "react-icons/gr"
-import { FaGlobe, FaTelegramPlane, FaDiscord } from "react-icons/fa"
 import { RiFileCopyLine } from "react-icons/ri"
 import Link from "next/link"
 import Image from "next/image"
+import { notFound } from "next/navigation"
+import { useQuery } from "@apollo/client"
+import {
+  useAccount,
+  useContractRead,
+  Address,
+  erc20ABI,
+  // useContractWrite,
+} from "wagmi"
+import { useState } from "react"
+import dayjs from "dayjs"
+import LocalizedFormart from "dayjs/plugin/localizedFormat"
+
+import { useIsMobile } from "@/hooks/useIsMobile"
+import { PageHeader } from "@/components/PageHeader"
 import { Carousel } from "@/components/Carousel"
 import { InvestCard } from "@/components/InvestCard"
 import { CardProjectType } from "@/utils/constant"
-import { useIsMobile } from "@/hooks/useIsMobile"
 import { Card } from "@/components/Card"
+import { PROJECT } from "@/Apollo/queries/sales"
+import { IconNames, SocialIcon } from "../components/SocialIcon"
+import abi from "@/contracts/saleAbi"
 
-export default function Project({ params }: { params: { project: string } }) {
-  const getInfoProject = (project: string) => {
-    switch (project) {
-      case "pegasys":
-        return {
-          title: "PEGASYS",
-          description:
-            "Vulcano's metaverse! An NFT fighting game between light and darkness. These spheres engage in fierce fights constantly looking for power.",
-          image: "/images/backgroundCardDefault.svg",
-          icon: "/images/pegasysLogo.svg",
-        }
+const usdtContract = process.env.NEXT_PUBLIC_USDT_CONTRACT as Address
+const usdcContract = process.env.NEXT_PUBLIC_USDC_CONTRACT as Address
 
-      default:
-        return {
-          title: "PEGASYS",
-          description:
-            "Vulcano's metaverse! An NFT fighting game between light and darkness. These spheres engage in fierce fights constantly looking for power.",
-          image: "/images/backgroundCardDefault.svg",
-          icon: "/images/pegasysLogo.svg",
-        }
-    }
-  }
-  const project = getInfoProject(params.project)
+type Project = {
+  id: string
+  tokenName: string
+  tokenSymbol: string
+  icon: string
+  banner: string
+  status: string
+  saleProgress: number
+  categories: string[]
+  saleAmountUsd: number
+  description: string
+}
+
+type LinkType = {
+  [key in IconNames]: string
+}
+
+dayjs.extend(LocalizedFormart)
+
+export default function Project({ params }: { params: { address: string } }) {
   const isMobile = useIsMobile()
-  const tokensMock = [
-    { icon: "/images/usdc.svg", name: "USDC" },
-    { icon: "/images/usdt.svg", name: "USDT" },
+  const { address: account } = useAccount()
+  const [stableToken, setStableToken] = useState(usdcContract)
+
+  const stableTokens = [
+    { icon: "/images/usdc.svg", name: "USDC", address: usdcContract },
+    { icon: "/images/usdt.svg", name: "USDT", address: usdtContract },
   ]
 
-  return (
+  const { address } = params
+
+  const { data, loading } = useQuery(PROJECT, {
+    variables: { address },
+  })
+
+  const { data: projectBalance } = useContractRead({
+    address: address as Address,
+    abi: abi,
+    functionName: "getBoughtTokens",
+    args: [account as Address],
+    enabled: !!account && !!address,
+    watch: !!account && !!address,
+  })
+
+  const { data: stableTokenBalance } = useContractRead({
+    address: stableToken as Address,
+    abi: erc20ABI,
+    functionName: "balanceOf",
+    args: [account as Address],
+    enabled: !!account && !!stableToken,
+    watch: !!account && !!stableToken,
+  })
+
+  // const projectContract = useContractWrite({
+  //   address: address as Address,
+  //   abi: abi,
+  //   functionName: "buyToken",
+  // })
+
+  const project = data?.getSaleByAddress ?? null
+
+  if (!project && !loading) notFound()
+
+  return !loading && project ? (
     <>
       <PageHeader
-        title={project.title}
+        title={project.tokenName}
         description={isMobile ? undefined : project.description}
-        icon={project.icon}
-        symbol="PSYS"
+        icon={project.icon ?? "/images/icon_not_found.jpg"}
+        symbol={project.tokenSymbol}
       />
       <div className="flex flex-col py-32 gap-32 px-8 lg:px-0">
-        <div className="w-full lg:max-h-[331.23px] flex-col lg:flex-row h-full justify-center items-start gap-[60px]">
+        <div className="mx-auto flex w-full lg:max-h-[331.23px] flex-col lg:flex-row h-full justify-center items-start gap-[60px]">
           <div className="max-w-[590px] w-full h-[331.23px] rounded-[20px] flex-col justify-between items-start inline-flex">
             <Card
-              defaultImage={project.image}
-              typeBadge={2}
+              typeBadge={dayjs(project.closeTime).isAfter(dayjs()) ? 1 : 2}
               maxWidth="590px"
               height={isMobile ? "224px" : "331.23px"}
-              icon={project.icon}
+              data={project}
             />
           </div>
 
           <InvestCard
-            type={CardProjectType.REFUND}
-            tokens={tokensMock}
+            type={CardProjectType.INVEST}
+            tokens={stableTokens}
+            projectTokenName={project.tokenName}
+            projectTokenSymbol={project.tokenSymbol}
+            projectBalance={projectBalance ? `${Number(projectBalance)}` : "0"}
+            stableTokenBalance={
+              stableTokenBalance ? `${Number(stableTokenBalance) / 1e18}` : "0"
+            }
+            projectPrice={project.averageUSDPrice}
+            investHandle={
+              () => {}
+              // projectContract.write({
+              //   args: [stableToken, parseEther((1).toString())],
+              // })
+            }
+            onSelectToken={(token) =>
+              token?.address && setStableToken(token.address as Address)
+            }
             isLoading={false}
           />
         </div>
@@ -76,25 +141,7 @@ export default function Project({ params }: { params: { project: string } }) {
                 About the project
               </div>
               <div className="self-stretch text-white text-base font-normal leading-relaxed">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-                in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-                nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-                sunt in culpa qui officia deserunt mollit anim id est laborum.
-              </div>
-              <div className="self-stretch text-brandBlue-200 text-2xl font-extrabold leading-10">
-                Subtitle
-              </div>
-              <div className="self-stretch text-white text-base font-normal leading-relaxed">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-                in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-                nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-                sunt in culpa qui officia deserunt mollit anim id est laborum.
+                {project.about}
               </div>
             </div>
             <div className="flex-col justify-end items-start gap-6 inline-flex">
@@ -104,7 +151,7 @@ export default function Project({ params }: { params: { project: string } }) {
                     Token name
                   </div>
                   <div className="text-white text-base font-normal leading-relaxed">
-                    Pegasys
+                    {project.tokenName}
                   </div>
                 </div>
                 <div className="self-stretch justify-between items-center inline-flex">
@@ -112,7 +159,7 @@ export default function Project({ params }: { params: { project: string } }) {
                     Token symbol
                   </div>
                   <div className="text-white text-base font-normal leading-relaxed">
-                    SYS
+                    {project.tokenSymbol}
                   </div>
                 </div>
                 <div className="self-stretch py-2 justify-between items-center inline-flex">
@@ -127,7 +174,8 @@ export default function Project({ params }: { params: { project: string } }) {
                       <Image src="../images/favicon.svg" alt="symbol" fill />
                     </div>
                     <div className="text-white text-base font-normal leading-relaxed">
-                      0x10...566a
+                      {project.tokenAddress.slice(0, 4)}...
+                      {project.tokenAddress.slice(-4)}
                     </div>
                     <button className="w-4 h-4 justify-center items-center flex">
                       <RiFileCopyLine size={16} />
@@ -143,7 +191,8 @@ export default function Project({ params }: { params: { project: string } }) {
                       <Image src="../images/favicon.svg" alt="symbol" fill />
                     </div>
                     <div className="text-white text-base font-normal leading-relaxed">
-                      0x55...ab21
+                      {project.address.slice(0, 4)}...
+                      {project.address.slice(-4)}
                     </div>
                     <button className="w-4 h-4 justify-center items-center flex">
                       <RiFileCopyLine size={16} />
@@ -158,7 +207,7 @@ export default function Project({ params }: { params: { project: string } }) {
                     Private sale rate
                   </div>
                   <div className="text-white text-base font-normal leading-relaxed">
-                    20 USD
+                    {project.averageUSDPrice} USD
                   </div>
                 </div>
                 <div className="self-stretch justify-between items-center inline-flex">
@@ -166,7 +215,7 @@ export default function Project({ params }: { params: { project: string } }) {
                     Estimated legend
                   </div>
                   <div className="text-white text-base font-normal leading-relaxed">
-                    Dec. 15, 2023
+                    {dayjs(project.endTime).format("ll")}
                   </div>
                 </div>
                 <div className="self-stretch py-2 justify-between items-center inline-flex">
@@ -200,47 +249,20 @@ export default function Project({ params }: { params: { project: string } }) {
                 Keep in touch
               </div>
               <div className="self-stretch justify-center items-center gap-6 inline-flex">
-                <Link
-                  href={"/"}
-                  className="w-[47.50px] h-[47.50px] relative bg-brandBlue-100 rounded-[100px] justify-center items-center"
-                >
-                  <FaGlobe size={27.4} />
-                </Link>
-                <Link
-                  href={"/"}
-                  className="w-[47.50px] h-[47.50px] relative bg-brandBlue-100 rounded-[100px] justify-center items-center"
-                >
-                  <svg
-                    width="27.4"
-                    height="27.4"
-                    viewBox="0 0 26 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M0.0612323 0L9.77692 13.2374L0 24H2.20057L10.7604 14.5769L17.6763 24H25.1644L14.9019 10.0182L24.0023 0H21.8017L13.9188 8.67818L7.54933 0H0.0612323ZM3.29726 1.65155H6.73726L21.928 22.3484H18.488L3.29726 1.65155Z"
-                      fill="white"
-                    />
-                  </svg>
-                </Link>
-                <Link
-                  href={"/"}
-                  className="w-[47.50px] h-[47.50px] relative bg-brandBlue-100 rounded-[100px] justify-center items-center"
-                >
-                  <FaDiscord size={27.4} />
-                </Link>
-                <Link
-                  href={"/"}
-                  className="w-[47.50px] h-[47.50px] relative bg-brandBlue-100 rounded-[100px] justify-center items-center"
-                >
-                  <GrMedium size={27.4} />
-                </Link>
-                <Link
-                  href={"/"}
-                  className="w-[47.50px] h-[47.50px] relative bg-brandBlue-100 rounded-[100px] justify-center items-center"
-                >
-                  <FaTelegramPlane size={27.4} />
-                </Link>
+                {Object.entries(project.socialLinks as LinkType).map(
+                  ([key, value]) => {
+                    if (value)
+                      return (
+                        <Link
+                          key={key}
+                          href={value}
+                          className="flex w-[47.50px] h-[47.50px] relative bg-brandBlue-100 rounded-[100px] justify-center items-center"
+                        >
+                          <SocialIcon name={key as IconNames} />
+                        </Link>
+                      )
+                  },
+                )}
               </div>
             </div>
           </div>
@@ -253,7 +275,7 @@ export default function Project({ params }: { params: { project: string } }) {
                     Token name
                   </div>
                   <div className="text-white text-base font-normal leading-relaxed">
-                    Pegasys
+                    {project.tokenName}
                   </div>
                 </div>
                 <div className="self-stretch justify-between items-center inline-flex">
@@ -261,7 +283,7 @@ export default function Project({ params }: { params: { project: string } }) {
                     Token symbol
                   </div>
                   <div className="text-white text-base font-normal leading-relaxed">
-                    SYS
+                    {project.tokenSymbol}
                   </div>
                 </div>
                 <div className="self-stretch py-2 justify-between items-center inline-flex">
@@ -276,7 +298,8 @@ export default function Project({ params }: { params: { project: string } }) {
                       <Image src="../images/favicon.svg" alt="symbol" fill />
                     </div>
                     <div className="text-white text-base font-normal leading-relaxed">
-                      0x10...566a
+                      {project.tokenAddress.slice(0, 4)}...
+                      {project.tokenAddress.slice(-4)}
                     </div>
                     <button className="w-4 h-4 justify-center items-center flex">
                       <RiFileCopyLine size={16} />
@@ -292,7 +315,8 @@ export default function Project({ params }: { params: { project: string } }) {
                       <Image src="../images/favicon.svg" alt="symbol" fill />
                     </div>
                     <div className="text-white text-base font-normal leading-relaxed">
-                      0x55...ab21
+                      {project.address.slice(0, 4)}...
+                      {project.address.slice(-4)}
                     </div>
                     <button className="w-4 h-4 justify-center items-center flex">
                       <RiFileCopyLine size={16} />
@@ -307,7 +331,7 @@ export default function Project({ params }: { params: { project: string } }) {
                     Private sale rate
                   </div>
                   <div className="text-white text-base font-normal leading-relaxed">
-                    20 USD
+                    {project.averageUSDPrice} USD
                   </div>
                 </div>
                 <div className="self-stretch justify-between items-center inline-flex">
@@ -315,7 +339,7 @@ export default function Project({ params }: { params: { project: string } }) {
                     Estimated legend
                   </div>
                   <div className="text-white text-base font-normal leading-relaxed">
-                    Dec. 15, 2023
+                    {dayjs(project.endTime).format("ll")}
                   </div>
                 </div>
                 <div className="self-stretch py-2 justify-between items-center inline-flex">
@@ -349,47 +373,20 @@ export default function Project({ params }: { params: { project: string } }) {
                 Keep in touch
               </div>
               <div className="self-stretch justify-center items-center gap-6 inline-flex">
-                <Link
-                  href={"/"}
-                  className="w-[47.50px] h-[47.50px] relative bg-brandBlue-100 rounded-[100px] justify-center items-center"
-                >
-                  <FaGlobe size={27.4} />
-                </Link>
-                <Link
-                  href={"/"}
-                  className="w-[47.50px] h-[47.50px] relative bg-brandBlue-100 rounded-[100px] justify-center items-center"
-                >
-                  <svg
-                    width="27.4"
-                    height="27.4"
-                    viewBox="0 0 26 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M0.0612323 0L9.77692 13.2374L0 24H2.20057L10.7604 14.5769L17.6763 24H25.1644L14.9019 10.0182L24.0023 0H21.8017L13.9188 8.67818L7.54933 0H0.0612323ZM3.29726 1.65155H6.73726L21.928 22.3484H18.488L3.29726 1.65155Z"
-                      fill="white"
-                    />
-                  </svg>
-                </Link>
-                <Link
-                  href={"/"}
-                  className="w-[47.50px] h-[47.50px] relative bg-brandBlue-100 rounded-[100px] justify-center items-center"
-                >
-                  <FaDiscord size={27.4} />
-                </Link>
-                <Link
-                  href={"/"}
-                  className="w-[47.50px] h-[47.50px] relative bg-brandBlue-100 rounded-[100px] justify-center items-center"
-                >
-                  <GrMedium size={27.4} />
-                </Link>
-                <Link
-                  href={"/"}
-                  className="w-[47.50px] h-[47.50px] relative bg-brandBlue-100 rounded-[100px] justify-center items-center"
-                >
-                  <FaTelegramPlane size={27.4} />
-                </Link>
+                {Object.entries(project.socialLinks as LinkType).map(
+                  ([key, value]) => {
+                    if (value)
+                      return (
+                        <Link
+                          key={key}
+                          href={value}
+                          className="flex w-[47.50px] h-[47.50px] relative bg-brandBlue-100 rounded-[100px] justify-center items-center"
+                        >
+                          <SocialIcon name={key as IconNames} />
+                        </Link>
+                      )
+                  },
+                )}
               </div>
             </div>
             <div className="w-[590px] flex-col justify-start items-center gap-6 inline-flex">
@@ -397,25 +394,7 @@ export default function Project({ params }: { params: { project: string } }) {
                 About the project
               </div>
               <div className="self-stretch text-white text-base font-normal leading-relaxed">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-                in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-                nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-                sunt in culpa qui officia deserunt mollit anim id est laborum.
-              </div>
-              <div className="self-stretch text-brandBlue-200 text-2xl font-extrabold leading-10">
-                Subtitle
-              </div>
-              <div className="self-stretch text-white text-base font-normal leading-relaxed">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-                in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-                nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-                sunt in culpa qui officia deserunt mollit anim id est laborum.
+                {project.about}
               </div>
             </div>
           </div>
@@ -429,5 +408,5 @@ export default function Project({ params }: { params: { project: string } }) {
         </div>
       </div>
     </>
-  )
+  ) : null
 }

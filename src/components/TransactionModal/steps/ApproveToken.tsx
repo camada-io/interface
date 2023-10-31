@@ -1,17 +1,17 @@
-'use client'
+"use client"
 
-import { useEffect } from 'react'
-import { parseEther } from 'ethers'
-import Image from 'next/image'
+import { useEffect } from "react"
+import { parseEther } from "ethers"
+import Image from "next/image"
 import {
   useAccount,
   useContractRead,
   useContractWrite,
   useWaitForTransaction,
-} from 'wagmi'
+} from "wagmi"
 
-import abi from '@/contracts/erc20Abi'
-import { TransactionModalState } from '../../../stores/transactionModal'
+import abi from "@/contracts/erc20Abi"
+import { TransactionModalState } from "../../../stores/transactionModal"
 
 type ApproveProps = {
   state: TransactionModalState
@@ -29,7 +29,7 @@ export function ApproveToken({ state, amount }: ApproveProps) {
   const { data: allowance } = useContractRead({
     address: tokenAdress,
     abi,
-    functionName: 'allowance',
+    functionName: "allowance",
     args: [address as Address, contractAddres],
     enabled: !!address,
     watch: !!address,
@@ -38,7 +38,7 @@ export function ApproveToken({ state, amount }: ApproveProps) {
   const approve = useContractWrite({
     address: tokenAdress,
     abi,
-    functionName: 'approve',
+    functionName: "approve",
   })
 
   const transaction = useWaitForTransaction({
@@ -51,13 +51,13 @@ export function ApproveToken({ state, amount }: ApproveProps) {
 
   useEffect(() => {
     if (transaction.isSuccess) {
-      setTimeout(() => state.dispatchStep({ type: 'NEXT_STEP' }), 2000)
+      setTimeout(() => state.dispatchStep({ type: "NEXT_STEP" }), 2000)
     }
   }, [transaction.isSuccess, state])
 
   useEffect(() => {
     if (parseNumber(allowance) >= amount) {
-      state.dispatchStep({ type: 'NEXT_STEP' })
+      state.dispatchStep({ type: "NEXT_STEP" })
     }
   }, [allowance, amount, state])
 
@@ -74,12 +74,12 @@ export function ApproveToken({ state, amount }: ApproveProps) {
               width={70}
               height={70}
               alt=""
-              src={'/images/loader.svg'}
+              src={"/images/loader.svg"}
             />
           </div>
         ) : transaction.isSuccess ? (
           <div className=" w-70 h-70 mx-auto">
-            <Image width={70} height={70} alt="" src={'/images/check.svg'} />
+            <Image width={70} height={70} alt="" src={"/images/check.svg"} />
           </div>
         ) : (
           <p className="my-4">

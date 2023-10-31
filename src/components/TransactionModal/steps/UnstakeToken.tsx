@@ -1,12 +1,12 @@
-'use client'
+"use client"
 
-import { parseEther } from 'ethers'
-import { useEffect } from 'react'
-import Image from 'next/image'
-import { useContractWrite, useWaitForTransaction } from 'wagmi'
+import { parseEther } from "ethers"
+import { useEffect } from "react"
+import Image from "next/image"
+import { useContractWrite, useWaitForTransaction } from "wagmi"
 
-import abi from '@/contracts/stakeAbi'
-import { TransactionModalState } from '../../../stores/transactionModal'
+import abi from "@/contracts/stakeAbi"
+import { TransactionModalState } from "../../../stores/transactionModal"
 
 type ApproveProps = {
   state: TransactionModalState
@@ -21,7 +21,7 @@ export function UnstakeToken({ state, amount }: ApproveProps) {
   const unstake = useContractWrite({
     address: contractAddres,
     abi: abi,
-    functionName: 'withdraw',
+    functionName: "withdraw",
   })
 
   const transaction = useWaitForTransaction({
@@ -49,7 +49,7 @@ export function UnstakeToken({ state, amount }: ApproveProps) {
           <p>Unstaking amount</p>
 
           <div className="flex items-start gap-[10px]">
-            <Image width={30} height={30} alt="" src={'/images/spad.png'} />
+            <Image width={30} height={30} alt="" src={"/images/spad.png"} />
             <p>{amount} SPAD</p>
           </div>
         </div>
@@ -61,12 +61,12 @@ export function UnstakeToken({ state, amount }: ApproveProps) {
               width={70}
               height={70}
               alt=""
-              src={'/images/loader.svg'}
+              src={"/images/loader.svg"}
             />
           </div>
         ) : transaction.isSuccess ? (
           <div className="w-70 h-70 mx-auto">
-            <Image width={70} height={70} alt="" src={'/images/check.svg'} />
+            <Image width={70} height={70} alt="" src={"/images/check.svg"} />
           </div>
         ) : null}
 

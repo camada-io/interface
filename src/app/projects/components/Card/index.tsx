@@ -1,5 +1,6 @@
-import Image from 'next/image'
-import { Tag, TagProject } from '@/components/Tag'
+import Image from "next/image"
+import { Tag, TagProject } from "@/components/Tag"
+
 type Project = {
   id: string
   tokenName: string
@@ -14,9 +15,9 @@ type Project = {
 
 export const Card = ({ project }: { project: Project }) => {
   const formatCurrency = (value: number) => {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
       minimumFractionDigits: 0,
       maximumFractionDigits: 0,
     }).format(value)
@@ -24,11 +25,11 @@ export const Card = ({ project }: { project: Project }) => {
 
   const statusNameToNumber = (tag: string) => {
     switch (tag) {
-      case 'On going':
+      case "On going":
         return 1
-      case 'Coming soon':
+      case "Coming soon":
         return 2
-      case 'Finished':
+      case "Finished":
         return 3
       default:
         return 0
@@ -37,13 +38,13 @@ export const Card = ({ project }: { project: Project }) => {
 
   const categoryNameToNumber = (tag: string) => {
     switch (tag) {
-      case 'DeFi':
+      case "DeFi":
         return 1
-      case 'Finance':
+      case "Finance":
         return 2
-      case 'SDK':
+      case "SDK":
         return 3
-      case 'Tooling':
+      case "Tooling":
         return 4
       default:
         return 0
@@ -55,7 +56,7 @@ export const Card = ({ project }: { project: Project }) => {
       className="flex flex-col w-full w-[310px] lg:max-w-[480px] h-[224px] bg-no-repeat pt-6 bg-cover rounded-[20px] justify-between"
       style={{
         backgroundImage: `url(${
-          project.banner || '/images/backgroundCardDefault.svg'
+          project.banner || "/images/backgroundCardDefault.svg"
         })`,
       }}
     >
@@ -68,7 +69,7 @@ export const Card = ({ project }: { project: Project }) => {
       <div className="flex flex-col p-6 h-32 backdrop-blur-sm bg-opacity-50 rounded-tr-[100px] rounded-bl-[20px] rounded-br-[20px] bg-gray-650 gap-2">
         <div className="max-w-max pl-2 pr-5 h-7 flex bg-whiteAlpha-500 rounded-[100px] backdrop-blur-sm justify-start items-center gap-2">
           <Image
-            src={project?.icon || '/images/icon_not_found.jpg'}
+            src={project?.icon || "/images/icon_not_found.jpg"}
             alt="heroImage"
             width={20}
             height={20}

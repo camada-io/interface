@@ -1,31 +1,31 @@
-'use client'
+"use client"
 
-import { useCallback, useState } from 'react'
-import { useQuery } from '@apollo/client'
-import { FaThList } from 'react-icons/fa'
-import { BsGrid3X3GapFill } from 'react-icons/bs'
-import { FiSearch } from 'react-icons/fi'
+import { useCallback, useState } from "react"
+import { useQuery } from "@apollo/client"
+import { FaThList } from "react-icons/fa"
+import { BsGrid3X3GapFill } from "react-icons/bs"
+import { FiSearch } from "react-icons/fi"
 
-import { PageHeader } from '@/components/PageHeader'
-import { ProjectList } from './components/projectList'
-import { PROJECTS } from '@/Apollo/queries/sales'
+import { PageHeader } from "@/components/PageHeader"
+import { ProjectList } from "./components/projectList"
+import { PROJECTS } from "@/Apollo/queries/sales"
 
 type Sort = {
   name: string
-  order: 'asc' | 'desc'
+  order: "asc" | "desc"
 }
 
 export default function Projects() {
   const [selectedStatus, setSelectedStatus] = useState<string[]>([])
   const [selectedCategory, setSelectedCategory] = useState<string[]>([])
-  const [selectedView, setSelectedView] = useState<'list' | 'grid'>('list')
+  const [selectedView, setSelectedView] = useState<"list" | "grid">("list")
   const [sortList, setSortList] = useState<Sort[]>([])
-  const [searchValue, setSearchValue] = useState('')
+  const [searchValue, setSearchValue] = useState("")
 
   let timer: ReturnType<typeof setTimeout>
 
   const { data } = useQuery(PROJECTS, {
-    fetchPolicy: 'no-cache',
+    fetchPolicy: "no-cache",
     variables: {
       active: true,
       search: searchValue,
@@ -35,8 +35,8 @@ export default function Projects() {
     },
   })
 
-  const statusList = ['On going', 'Coming soon', 'Finished']
-  const categoryList = ['DeFi', 'Finance', 'SDK', 'Tooling']
+  const statusList = ["On going", "Coming soon", "Finished"]
+  const categoryList = ["DeFi", "Finance", "SDK", "Tooling"]
 
   const addSortToList = useCallback((sort: Sort) => {
     setSortList((prev) => {
@@ -75,7 +75,7 @@ export default function Projects() {
                     <li
                       className={`w-max cursor-pointer border border-whiteAlpha-300 py-[2px] px-[16px] bg-gray-600 rounded-[100px] ${
                         isStatusChecked(status) &&
-                        '!border-brandBlue-100 !bg-whiteAlpha-300'
+                        "!border-brandBlue-100 !bg-whiteAlpha-300"
                       }`}
                       key={status}
                     >
@@ -108,7 +108,7 @@ export default function Projects() {
                     <li
                       className={`cursor-pointer border border-whiteAlpha-300 py-[2px] px-[16px] bg-gray-600 rounded-[100px] ${
                         isCategoryChecked(category) &&
-                        '!border-brandBlue-100 !bg-whiteAlpha-300'
+                        "!border-brandBlue-100 !bg-whiteAlpha-300"
                       }`}
                       key={category}
                     >
@@ -139,29 +139,29 @@ export default function Projects() {
               <div className="flex">
                 <button
                   className={`border border-whiteAlpha-300 py-[4.5px] px-[16px] bg-gray-600 rounded-[100px] rounded-r-[0px] ${
-                    selectedView === 'list' &&
-                    '!border-brandBlue-100 !bg-whiteAlpha-300'
+                    selectedView === "list" &&
+                    "!border-brandBlue-100 !bg-whiteAlpha-300"
                   }`}
-                  onClick={() => setSelectedView('list')}
+                  onClick={() => setSelectedView("list")}
                 >
                   <FaThList
                     size={20}
                     className={`${
-                      selectedView === 'list' && 'text-brandBlue-100'
+                      selectedView === "list" && "text-brandBlue-100"
                     }`}
                   />
                 </button>
                 <button
                   className={`border border-whiteAlpha-300 py-[2px] px-[16px] bg-gray-600 rounded-[100px] rounded-l-[0px] ${
-                    selectedView === 'grid' &&
-                    '!border-brandBlue-100 !bg-whiteAlpha-300'
+                    selectedView === "grid" &&
+                    "!border-brandBlue-100 !bg-whiteAlpha-300"
                   }`}
-                  onClick={() => setSelectedView('grid')}
+                  onClick={() => setSelectedView("grid")}
                 >
                   <BsGrid3X3GapFill
                     size={20}
                     className={`${
-                      selectedView === 'grid' && 'text-brandBlue-100'
+                      selectedView === "grid" && "text-brandBlue-100"
                     }`}
                   />
                 </button>

@@ -1,12 +1,12 @@
-'use client'
+"use client"
 
-import { parseEther } from 'ethers'
-import Image from 'next/image'
-import { useEffect } from 'react'
-import { useContractWrite, useWaitForTransaction } from 'wagmi'
+import { parseEther } from "ethers"
+import Image from "next/image"
+import { useEffect } from "react"
+import { useContractWrite, useWaitForTransaction } from "wagmi"
 
-import { TransactionModalState } from '../../../stores/transactionModal'
-import abi from '@/contracts/stakeAbi'
+import { TransactionModalState } from "../../../stores/transactionModal"
+import abi from "@/contracts/stakeAbi"
 
 type ApproveProps = {
   state: TransactionModalState
@@ -21,7 +21,7 @@ export function StakeToken({ state, amount }: ApproveProps) {
   const stake = useContractWrite({
     address: contractAddres,
     abi: abi,
-    functionName: 'stake',
+    functionName: "stake",
   })
 
   const transaction = useWaitForTransaction({
@@ -58,7 +58,7 @@ export function StakeToken({ state, amount }: ApproveProps) {
                     width={20}
                     height={20}
                     alt=""
-                    src={'/images/spad.png'}
+                    src={"/images/spad.png"}
                   />
                   <p>{amount} sPAD</p>
                 </div>
@@ -74,12 +74,12 @@ export function StakeToken({ state, amount }: ApproveProps) {
               width={70}
               height={70}
               alt=""
-              src={'/images/loader.svg'}
+              src={"/images/loader.svg"}
             />
           </div>
         ) : transaction.isSuccess ? (
           <div className="w-70 h-70 mx-auto">
-            <Image width={70} height={70} alt="" src={'/images/check.svg'} />
+            <Image width={70} height={70} alt="" src={"/images/check.svg"} />
           </div>
         ) : null}
 

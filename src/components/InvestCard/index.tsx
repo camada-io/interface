@@ -1,5 +1,8 @@
 "use client"
+
+import { useState } from "react"
 import Image from "next/image"
+
 import { InputNumber } from "../InputNumber"
 import { CardProjectType } from "@/utils/constant"
 import { Loading } from "../Loading"
@@ -17,6 +20,13 @@ type Props = {
   claimHandle?: () => void
   refundHandle?: () => void
   isLoading?: boolean
+  projectTokenName?: string
+  projectTokenSymbol?: string
+  projectTokenIcon?: string
+  projectBalance?: string
+  projectPrice?: number
+  stableTokenBalance?: string
+  onSelectToken?: (token: Token) => void
 }
 
 export const InvestCard = ({
@@ -26,7 +36,16 @@ export const InvestCard = ({
   claimHandle,
   refundHandle,
   isLoading = false,
+  projectTokenName,
+  projectTokenSymbol,
+  projectTokenIcon,
+  projectBalance,
+  stableTokenBalance,
+  onSelectToken,
+  projectPrice,
 }: Props) => {
+  const [amount, setAmount] = useState(0)
+
   const Button = ({ text, handle }: { text: string; handle: () => void }) => {
     return (
       <button
@@ -47,38 +66,53 @@ export const InvestCard = ({
       <div className="max-w-[590px] w-full p-6 bg-gray-650 backdrop-blur-sm rounded-[10px] flex-col justify-start items-start gap-6 inline-flex">
         <div className="self-stretch justify-between items-start lg:items-center inline-flex flex-col lg:flex-row">
           <div className="text-white text-lg font-bold leading-7">
-            Invest on Pegasys
+            {projectTokenName && `Invest on ${projectTokenName}`}
           </div>
           <div className="h-6 w-full justify-between lg:justify-end items-center gap-2 flex">
             <div className="text-white text-sm font-medium leading-normal">
               Your current allocation:
             </div>
 
-            <div className="flex">
+            <div className="flex gap-2">
               <div className="w-6 h-6 relative flex justify-center items-center">
-                <Image src="../images/favicon.svg" alt="symbol" fill />
+                <Image
+                  src={projectTokenIcon ?? "/images/icon_not_found.jpg"}
+                  alt="symbol"
+                  fill
+                  className="rounded-full"
+                />
               </div>
-              <div className="text-white text-sm font-medium leading-normal">
-                5 PSYS
+              <div className="text-white text-md font-medium leading-normal">
+                {projectBalance ?? 0} {projectTokenSymbol}
               </div>
             </div>
           </div>
         </div>
-        <InputNumber balance={"1"} tokens={tokens} />
+        <InputNumber
+          balance={stableTokenBalance ?? 0}
+          tokens={tokens}
+          onSelectToken={onSelectToken}
+          onInputChange={setAmount}
+        />
         <div className="self-stretch justify-between items-start inline-flex">
           <div className="text-white text-base font-normal leading-relaxed">
             You will receive
           </div>
           <div className="h-[26px] justify-end items-center gap-2 flex">
             <div className="w-6 h-6 relative flex justify-center items-center">
-              <Image src="../images/favicon.svg" alt="symbol" fill />
+              <Image
+                src={projectTokenIcon ?? "/images/icon_not_found.jpg"}
+                alt="symbol"
+                fill
+                className="rounded-full"
+              />
             </div>
             <div className="text-white text-base font-normal leading-relaxed">
-              10 PSYS
+              {projectPrice ? amount / projectPrice : 0} {projectTokenSymbol}
             </div>
           </div>
         </div>
-        <Button text={"Invest now"} handle={() => investHandle} />
+        <Button text={"Invest now"} handle={() => investHandle?.()} />
       </div>
     )
   if (type === CardProjectType.CLAIM)

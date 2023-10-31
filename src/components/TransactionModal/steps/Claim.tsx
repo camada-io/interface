@@ -1,10 +1,10 @@
-'use client'
+"use client"
 
-import Image from 'next/image'
-import { useContractWrite, useWaitForTransaction } from 'wagmi'
-import { TransactionModalState } from '../../../stores/transactionModal'
-import abi from '@/contracts/stakeAbi'
-import { useEffect } from 'react'
+import Image from "next/image"
+import { useContractWrite, useWaitForTransaction } from "wagmi"
+import { TransactionModalState } from "../../../stores/transactionModal"
+import abi from "@/contracts/stakeAbi"
+import { useEffect } from "react"
 
 type ApproveProps = {
   state: TransactionModalState
@@ -19,7 +19,7 @@ export function Claim({ state, amount }: ApproveProps) {
   const claim = useContractWrite({
     address: contractAddres,
     abi: abi,
-    functionName: 'getReward',
+    functionName: "getReward",
   })
 
   const transaction = useWaitForTransaction({
@@ -56,7 +56,7 @@ export function Claim({ state, amount }: ApproveProps) {
                     width={20}
                     height={20}
                     alt=""
-                    src={'/images/spad.png'}
+                    src={"/images/spad.png"}
                   />
                   <p>{amount} sPAD</p>
                 </div>
@@ -76,12 +76,12 @@ export function Claim({ state, amount }: ApproveProps) {
               width={70}
               height={70}
               alt=""
-              src={'/images/loader.svg'}
+              src={"/images/loader.svg"}
             />
           </div>
         ) : transaction.isSuccess ? (
           <div className="w-70 h-70 mx-auto">
-            <Image width={70} height={70} alt="" src={'/images/check.svg'} />
+            <Image width={70} height={70} alt="" src={"/images/check.svg"} />
           </div>
         ) : null}
 

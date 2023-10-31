@@ -1,9 +1,11 @@
-import { BsFilterLeft } from 'react-icons/bs'
-import { ItemList } from './itemList'
-import { Card } from './Card'
+import { BsFilterLeft } from "react-icons/bs"
+import { ItemList } from "./itemList"
+import { Card } from "./Card"
+import Link from "next/link"
 
 type Project = {
   id: string
+  address: string
   tokenName: string
   tokenSymbol: string
   icon: string
@@ -19,8 +21,8 @@ type ProjectListProps = {
   pageInfo?: { hasNextPage: boolean; hasPreviousPage: boolean }
   status: string[]
   categories: string[]
-  view: 'grid' | 'list'
-  onOrderChange?: (order: { name: string; order: 'asc' | 'desc' }) => void
+  view: "grid" | "list"
+  onOrderChange?: (order: { name: string; order: "asc" | "desc" }) => void
 }
 
 export function ProjectList({
@@ -33,20 +35,20 @@ export function ProjectList({
     event: React.MouseEvent<HTMLDivElement> & { target: HTMLDivElement },
   ) => {
     const { target } = event
-    const orderData = target.getAttribute('data-order')
-    const orderName = target.getAttribute('data-order-name')
+    const orderData = target.getAttribute("data-order")
+    const orderName = target.getAttribute("data-order-name")
 
     if (!onOrderChange || !orderName) return
 
     if (!orderData) {
-      target.setAttribute('data-order', 'asc')
-      onOrderChange({ name: orderName, order: 'asc' })
+      target.setAttribute("data-order", "asc")
+      onOrderChange({ name: orderName, order: "asc" })
       return
     }
 
-    const order = orderData === 'desc' ? 'asc' : 'desc'
+    const order = orderData === "desc" ? "asc" : "desc"
 
-    target.setAttribute('data-order', order)
+    target.setAttribute("data-order", order)
 
     onOrderChange({ name: orderName, order })
   }
@@ -55,10 +57,10 @@ export function ProjectList({
     <>
       <div
         className={`flex w-full bg-gray-600 flex-col rounded-[20px] max-[639px]:bg-transparent ${
-          view === 'grid' ? 'bg-transparent spa' : ''
+          view === "grid" ? "bg-transparent spa" : ""
         }`}
       >
-        {view === 'list' && (
+        {view === "list" && (
           <div className="flex w-full gap-4 items-center p-4 font-bold text-[16px] rounded-t-[20px] bg-gray-600 max-[639px]:hidden">
             <div className="flex w-full">
               <p>Project</p>
@@ -107,18 +109,20 @@ export function ProjectList({
 
         <div
           className={`${
-            view === 'grid'
-              ? 'grid grid-auto-cols-[minmax(0,1fr)]  sm:grid-cols-3 gap-4'
-              : 'flex-col flex max-[639px]:gap-10'
+            view === "grid"
+              ? "grid grid-auto-cols-[minmax(0,1fr)]  sm:grid-cols-3 gap-4"
+              : "flex-col flex max-[639px]:gap-10"
           }`}
         >
-          {view === 'list'
+          {view === "list"
             ? projects.map((project) => (
                 <ItemList key={project.id} project={project} />
               ))
-            : view === 'grid'
+            : view === "grid"
             ? projects.map((project) => (
-                <Card key={project.id} project={project} />
+                <Link key={project.id} href={`/projects/${project.address}`}>
+                  <Card project={project} />
+                </Link>
               ))
             : null}
         </div>

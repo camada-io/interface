@@ -4,11 +4,11 @@ import {
   cloneElement,
   useCallback,
   useEffect,
-} from 'react'
-import { XMarkIcon } from '@heroicons/react/24/solid'
+} from "react"
+import { XMarkIcon } from "@heroicons/react/24/solid"
 
-import Modal from '../Modal'
-import { useTransactionModal } from '@/stores/transactionModal'
+import Modal from "../Modal"
+import { useTransactionModal } from "@/stores/transactionModal"
 
 type TransactionModalProps = {
   children: React.ReactNode
@@ -20,7 +20,7 @@ export function TransactionModal({ children }: TransactionModalProps) {
   const steps = Children.toArray(children) as React.ReactElement[]
 
   useEffect(() => {
-    dispatchStep({ type: 'SET_MAX_STEP', payload: steps.length })
+    dispatchStep({ type: "SET_MAX_STEP", payload: steps.length })
     // eslint-disable-next-line
   }, [])
 

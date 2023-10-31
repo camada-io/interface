@@ -1,9 +1,10 @@
-import { Tag, TagProject } from '@/components/Tag'
-import Image from 'next/image'
-import Link from 'next/link'
+import { Tag, TagProject } from "@/components/Tag"
+import Image from "next/image"
+import Link from "next/link"
 
 type Project = {
   id: string
+  address: string
   tokenName: string
   tokenSymbol: string
   icon: string
@@ -16,9 +17,9 @@ type Project = {
 
 export function ItemList({ project }: { project: Project }) {
   const formatCurrency = (value: number) => {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
       minimumFractionDigits: 0,
       maximumFractionDigits: 0,
     }).format(value)
@@ -26,11 +27,11 @@ export function ItemList({ project }: { project: Project }) {
 
   const statusNameToNumber = (tag: string) => {
     switch (tag) {
-      case 'On going':
+      case "On going":
         return 1
-      case 'Coming soon':
+      case "Coming soon":
         return 2
-      case 'Finished':
+      case "Finished":
         return 3
       default:
         return 0
@@ -39,13 +40,13 @@ export function ItemList({ project }: { project: Project }) {
 
   const categoryNameToNumber = (tag: string) => {
     switch (tag) {
-      case 'DeFi':
+      case "DeFi":
         return 1
-      case 'Finance':
+      case "Finance":
         return 2
-      case 'SDK':
+      case "SDK":
         return 3
-      case 'Tooling':
+      case "Tooling":
         return 4
       default:
         return 0
@@ -53,11 +54,11 @@ export function ItemList({ project }: { project: Project }) {
   }
 
   return (
-    <Link href={`/projects/${project.tokenName.toLowerCase()}`}>
+    <Link href={`/projects/${project.address}`}>
       <div className="flex w-full backdrop-blur-sm bh-gray-600 gap-4 items-center p-4 border-b border-dashed border-b-whiteAlpha-300 last:border-b-0 max-[639px]:hidden">
         <div className="flex w-full gap-2 items-center">
           <Image
-            src={project?.icon || '/images/icon_not_found.jpg'}
+            src={project?.icon || "/images/icon_not_found.jpg"}
             width={45}
             height={45}
             alt={project.tokenName}
@@ -91,7 +92,7 @@ export function ItemList({ project }: { project: Project }) {
       <div className="sm:hidden flex">
         <div className="flex w-full gap-2 items-center">
           <Image
-            src={project?.icon || '/images/icon_not_found.jpg'}
+            src={project?.icon || "/images/icon_not_found.jpg"}
             width={45}
             height={45}
             alt={project.tokenName}

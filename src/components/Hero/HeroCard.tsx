@@ -24,7 +24,6 @@ export const HeroCard = ({ defaultImage }: Props) => {
           typeBadge={2}
           maxWidth="570px"
           height={isMobile ? "224px" : "320px"}
-          icon={"../images/favicon.svg"}
         />
       </div>
     </div>
