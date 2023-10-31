@@ -15,7 +15,7 @@ export function PageHeader({
 }: PageHeaderProps) {
   return (
     <div
-      className="relative bg-gray-600 h-[160px] sm:before:h-[160px] sm:px-[136px]
+      className="relative bg-gray-600 h-full lg:h-[160px] sm:before:h-[160px] sm:px-[136px]
     flex items-center justify-between sm:before:content-[url('/images/page-header-bg.png')]
     sm:after:content-[url('/images/page-header-bg-right-2.png')] sm:after:absolute sm:after:right-0 sm:after:h-[160px]
     before:left-[0px] before:absolute max-[639px]:after:content-[url('/images/page-header-bg-right.png')]

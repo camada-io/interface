@@ -1,18 +1,14 @@
 "use client"
 
 import { PageHeader } from "@/components/PageHeader"
-import { useIsMobile } from "@/hooks/useIsMobile"
 
 export default function Apply() {
-  const isMobile = useIsMobile()
   return (
     <>
       <PageHeader
         title={"Apply your project"}
         description={
-          isMobile
-            ? undefined
-            : "Apply through this form to bring your project onto the Camada Platform and into the Syscoin Ecosystem."
+          "Apply through this form to bring your project onto the Camada Platform and into the Syscoin Ecosystem."
         }
       />
 
