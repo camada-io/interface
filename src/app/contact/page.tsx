@@ -16,7 +16,7 @@ export default function Contact() {
         <div className="flex flex-col lg:flex-row max-w-[1240px] w-full h-full justify-between items-start gap-6">
           <div className="hidden grow shrink basis-0 px-[50px] flex-col justify-start items-start gap-10 lg:inline-flex">
             <div className="self-stretch flex-col justify-start items-start gap-4 flex">
-              <div className="w-12 h-12 relative bg-brandBlue-200 rounded-full justify-center items-center">
+              <div className="flex justify-center items-center w-12 h-12 relative bg-brandBlue-200 rounded-full justify-center items-center">
                 <svg
                   width="24"
                   height="24"
@@ -37,7 +37,7 @@ export default function Contact() {
                 <div className="justify-start items-center gap-5 inline-flex">
                   <div className="pr-4 bg-white bg-opacity-5 rounded justify-start items-center gap-2 flex">
                     <div className="p-2 bg-white bg-opacity-5 flex-col justify-start items-center gap-2.5 inline-flex">
-                      <div className="w-[18px] h-[18px] relative">
+                      <div className="flex fw-[18px] h-[18px] relative">
                         <svg
                           width="18"
                           height="18"
@@ -77,7 +77,7 @@ export default function Contact() {
               </div>
             </div>
             <div className="self-stretch flex-col justify-start items-start gap-4 flex">
-              <div className="w-12 h-12 relative bg-brandBlue-200 rounded-full justify-center items-center">
+              <div className="flex justify-center items-center w-12 h-12 relative bg-brandBlue-200 rounded-full justify-center items-center">
                 <AiOutlineMail size={24} />
               </div>
               <div className="flex-col justify-start items-start gap-1 flex">
