@@ -1,21 +1,25 @@
 "use client"
 
 import { PageHeader } from "@/components/PageHeader"
+import { useIsMobile } from "@/hooks/useIsMobile"
 
 export default function Apply() {
+  const isMobile = useIsMobile()
   return (
     <>
       <PageHeader
         title={"Apply your project"}
         description={
-          "Apply through this form to bring your project onto the Camada Platform and into the Syscoin Ecosystem."
+          isMobile
+            ? undefined
+            : "Apply through this form to bring your project onto the Camada Platform and into the Syscoin Ecosystem."
         }
       />
 
       <div className="p-32">
-        <div className="w-full h-[842px] flex-col justify-start items-end gap-6 inline-flex">
+        <div className="w-full h-full lg:h-[842px] flex-col justify-start items-end gap-6 inline-flex">
           <div className="max-w-[1240px] w-full justify-start items-center gap-6 inline-flex">
-            <div className="h-[45px] w-[45px] pt-2 pb-[7px] bg-gray-600 rounded-[5px] border border-sky-300 justify-center items-center flex">
+            <div className="h-[45px] w-[45px] pt-2 pb-[7px] bg-gray-600 rounded-[5px] border border-brandBlue-100 justify-center items-center flex">
               <div className="text-sky-300 text-xl font-bold leading-[30px]">
                 1
               </div>
@@ -108,7 +112,7 @@ export default function Apply() {
               </div>
               <div className="justify-start items-start gap-8 inline-flex">
                 <div className="justify-start items-center gap-1 flex">
-                  <div className="w-5 h-5 relative rounded-full border-4 border-cyan-500"></div>
+                  <div className="w-5 h-5 relative rounded-full border-4 border-brandBlue-200"></div>
                   <div className="text-white text-base font-normal leading-relaxed">
                     Yes
                   </div>
@@ -121,14 +125,14 @@ export default function Apply() {
                 </div>
               </div>
               <div className="self-stretch justify-center items-center gap-4 inline-flex">
-                <div className="w-[147px] h-[45px] px-6 py-4 bg-cyan-500 rounded-[5px] justify-center items-center gap-2.5 flex">
+                <div className="w-[147px] h-[45px] px-6 py-4 bg-brandBlue-200 rounded-[5px] justify-center items-center gap-2.5 flex">
                   <div className="text-white text-lg font-bold">Next</div>
                 </div>
               </div>
             </div>
           </div>
           <div className="max-w-[1240px] w-full justify-start items-center gap-6 inline-flex">
-            <div className="h-[45px] w-[45px] pt-2 pb-[7px] bg-gray-600 rounded-[5px] border border-sky-300 justify-center items-center flex">
+            <div className="h-[45px] w-[45px] pt-2 pb-[7px] bg-gray-600 rounded-[5px] border border-brandBlue-100 justify-center items-center flex">
               <div className="text-sky-300 text-xl font-bold leading-[30px]">
                 2
               </div>
@@ -141,7 +145,7 @@ export default function Apply() {
             </div>
           </div>
           <div className="max-w-[1240px] w-full justify-start items-center gap-6 inline-flex">
-            <div className="h-[45px] w-[45px] pt-2 pb-[7px] bg-gray-600 rounded-[5px] border border-sky-300 justify-center items-center flex">
+            <div className="h-[45px] w-[45px] pt-2 pb-[7px] bg-gray-600 rounded-[5px] border border-brandBlue-100 justify-center items-center flex">
               <div className="text-sky-300 text-xl font-bold leading-[30px]">
                 3
               </div>
@@ -154,7 +158,7 @@ export default function Apply() {
             </div>
           </div>
           <div className="max-w-[1240px] w-full justify-start items-center gap-6 inline-flex">
-            <div className="h-[45px] w-[45px] pt-2 pb-[7px] bg-gray-600 rounded-[5px] border border-sky-300 justify-center items-center flex">
+            <div className="h-[45px] w-[45px] pt-2 pb-[7px] bg-gray-600 rounded-[5px] border border-brandBlue-100 justify-center items-center flex">
               <div className="text-sky-300 text-xl font-bold leading-[30px]">
                 4
               </div>
@@ -167,7 +171,7 @@ export default function Apply() {
             </div>
           </div>
           <div className="max-w-[1240px] w-full justify-start items-center gap-6 inline-flex">
-            <div className="h-[45px] w-[45px] pt-2 pb-[7px] bg-gray-600 rounded-[5px] border border-sky-300 justify-center items-center flex">
+            <div className="h-[45px] w-[45px] pt-2 pb-[7px] bg-gray-600 rounded-[5px] border border-brandBlue-100 justify-center items-center flex">
               <div className="text-sky-300 text-xl font-bold leading-[30px]">
                 5
               </div>
