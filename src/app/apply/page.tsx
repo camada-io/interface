@@ -1,5 +1,6 @@
 "use client"
 
+import { Button } from "@/components/Button"
 import { PageHeader } from "@/components/PageHeader"
 import { Radio } from "@/components/Radio"
 
@@ -116,9 +117,12 @@ export default function Apply() {
                 defaultValue="no"
               />
               <div className="self-stretch justify-center items-center gap-4 inline-flex">
-                <div className="w-[147px] h-[45px] px-6 py-4 bg-brandBlue-200 rounded-[5px] justify-center items-center gap-2.5 flex">
-                  <div className="text-white text-lg font-bold">Next</div>
-                </div>
+                <Button
+                  onClick={() => null}
+                  text="Next"
+                  maxWidth="max-w-[147px]"
+                  isLoading={false}
+                />
               </div>
             </div>
           </div>
