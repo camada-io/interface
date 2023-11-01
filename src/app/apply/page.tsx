@@ -1,6 +1,7 @@
 "use client"
 
 import { PageHeader } from "@/components/PageHeader"
+import { Radio } from "@/components/Radio"
 
 export default function Apply() {
   return (
@@ -106,20 +107,14 @@ export default function Apply() {
                   *
                 </span>
               </div>
-              <div className="justify-start items-start gap-8 inline-flex">
-                <div className="justify-start items-center gap-1 flex">
-                  <div className="w-5 h-5 relative rounded-full border-4 border-brandBlue-200"></div>
-                  <div className="text-white text-base font-normal leading-relaxed">
-                    Yes
-                  </div>
-                </div>
-                <div className="justify-start items-center gap-1 flex">
-                  <div className="w-5 h-5 relative opacity-50 rounded-full border-2 border-neutral-400"></div>
-                  <div className="text-white text-base font-normal leading-relaxed">
-                    No
-                  </div>
-                </div>
-              </div>
+              <Radio
+                name="yesNo"
+                options={[
+                  { label: "Yes", value: "yes" },
+                  { label: "No", value: "no" },
+                ]}
+                defaultValue="no"
+              />
               <div className="self-stretch justify-center items-center gap-4 inline-flex">
                 <div className="w-[147px] h-[45px] px-6 py-4 bg-brandBlue-200 rounded-[5px] justify-center items-center gap-2.5 flex">
                   <div className="text-white text-lg font-bold">Next</div>
