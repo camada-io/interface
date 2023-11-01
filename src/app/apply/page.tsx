@@ -1,10 +1,14 @@
 "use client"
 
 import { Button } from "@/components/Button"
+import { Input } from "@/components/Input"
 import { PageHeader } from "@/components/PageHeader"
 import { Radio } from "@/components/Radio"
+import { useState } from "react"
 
 export default function Apply() {
+  const [inputValue, setInputValue] = useState("")
+
   return (
     <>
       <PageHeader
@@ -44,13 +48,13 @@ export default function Apply() {
                     *
                   </span>
                 </div>
-                <div className="self-stretch h-[46px] px-3.5 py-2.5 bg-gray-700 rounded-lg shadow border border-white border-opacity-5 justify-start items-center gap-2 inline-flex">
-                  <div className="grow shrink basis-0 h-[26px] justify-start items-center gap-2 flex">
-                    <div className="grow shrink basis-0 text-white text-opacity-40 text-base font-normal leading-relaxed">
-                      {" "}
-                    </div>
-                  </div>
-                </div>
+                <Input
+                  value={inputValue}
+                  onChange={(value: string) => {
+                    setInputValue(value)
+                  }}
+                  placeholder=""
+                />
               </div>
               <div className="self-stretch h-[76px] flex-col justify-start items-start gap-1 flex">
                 <div className="self-stretch">
@@ -61,37 +65,37 @@ export default function Apply() {
                     *
                   </span>
                 </div>
-                <div className="self-stretch h-[46px] px-3.5 py-2.5 bg-gray-700 rounded-lg shadow border border-white border-opacity-5 justify-start items-center gap-2 inline-flex">
-                  <div className="grow shrink basis-0 h-[26px] justify-start items-center gap-2 flex">
-                    <div className="grow shrink basis-0 text-white text-opacity-40 text-base font-normal leading-relaxed">
-                      {" "}
-                    </div>
-                  </div>
-                </div>
+                <Input
+                  value={inputValue}
+                  onChange={(value: string) => {
+                    setInputValue(value)
+                  }}
+                  placeholder=""
+                />
               </div>
               <div className="self-stretch h-[76px] flex-col justify-start items-start gap-1 flex">
                 <div className="self-stretch text-white text-base font-normal leading-relaxed">
                   Name - Project representative (Usually founder/leader/CEO)
                 </div>
-                <div className="self-stretch h-[46px] px-3.5 py-2.5 bg-gray-700 rounded-lg shadow border border-white border-opacity-5 justify-start items-center gap-2 inline-flex">
-                  <div className="grow shrink basis-0 h-[26px] justify-start items-center gap-2 flex">
-                    <div className="grow shrink basis-0 text-white text-opacity-40 text-base font-normal leading-relaxed">
-                      {" "}
-                    </div>
-                  </div>
-                </div>
+                <Input
+                  value={inputValue}
+                  onChange={(value: string) => {
+                    setInputValue(value)
+                  }}
+                  placeholder=""
+                />
               </div>
               <div className="self-stretch h-[76px] flex-col justify-start items-start gap-1 flex">
                 <div className="self-stretch text-white text-base font-normal leading-relaxed">
                   Email - Project representative (Usually founder/leader/CEO)
                 </div>
-                <div className="self-stretch h-[46px] px-3.5 py-2.5 bg-gray-700 rounded-lg shadow border border-white border-opacity-5 justify-start items-center gap-2 inline-flex">
-                  <div className="grow shrink basis-0 h-[26px] justify-start items-center gap-2 flex">
-                    <div className="grow shrink basis-0 text-white text-opacity-40 text-base font-normal leading-relaxed">
-                      {" "}
-                    </div>
-                  </div>
-                </div>
+                <Input
+                  value={inputValue}
+                  onChange={(value: string) => {
+                    setInputValue(value)
+                  }}
+                  placeholder=""
+                />
               </div>
               <div className="self-stretch">
                 <span className="text-white text-base font-normal leading-relaxed">
