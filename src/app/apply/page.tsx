@@ -1,8 +1,14 @@
 "use client"
 
+import { Button } from "@/components/Button"
+import { Input } from "@/components/Input"
 import { PageHeader } from "@/components/PageHeader"
+import { Radio } from "@/components/Radio"
+import { useState } from "react"
 
 export default function Apply() {
+  const [inputValue, setInputValue] = useState("")
+
   return (
     <>
       <PageHeader
@@ -42,13 +48,13 @@ export default function Apply() {
                     *
                   </span>
                 </div>
-                <div className="self-stretch h-[46px] px-3.5 py-2.5 bg-gray-700 rounded-lg shadow border border-white border-opacity-5 justify-start items-center gap-2 inline-flex">
-                  <div className="grow shrink basis-0 h-[26px] justify-start items-center gap-2 flex">
-                    <div className="grow shrink basis-0 text-white text-opacity-40 text-base font-normal leading-relaxed">
-                      {" "}
-                    </div>
-                  </div>
-                </div>
+                <Input
+                  value={inputValue}
+                  onChange={(value: string) => {
+                    setInputValue(value)
+                  }}
+                  placeholder=""
+                />
               </div>
               <div className="self-stretch h-[76px] flex-col justify-start items-start gap-1 flex">
                 <div className="self-stretch">
@@ -59,37 +65,37 @@ export default function Apply() {
                     *
                   </span>
                 </div>
-                <div className="self-stretch h-[46px] px-3.5 py-2.5 bg-gray-700 rounded-lg shadow border border-white border-opacity-5 justify-start items-center gap-2 inline-flex">
-                  <div className="grow shrink basis-0 h-[26px] justify-start items-center gap-2 flex">
-                    <div className="grow shrink basis-0 text-white text-opacity-40 text-base font-normal leading-relaxed">
-                      {" "}
-                    </div>
-                  </div>
-                </div>
+                <Input
+                  value={inputValue}
+                  onChange={(value: string) => {
+                    setInputValue(value)
+                  }}
+                  placeholder=""
+                />
               </div>
               <div className="self-stretch h-[76px] flex-col justify-start items-start gap-1 flex">
                 <div className="self-stretch text-white text-base font-normal leading-relaxed">
                   Name - Project representative (Usually founder/leader/CEO)
                 </div>
-                <div className="self-stretch h-[46px] px-3.5 py-2.5 bg-gray-700 rounded-lg shadow border border-white border-opacity-5 justify-start items-center gap-2 inline-flex">
-                  <div className="grow shrink basis-0 h-[26px] justify-start items-center gap-2 flex">
-                    <div className="grow shrink basis-0 text-white text-opacity-40 text-base font-normal leading-relaxed">
-                      {" "}
-                    </div>
-                  </div>
-                </div>
+                <Input
+                  value={inputValue}
+                  onChange={(value: string) => {
+                    setInputValue(value)
+                  }}
+                  placeholder=""
+                />
               </div>
               <div className="self-stretch h-[76px] flex-col justify-start items-start gap-1 flex">
                 <div className="self-stretch text-white text-base font-normal leading-relaxed">
                   Email - Project representative (Usually founder/leader/CEO)
                 </div>
-                <div className="self-stretch h-[46px] px-3.5 py-2.5 bg-gray-700 rounded-lg shadow border border-white border-opacity-5 justify-start items-center gap-2 inline-flex">
-                  <div className="grow shrink basis-0 h-[26px] justify-start items-center gap-2 flex">
-                    <div className="grow shrink basis-0 text-white text-opacity-40 text-base font-normal leading-relaxed">
-                      {" "}
-                    </div>
-                  </div>
-                </div>
+                <Input
+                  value={inputValue}
+                  onChange={(value: string) => {
+                    setInputValue(value)
+                  }}
+                  placeholder=""
+                />
               </div>
               <div className="self-stretch">
                 <span className="text-white text-base font-normal leading-relaxed">
@@ -106,24 +112,21 @@ export default function Apply() {
                   *
                 </span>
               </div>
-              <div className="justify-start items-start gap-8 inline-flex">
-                <div className="justify-start items-center gap-1 flex">
-                  <div className="w-5 h-5 relative rounded-full border-4 border-brandBlue-200"></div>
-                  <div className="text-white text-base font-normal leading-relaxed">
-                    Yes
-                  </div>
-                </div>
-                <div className="justify-start items-center gap-1 flex">
-                  <div className="w-5 h-5 relative opacity-50 rounded-full border-2 border-neutral-400"></div>
-                  <div className="text-white text-base font-normal leading-relaxed">
-                    No
-                  </div>
-                </div>
-              </div>
+              <Radio
+                name="yesNo"
+                options={[
+                  { label: "Yes", value: "yes" },
+                  { label: "No", value: "no" },
+                ]}
+                defaultValue="no"
+              />
               <div className="self-stretch justify-center items-center gap-4 inline-flex">
-                <div className="w-[147px] h-[45px] px-6 py-4 bg-brandBlue-200 rounded-[5px] justify-center items-center gap-2.5 flex">
-                  <div className="text-white text-lg font-bold">Next</div>
-                </div>
+                <Button
+                  onClick={() => null}
+                  text="Next"
+                  maxWidth="max-w-[147px]"
+                  isLoading={false}
+                />
               </div>
             </div>
           </div>
