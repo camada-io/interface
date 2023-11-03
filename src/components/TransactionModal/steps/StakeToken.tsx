@@ -1,12 +1,14 @@
 "use client"
 
+import { useEffect } from "react"
 import { parseEther } from "ethers"
 import Image from "next/image"
-import { useEffect } from "react"
 import { useContractWrite, useWaitForTransaction } from "wagmi"
+import { BsCheckLg } from "react-icons/bs"
 
 import { TransactionModalState } from "../../../stores/transactionModal"
 import abi from "@/contracts/stakeAbi"
+import { Loading } from "@/components/Loading"
 
 type ApproveProps = {
   state: TransactionModalState
@@ -45,43 +47,36 @@ export function StakeToken({ state, amount }: ApproveProps) {
       <div className="p-[20px] py-[40px] w-full max-w-[400px] max-[639px]:px-[30px] h-full text-left flex flex-col justify-center lg:justify-between">
         <h3 className="font-bold text-2xl">Stake </h3>
 
-        <div className="flex h-full items-start">
-          <div className="flex w-full justify-between mt-4">
-            {transaction.isSuccess ? (
-              <p>You staked successfully on the project!</p>
-            ) : (
-              <>
-                <p>Staking amount</p>
+        <div className="w-[30px] h-[30px] mx-auto my-4">
+          {transaction.isLoading && (
+            <div className="flex mx-auto bg-brandBlue-100 rounded-full p-[3px] justify-center">
+              <Loading size={24} />
+            </div>
+          )}
 
-                <div className="flex items-center gap-[10px]">
-                  <Image
-                    width={20}
-                    height={20}
-                    alt=""
-                    src={"/images/spad.png"}
-                  />
-                  <p>{amount} sPAD</p>
-                </div>
-              </>
-            )}
-          </div>
+          {transaction.isSuccess && (
+            <div className="flex mx-auto bg-brandBlue-100 rounded-full p-[3px]">
+              <BsCheckLg size={24} />
+            </div>
+          )}
         </div>
 
-        {stake.isLoading || transaction.isLoading ? (
-          <div className=" w-70 h-70 mx-auto">
-            <Image
-              className="animate-spin"
-              width={70}
-              height={70}
-              alt=""
-              src={"/images/loader.svg"}
-            />
+        <div>
+          {transaction.isSuccess && (
+            <p>You staked successfully on the project!</p>
+          )}
+        </div>
+
+        <div className="flex h-full items-start">
+          <div className="flex w-full justify-between mt-4">
+            <p>Staking amount</p>
+
+            <div className="flex items-center gap-[10px]">
+              <Image width={20} height={20} alt="" src={"/images/spad.png"} />
+              <p>{amount} sPAD</p>
+            </div>
           </div>
-        ) : transaction.isSuccess ? (
-          <div className="w-70 h-70 mx-auto">
-            <Image width={70} height={70} alt="" src={"/images/check.svg"} />
-          </div>
-        ) : null}
+        </div>
 
         <button
           onClick={() => stake.write({ args: [parseEther(amount.toString())] })}

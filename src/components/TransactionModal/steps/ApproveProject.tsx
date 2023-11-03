@@ -9,36 +9,49 @@ import {
   useContractWrite,
   useWaitForTransaction,
 } from "wagmi"
+import { BsCheckLg } from "react-icons/bs"
 
 import abi from "@/contracts/erc20Abi"
 import { TransactionModalState } from "../../../stores/transactionModal"
 import { Loading } from "@/components/Loading"
-import { BsCheckLg } from "react-icons/bs"
 
 type ApproveProps = {
   state: TransactionModalState
   amount: number
+  project: {
+    address: string
+    name: string
+    symbol: string
+    icon: string
+  }
+  stableToken: {
+    address: string
+    icon: string
+    symbol: string
+  }
 }
 
 type Address = `0x${string}`
 
-const tokenAdress = process.env.NEXT_PUBLIC_TOKEN_CONTRACT as Address
-const contractAddres = process.env.NEXT_PUBLIC_STAKE_CONTRACT as Address
-
-export function ApproveToken({ state, amount }: ApproveProps) {
+export function ApproveProject({
+  state,
+  amount,
+  project,
+  stableToken,
+}: ApproveProps) {
   const { address } = useAccount()
 
   const { data: allowance } = useContractRead({
-    address: tokenAdress,
+    address: stableToken.address as Address,
     abi,
     functionName: "allowance",
-    args: [address as Address, contractAddres],
+    args: [address as Address, project.address as Address],
     enabled: !!address,
     watch: !!address,
   })
 
   const approve = useContractWrite({
-    address: tokenAdress,
+    address: stableToken.address as Address,
     abi,
     functionName: "approve",
   })
@@ -53,7 +66,7 @@ export function ApproveToken({ state, amount }: ApproveProps) {
 
   useEffect(() => {
     if (transaction.isSuccess) {
-      setTimeout(() => state.dispatchStep({ type: "NEXT_STEP" }), 2000)
+      setTimeout(() => state.dispatchStep({ type: "NEXT_STEP" }), 3000)
     }
   }, [transaction.isSuccess, state])
 
@@ -92,6 +105,21 @@ export function ApproveToken({ state, amount }: ApproveProps) {
 
           <div className="flex flex-col gap-[10px] my-6">
             <div className="flex h-full items-start justify-between">
+              <p>Project</p>
+              <div>
+                <div className="flex items-center gap-[10px]">
+                  <Image
+                    width={20}
+                    height={20}
+                    alt=""
+                    src={project.icon}
+                    className="rounded-full"
+                  />
+                  <p>{`${project.name} ${project.symbol}`}</p>
+                </div>
+              </div>
+            </div>
+            <div className="flex h-full items-start justify-between">
               <p>Investing amount</p>
               <div>
                 <div className="flex items-center gap-[10px]">
@@ -99,10 +127,10 @@ export function ApproveToken({ state, amount }: ApproveProps) {
                     width={20}
                     height={20}
                     alt=""
-                    src="/images/spad.png"
+                    src={stableToken.icon}
                     className="rounded-full"
                   />
-                  <p>{` ${amount} sPAD`}</p>
+                  <p>{` ${amount} ${stableToken.symbol}`}</p>
                 </div>
               </div>
             </div>
@@ -112,17 +140,18 @@ export function ApproveToken({ state, amount }: ApproveProps) {
         <div className="flex w-full justify-between gap-[16px]">
           <button
             onClick={state?.onClose}
+            disabled={transaction.isLoading}
             type="button"
             className="p-[8px] rounded-[5px] bg-gray-900 mt-6 text-center w-full border-[1px] border-brandBlue-100 hover:bg-whiteAlpha-100 transition:all duration-300"
           >
-            Cancel
+            Close
           </button>
           <button
             onClick={() =>
               approve.writeAsync({
                 args: [
-                  contractAddres as Address,
-                  parseEther(amount.toString()),
+                  project.address as Address,
+                  parseEther(Number(amount * 1e6).toString()),
                 ],
               })
             }

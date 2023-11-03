@@ -5,14 +5,8 @@ import Link from "next/link"
 import Image from "next/image"
 import { notFound } from "next/navigation"
 import { useQuery } from "@apollo/client"
-import {
-  useAccount,
-  useContractRead,
-  Address,
-  erc20ABI,
-  // useContractWrite,
-} from "wagmi"
-import { useState } from "react"
+import { useAccount, useContractRead, Address, erc20ABI } from "wagmi"
+import { useCallback, useState } from "react"
 import dayjs from "dayjs"
 import LocalizedFormart from "dayjs/plugin/localizedFormat"
 
@@ -25,38 +19,60 @@ import { Card } from "@/components/Card"
 import { PROJECT } from "@/Apollo/queries/sales"
 import { IconNames, SocialIcon } from "../components/SocialIcon"
 import abi from "@/contracts/saleAbi"
+import { TransactionModal } from "@/components/TransactionModal"
+import { ConnectWallet } from "@/components/TransactionModal/steps/ConnectWallet"
+import { CheckNetwork } from "@/components/TransactionModal/steps/CheckNetwork"
+import { useTransactionModal } from "@/stores/transactionModal"
+import { Invest } from "@/components/TransactionModal/steps/Invest"
+import { ApproveProject } from "@/components/TransactionModal/steps/ApproveProject"
+import { formatUnits } from "ethers"
+import { ClaimProject } from "@/components/TransactionModal/steps/ClaimProject"
 
-const usdtContract = process.env.NEXT_PUBLIC_USDT_CONTRACT as Address
-const usdcContract = process.env.NEXT_PUBLIC_USDC_CONTRACT as Address
+dayjs.extend(LocalizedFormart)
+
+const usdtContract = process.env.NEXT_PUBLIC_USDT_CONTRACT as string
+const usdcContract = process.env.NEXT_PUBLIC_USDC_CONTRACT as string
 
 type Project = {
   id: string
   tokenName: string
   tokenSymbol: string
+  tokenAddress: string
+  address: string
   icon: string
   banner: string
-  status: string
+  status: "On going" | "Finished" | "Coming soon"
   saleProgress: number
   categories: string[]
   saleAmountUsd: number
   description: string
+  about: string
+  averageUSDPrice: number
+  endTime: string
+  closeTime: string
+  openTime: string
+  socialLinks: LinkType
+  totalRaised: number
 }
 
 type LinkType = {
   [key in IconNames]: string
 }
 
-dayjs.extend(LocalizedFormart)
+const stableTokens = [
+  { icon: "/images/usdc.svg", symbol: "USDC", address: usdcContract },
+  { icon: "/images/usdt.svg", symbol: "USDT", address: usdtContract },
+]
 
 export default function Project({ params }: { params: { address: string } }) {
   const isMobile = useIsMobile()
   const { address: account } = useAccount()
-  const [stableToken, setStableToken] = useState(usdcContract)
+  const [investmentData, setInvestmentData] = useState({
+    token: stableTokens[0],
+    amount: 0,
+  })
 
-  const stableTokens = [
-    { icon: "/images/usdc.svg", name: "USDC", address: usdcContract },
-    { icon: "/images/usdt.svg", name: "USDT", address: usdtContract },
-  ]
+  const state = useTransactionModal()
 
   const { address } = params
 
@@ -64,33 +80,53 @@ export default function Project({ params }: { params: { address: string } }) {
     variables: { address },
   })
 
+  const project = (data?.getSaleByAddress as Project) ?? null
+
+  if (!project && !loading) notFound()
+
   const { data: projectBalance } = useContractRead({
     address: address as Address,
     abi: abi,
     functionName: "getBoughtTokens",
     args: [account as Address],
-    enabled: !!account && !!address,
+    enabled: !!account && !!address && !loading,
+    watch: !!account && !!address,
+  })
+
+  const { data: claimBalance } = useContractRead({
+    address: address as Address,
+    abi: abi,
+    functionName: "getClaimableTokens",
+    args: [account as Address],
+    enabled:
+      !!account && !!address && project?.status === "Finished" && !loading,
+    watch: !!account && !!address,
+  })
+
+  const { data: availableToClaimBalance } = useContractRead({
+    address: address as Address,
+    abi: abi,
+    functionName: "getAvailableTokensToClaim",
+    args: [account as Address],
+    enabled:
+      !!account && !!address && project?.status === "Finished" && !loading,
     watch: !!account && !!address,
   })
 
   const { data: stableTokenBalance } = useContractRead({
-    address: stableToken as Address,
+    address: investmentData.token.address as Address,
     abi: erc20ABI,
     functionName: "balanceOf",
     args: [account as Address],
-    enabled: !!account && !!stableToken,
-    watch: !!account && !!stableToken,
+    enabled: !!account && !!investmentData.token.address,
+    watch: !!account && !!investmentData.token.address,
   })
 
-  // const projectContract = useContractWrite({
-  //   address: address as Address,
-  //   abi: abi,
-  //   functionName: "buyToken",
-  // })
-
-  const project = data?.getSaleByAddress ?? null
-
-  if (!project && !loading) notFound()
+  const cardProjectType = useCallback(() => {
+    if (project?.status === "On going") return CardProjectType.INVEST
+    if (project?.status === "Finished") return CardProjectType.CLAIM
+    return CardProjectType.INVEST
+  }, [project?.status])
 
   return !loading && project ? (
     <>
@@ -104,7 +140,7 @@ export default function Project({ params }: { params: { address: string } }) {
         <div className="mx-auto flex w-full lg:max-h-[331.23px] flex-col lg:flex-row h-full justify-center items-start gap-[60px]">
           <div className="max-w-[590px] w-full h-[331.23px] rounded-[20px] flex-col justify-between items-start inline-flex">
             <Card
-              typeBadge={dayjs(project.closeTime).isAfter(dayjs()) ? 1 : 2}
+              typeBadge={project.status}
               maxWidth="590px"
               height={isMobile ? "224px" : "331.23px"}
               data={project}
@@ -112,25 +148,21 @@ export default function Project({ params }: { params: { address: string } }) {
           </div>
 
           <InvestCard
-            type={CardProjectType.INVEST}
+            type={cardProjectType()}
             tokens={stableTokens}
             projectTokenName={project.tokenName}
             projectTokenSymbol={project.tokenSymbol}
-            projectBalance={projectBalance ? `${Number(projectBalance)}` : "0"}
+            projectBalance={Number(projectBalance) ?? 0}
+            claimBalance={Number(claimBalance) ?? 0}
+            availableToClaimBalance={Number(availableToClaimBalance) ?? 0}
             stableTokenBalance={
-              stableTokenBalance ? `${Number(stableTokenBalance) / 1e18}` : "0"
+              stableTokenBalance ? `${formatUnits(stableTokenBalance)}` : "0"
             }
             projectPrice={project.averageUSDPrice}
-            investHandle={
-              () => {}
-              // projectContract.write({
-              //   args: [stableToken, parseEther((1).toString())],
-              // })
-            }
-            onSelectToken={(token) =>
-              token?.address && setStableToken(token.address as Address)
-            }
-            isLoading={false}
+            investHandle={state.onOpen}
+            claimHandle={state.onOpen}
+            onChangeData={setInvestmentData as any}
+            isConnected={!!account}
           />
         </div>
 
@@ -171,7 +203,12 @@ export default function Project({ params }: { params: { address: string } }) {
                   </div>
                   <div className="h-[26px] justify-end items-center gap-2 flex">
                     <div className="w-6 h-6 relative flex justify-center items-center">
-                      <Image src="../images/favicon.svg" alt="symbol" fill />
+                      <Image
+                        src={project.icon ?? "/images/icon_not_found.jpg"}
+                        alt="symbol"
+                        fill
+                        className="rounded-full"
+                      />
                     </div>
                     <div className="text-white text-base font-normal leading-relaxed">
                       {project.tokenAddress.slice(0, 4)}...
@@ -295,7 +332,12 @@ export default function Project({ params }: { params: { address: string } }) {
                   </div>
                   <div className="h-[26px] justify-end items-center gap-2 flex">
                     <div className="w-6 h-6 relative flex justify-center items-center">
-                      <Image src="../images/favicon.svg" alt="symbol" fill />
+                      <Image
+                        src={project.icon ?? "/images/icon_not_found.jpg"}
+                        alt="symbol"
+                        fill
+                        className="rounded-full"
+                      />
                     </div>
                     <div className="text-white text-base font-normal leading-relaxed">
                       {project.tokenAddress.slice(0, 4)}...
@@ -373,20 +415,18 @@ export default function Project({ params }: { params: { address: string } }) {
                 Keep in touch
               </div>
               <div className="self-stretch justify-center items-center gap-6 inline-flex">
-                {Object.entries(project.socialLinks as LinkType).map(
-                  ([key, value]) => {
-                    if (value)
-                      return (
-                        <Link
-                          key={key}
-                          href={value}
-                          className="flex w-[47.50px] h-[47.50px] relative bg-brandBlue-100 rounded-[100px] justify-center items-center"
-                        >
-                          <SocialIcon name={key as IconNames} />
-                        </Link>
-                      )
-                  },
-                )}
+                {Object.entries(project.socialLinks).map(([key, value]) => {
+                  if (value)
+                    return (
+                      <Link
+                        key={key}
+                        href={value}
+                        className="flex w-[47.50px] h-[47.50px] relative bg-brandBlue-100 rounded-[100px] justify-center items-center"
+                      >
+                        <SocialIcon name={key as IconNames} />
+                      </Link>
+                    )
+                })}
               </div>
             </div>
             <div className="w-[590px] flex-col justify-start items-center gap-6 inline-flex">
@@ -407,6 +447,49 @@ export default function Project({ params }: { params: { address: string } }) {
           <Carousel />
         </div>
       </div>
+
+      <TransactionModal>
+        <ConnectWallet state={state} />
+        <CheckNetwork state={state} />
+        {project?.status === "On going" && (
+          <ApproveProject
+            state={state}
+            amount={investmentData.amount}
+            project={{
+              address: project?.address,
+              name: project?.tokenName,
+              symbol: project?.tokenSymbol,
+              icon: project?.icon ?? "/images/icon_not_found.jpg",
+            }}
+            stableToken={investmentData.token}
+          />
+        )}
+        {project?.status === "On going" && (
+          <Invest
+            state={state}
+            amount={investmentData.amount}
+            project={{
+              address: project?.address,
+              name: project?.tokenName,
+              symbol: project?.tokenSymbol,
+              icon: project?.icon ?? "/images/icon_not_found.jpg",
+            }}
+            stableToken={investmentData.token}
+          />
+        )}
+        {project?.status === "Finished" && (
+          <ClaimProject
+            state={state}
+            project={{
+              address: project?.address,
+              name: project?.tokenName,
+              symbol: project?.tokenSymbol,
+              icon: project?.icon ?? "/images/icon_not_found.jpg",
+            }}
+            amount={investmentData.amount}
+          />
+        )}
+      </TransactionModal>
     </>
   ) : null
 }

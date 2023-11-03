@@ -36,7 +36,7 @@ export function ClaimTab({ stakeProps }: { stakeProps: StakeProps }) {
             {
               address: "0x0000000000000000000000000000000000000000",
               icon: "/images/spad.png",
-              name: "spad",
+              symbol: "spad",
             },
           ]}
         />

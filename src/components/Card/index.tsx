@@ -1,20 +1,37 @@
 import Image from "next/image"
+import dayjs from "dayjs"
+
 import { Tag, TagProject } from "../Tag"
 import { BadgeTime } from "../BadgeTime"
+import { IconNames } from "@/app/projects/components/SocialIcon"
 
 type Data = {
   id: string
   tokenName: string
   tokenSymbol: string
+  tokenAddress: string
+  address: string
   icon: string
   banner: string
-  status: string
+  status: "On going" | "Finished" | "Coming soon"
   saleProgress: number
-  totalRaised: number
   categories: string[]
   saleAmountUsd: number
   description: string
+  about: string
+  averageUSDPrice: number
+  endTime: string
+  closeTime: string
+  openTime: string
+  socialLinks: LinkType
+  totalRaised: number
 }
+
+type LinkType = {
+  [key in IconNames]: string
+}
+
+type BadgeNames = "Default" | "Finished"
 
 export const Card = ({
   defaultImage = "/images/backgroundCardDefault.svg",
@@ -26,34 +43,39 @@ export const Card = ({
   defaultImage?: string
   height?: string
   maxWidth?: string
-  typeBadge: number
+  typeBadge: number | string
   data?: Data
 }) => {
   const Badge = () => {
-    switch (typeBadge) {
-      case 1:
-        return (
-          <>
-            <Tag type={1} />
-            <TagProject type={3} />
-            <TagProject type={2} />
-          </>
-        )
+    const badgeNames = ["Default", "Finished"]
 
-      case 2:
-        return (
-          <>
-            <BadgeTime type={3} />
-          </>
-        )
+    if (
+      !typeBadge ||
+      (typeof typeBadge === "number" && (typeBadge < 1 || typeBadge > 2))
+    )
+      return null
 
-      default:
-        return (
-          <>
-            <BadgeTime type={3} />
-          </>
-        )
+    const badgeStatus = data?.status === "Finished" ? "Finished" : "Default"
+
+    const badges = {
+      Default: (
+        <>
+          <Tag type={data?.status ?? 1} />
+          {data?.categories.map((category, index) => (
+            <TagProject type={category} key={index} />
+          ))}
+        </>
+      ),
+      Finished: (
+        <>
+          <BadgeTime type={3} time={dayjs(data?.closeTime).format("ll")} />
+        </>
+      ),
     }
+
+    return typeof typeBadge === "string"
+      ? badges[badgeStatus as BadgeNames]
+      : badges[badgeNames[typeBadge] as BadgeNames]
   }
 
   const formatCurrency = (value: number) => {

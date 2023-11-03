@@ -2,31 +2,41 @@
 
 import { useCallback, useEffect } from "react"
 import Image from "next/image"
+import { parseUnits } from "ethers"
 import { useContractWrite, useWaitForTransaction } from "wagmi"
 import { BsCheckLg } from "react-icons/bs"
 
 import { TransactionModalState } from "../../../stores/transactionModal"
-import abi from "@/contracts/stakeAbi"
+import abi from "@/contracts/saleAbi"
 import { Loading } from "@/components/Loading"
 
-type ApproveProps = {
+type InvestProps = {
   state: TransactionModalState
   amount: number
+  project: {
+    address: string
+    name: string
+    symbol: string
+    icon: string
+  }
+  stableToken: {
+    address: string
+    icon: string
+    symbol: string
+  }
 }
 
 type Address = `0x${string}`
 
-const contractAddres = process.env.NEXT_PUBLIC_STAKE_CONTRACT as Address
-
-export function Claim({ state, amount }: ApproveProps) {
-  const claim = useContractWrite({
-    address: contractAddres,
+export function Invest({ state, amount, project, stableToken }: InvestProps) {
+  const invest = useContractWrite({
+    address: project.address as Address,
     abi: abi,
-    functionName: "getReward",
+    functionName: "buyToken",
   })
 
   const transaction = useWaitForTransaction({
-    hash: claim.data?.hash,
+    hash: invest.data?.hash,
   })
 
   useEffect(() => {
@@ -41,9 +51,9 @@ export function Claim({ state, amount }: ApproveProps) {
   }, [transaction.isSuccess, state])
 
   const titleState = useCallback(() => {
-    if (transaction.isLoading) return "Claiming"
-    if (transaction.isSuccess) return "Claimed"
-    return "Claim"
+    if (transaction.isLoading) return "Investing"
+    if (transaction.isSuccess) return "Invested"
+    return "Invest"
   }, [transaction.isLoading, transaction.isSuccess])
 
   return (
@@ -69,24 +79,35 @@ export function Claim({ state, amount }: ApproveProps) {
                 )}
               </div>
 
-              <div>
-                {transaction.isSuccess && (
-                  <p>You successfully claimed your rewards!</p>
-                )}
-              </div>
-
-              <div className="flex h-full items-start justify-between">
-                <p>Claiming amount</p>
-                <div>
-                  <div className="flex items-center gap-[10px]">
-                    <Image
-                      width={20}
-                      height={20}
-                      alt=""
-                      src={"/images/spad.png"}
-                      className="rounded-full"
-                    />
-                    <p>{amount} sPAD</p>
+              <div className="flex flex-col gap-[10px] my-6">
+                <div className="flex h-full items-start justify-between">
+                  <p>Project</p>
+                  <div>
+                    <div className="flex items-center gap-[10px]">
+                      <Image
+                        width={20}
+                        height={20}
+                        alt=""
+                        src={project.icon}
+                        className="rounded-full"
+                      />
+                      <p>{`${project.name} ${project.symbol}`}</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="flex h-full items-start justify-between">
+                  <p>Investing amount</p>
+                  <div>
+                    <div className="flex items-center gap-[10px]">
+                      <Image
+                        width={20}
+                        height={20}
+                        alt=""
+                        src={stableToken.icon}
+                        className="rounded-full"
+                      />
+                      <p>{` ${amount} ${stableToken.symbol}`}</p>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -95,12 +116,19 @@ export function Claim({ state, amount }: ApproveProps) {
         </div>
 
         <button
-          onClick={() => claim.write()}
+          onClick={() =>
+            invest.write({
+              args: [
+                stableToken.address as Address,
+                parseUnits(String(amount), 6),
+              ],
+            })
+          }
           type="button"
           className="p-[8px] rounded-[5px] bg-brandBlue-200 text-center w-full disabled:opacity-[0.5] disabled:cursor-not-allowed hover:bg-brandBlue-100 transition:all duration-300"
-          disabled={claim.isLoading}
+          disabled={invest.isLoading}
         >
-          Claim
+          Invest
         </button>
       </div>
     </div>
