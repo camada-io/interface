@@ -40,7 +40,7 @@ export const FormFour = ({ defaultValues, onSubmit }: Props) => {
             </span>
           </div>
           <Radio
-            name="agreedUpFront"
+            name="agreedUpfront"
             options={[
               { label: "Yes", value: true },
               { label: "No", value: false },
