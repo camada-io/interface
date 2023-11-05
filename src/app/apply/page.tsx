@@ -144,6 +144,17 @@ export default function Apply() {
             </div>
             <FormFive defaultValues={{}} onSubmit={() => null} />
           </div>
+
+          <div className="w-full h-full pt-6 justify-start items-center gap-2.5 inline-flex">
+            <div className="flex flex-col grow shrink basis-0 text-center">
+              <span className="text-brandBlue-100 text-lg font-bold leading-7">
+                Project successfully submitted!{" "}
+              </span>
+              <span className="text-white text-base font-normal leading-relaxed">
+                The Camada team will evaluate your project and contact you.
+              </span>
+            </div>
+          </div>
         </div>
       </div>
     </>
