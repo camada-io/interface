@@ -11,6 +11,7 @@ type Props = {
   maskMoney?: boolean
   control: Control<any>
   setValue?: UseFormSetValue<StepOneFormValues> // TODO: verify this
+  isTextArea?: boolean
 } & Partial<InputMaskProps>
 
 export const Input = ({
@@ -21,6 +22,7 @@ export const Input = ({
   setValue,
   maskMoney,
   control,
+  isTextArea = false,
 }: Props) => {
   const {
     field: { onChange, onBlur, value, ref },
@@ -61,7 +63,11 @@ export const Input = ({
 
   return (
     <div className={`${maxWidth} w-full flex flex-col h-full`}>
-      <div className="self-stretch h-[46px] px-3.5 py-2.5 bg-gray-500 rounded-lg shadow border border-white border-opacity-5 flex items-center gap-2">
+      <div
+        className={`self-stretch ${
+          isTextArea ? "max-h-[180px] h-full " : "h-[46px]"
+        } px-3.5 py-2.5 bg-gray-500 rounded-lg shadow border border-white border-opacity-5 flex items-center gap-2`}
+      >
         {maskMoney ? (
           <input
             id={name}
@@ -75,15 +81,29 @@ export const Input = ({
             className="grow shrink basis-0 h-[26px] bg-transparent text-white text-opacity-40 text-base font-normal leading-relaxed outline-none"
           />
         ) : (
-          <input
+          !isTextArea && (
+            <input
+              id={name}
+              type={type}
+              ref={ref}
+              value={value}
+              onChange={onChange}
+              onBlur={onBlur}
+              placeholder={placeholder}
+              className="grow shrink basis-0 h-[26px] bg-transparent text-white text-opacity-40 text-base font-normal leading-relaxed outline-none"
+            />
+          )
+        )}
+        {isTextArea && (
+          <textarea
             id={name}
-            type={type}
             ref={ref}
             value={value}
             onChange={onChange}
             onBlur={onBlur}
             placeholder={placeholder}
-            className="grow shrink basis-0 h-[26px] bg-transparent text-white text-opacity-40 text-base font-normal leading-relaxed outline-none"
+            rows={4} // Sets the minimum number of visible text lines
+            className="grow shrink basis-0 max-h-[180px] h-full bg-transparent text-white text-opacity-40 text-base font-normal leading-relaxed outline-none"
           />
         )}
       </div>

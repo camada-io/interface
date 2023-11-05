@@ -10,3 +10,8 @@ export const schemaStepOne = yup.object({
     .oneOf([true], "You must accept the terms and conditions")
     .required(),
 })
+
+export const schemaStepTwo = yup.object({
+  projectName: yup.string().required("Fill this field correctly"),
+  about: yup.string().required("Fill this field correctly"),
+})

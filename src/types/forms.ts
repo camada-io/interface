@@ -5,3 +5,8 @@ export type StepOneFormValues = {
   emailProject?: string | null
   agreedTerms: boolean
 }
+
+export type StepTwoFormValues = {
+  projectName: string
+  about: string
+}

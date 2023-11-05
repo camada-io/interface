@@ -2,6 +2,7 @@
 
 import { PageHeader } from "@/components/PageHeader"
 import { FormOne } from "./forms/formOne"
+import { FormTwo } from "./forms/formTwo"
 
 export default function Apply() {
   return (
@@ -14,7 +15,7 @@ export default function Apply() {
       />
 
       <div className=" p-[32.5px] lg:p-32">
-        <div className="w-full h-full lg:h-[842px] flex-col justify-start items-end gap-6 inline-flex">
+        <div className="w-full h-full flex-col justify-start items-end gap-6 inline-flex">
           <div className="max-w-[1240px] w-full justify-start items-center gap-6 inline-flex">
             <div className="h-[45px] w-[45px] pt-2 pb-[7px] bg-gray-600 rounded-[5px] border border-brandBlue-100 justify-center items-center flex">
               <div className="text-brandBlue-100 text-xl font-bold leading-[30px]">
@@ -57,7 +58,18 @@ export default function Apply() {
               <div className="grow shrink basis-0 h-[0px] border border-white border-opacity-20"></div>
             </div>
           </div>
-          {/* stepTwo */}
+          <div className="flex flex-col lg:flex-row w-full lg:pl-[70px] justify-center items-start gap-6 ">
+            <div className="lg:max-w-[246px] w-full grow shrink basis-0 text-white text-base font-normal leading-relaxed">
+              Let us know about your project idea and what you expect.
+            </div>
+            <FormTwo
+              defaultValues={{
+                projectName: "",
+                about: "",
+              }}
+              onSubmit={() => null}
+            />
+          </div>
           <div className="max-w-[1240px] w-full justify-start items-center gap-6 inline-flex">
             <div className="h-[45px] w-[45px] pt-2 pb-[7px] bg-gray-600 rounded-[5px] border border-brandBlue-100 justify-center items-center flex">
               <div className="text-brandBlue-100 text-xl font-bold leading-[30px]">
