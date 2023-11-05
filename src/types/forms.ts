@@ -17,3 +17,9 @@ export type StepThreeFormValues = {
 export type StepFourFormValues = {
   agreedUpfront: boolean
 }
+
+export type StepFiveFormValues = {
+  aboutUs?: string | null
+  decideWork?: string | null
+  feedback?: string | null
+}

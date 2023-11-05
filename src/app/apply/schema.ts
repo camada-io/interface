@@ -29,3 +29,9 @@ export const schemaStepFour = yup.object({
     .oneOf([true], "You must accept the UpFront costs recommendation")
     .required(),
 })
+
+export const schemaStepFive = yup.object({
+  aboutUs: yup.string().nullable(),
+  decideWork: yup.string().nullable(),
+  feedback: yup.string().nullable(),
+})

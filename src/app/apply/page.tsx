@@ -5,6 +5,7 @@ import { FormOne } from "./forms/formOne"
 import { FormTwo } from "./forms/formTwo"
 import { FormThree } from "./forms/formThree"
 import { FormFour } from "./forms/formFour"
+import { FormFive } from "./forms/formFive"
 
 export default function Apply() {
   return (
@@ -135,7 +136,14 @@ export default function Apply() {
               <div className="grow shrink basis-0 h-[0px] border border-white border-opacity-20"></div>
             </div>
           </div>
-          {/* stepFive */}
+          <div className="flex flex-col lg:flex-row w-full lg:pl-[70px] justify-center items-start gap-6 ">
+            <div className="lg:max-w-[246px] w-full grow shrink basis-0 text-white text-base font-normal leading-relaxed">
+              Thank you for choosing to work with us. We strive to be the most
+              trustworthy launchpad in the crypto ecosystem and are always
+              trying to improve.
+            </div>
+            <FormFive defaultValues={{}} onSubmit={() => null} />
+          </div>
         </div>
       </div>
     </>
