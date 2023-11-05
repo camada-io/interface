@@ -15,3 +15,10 @@ export const schemaStepTwo = yup.object({
   projectName: yup.string().required("Fill this field correctly"),
   about: yup.string().required("Fill this field correctly"),
 })
+
+export const schemaStepThree = yup.object({
+  agreedResearch: yup
+    .boolean()
+    .oneOf([true], "You must accept the KYC recommendation")
+    .required(),
+})

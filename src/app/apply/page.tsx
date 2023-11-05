@@ -3,6 +3,7 @@
 import { PageHeader } from "@/components/PageHeader"
 import { FormOne } from "./forms/formOne"
 import { FormTwo } from "./forms/formTwo"
+import { FormThree } from "./forms/formThree"
 
 export default function Apply() {
   return (
@@ -40,7 +41,7 @@ export default function Apply() {
                 email: "",
                 nameProject: "",
                 emailProject: "",
-                agreedTerms: true,
+                agreedTerms: false,
               }}
               onSubmit={() => null}
             />
@@ -83,7 +84,19 @@ export default function Apply() {
               <div className="grow shrink basis-0 h-[0px] border border-white border-opacity-20"></div>
             </div>
           </div>
-          {/* stepThree */}
+          <div className="flex flex-col lg:flex-row w-full lg:pl-[70px] justify-center items-start gap-6 ">
+            <div className="lg:max-w-[246px] w-full grow shrink basis-0 text-white text-base font-normal leading-relaxed">
+              Our Partner House of Chimera will write a research report about
+              your project. This includes details about your team and your
+              personal history.
+            </div>
+            <FormThree
+              defaultValues={{
+                agreedResearch: false,
+              }}
+              onSubmit={() => null}
+            />
+          </div>
           <div className="max-w-[1240px] w-full justify-start items-center gap-6 inline-flex">
             <div className="h-[45px] w-[45px] pt-2 pb-[7px] bg-gray-600 rounded-[5px] border border-brandBlue-100 justify-center items-center flex">
               <div className="text-brandBlue-100 text-xl font-bold leading-[30px]">

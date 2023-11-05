@@ -10,3 +10,7 @@ export type StepTwoFormValues = {
   projectName: string
   about: string
 }
+
+export type StepThreeFormValues = {
+  agreedResearch: boolean
+}
