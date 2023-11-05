@@ -22,3 +22,10 @@ export const schemaStepThree = yup.object({
     .oneOf([true], "You must accept the KYC recommendation")
     .required(),
 })
+
+export const schemaStepFour = yup.object({
+  agreedUpfront: yup
+    .boolean()
+    .oneOf([true], "You must accept the UpFront costs recommendation")
+    .required(),
+})

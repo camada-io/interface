@@ -14,3 +14,6 @@ export type StepTwoFormValues = {
 export type StepThreeFormValues = {
   agreedResearch: boolean
 }
+export type StepFourFormValues = {
+  agreedUpfront: boolean
+}
