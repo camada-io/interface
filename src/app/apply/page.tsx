@@ -7,8 +7,17 @@ import { FormThree } from "./forms/formThree"
 import { FormFour } from "./forms/formFour"
 import { FormFive } from "./forms/formFive"
 import { Accordion } from "@/components/Accordion"
+import { useState } from "react"
 
 export default function Apply() {
+  const [formCompletion, setFormCompletion] = useState({
+    formOne: false,
+    formTwo: false,
+    formThree: false,
+    formFour: false,
+    formFive: false,
+  })
+
   return (
     <>
       <PageHeader
@@ -20,7 +29,7 @@ export default function Apply() {
 
       <div className=" p-[32.5px] lg:p-32">
         <div className="w-full h-full flex-col justify-start items-end gap-6 inline-flex">
-          <Accordion number={1} title={"Personal info"}>
+          <Accordion number={1} title={"Personal info"} canOpen={true}>
             <div className="flex flex-col lg:flex-row w-full lg:pl-[70px] justify-center items-start gap-6 ">
               <div className="lg:max-w-[246px] w-full grow shrink basis-0 text-white text-base font-normal leading-relaxed">
                 Personal information and representatives or those responsible
@@ -38,7 +47,7 @@ export default function Apply() {
               />
             </div>
           </Accordion>
-          <Accordion number={2} title={"Project info"}>
+          <Accordion number={2} title={"Project info"} canOpen={true}>
             <div className="flex flex-col lg:flex-row w-full lg:pl-[70px] justify-center items-start gap-6 ">
               <div className="lg:max-w-[246px] w-full grow shrink basis-0 text-white text-base font-normal leading-relaxed">
                 Let us know about your project idea and what you expect.
@@ -52,7 +61,11 @@ export default function Apply() {
               />
             </div>
           </Accordion>
-          <Accordion number={3} title={"House of Chimera report"}>
+          <Accordion
+            number={3}
+            title={"House of Chimera report"}
+            canOpen={true}
+          >
             <div className="flex flex-col lg:flex-row w-full lg:pl-[70px] justify-center items-start gap-6 ">
               <div className="lg:max-w-[246px] w-full grow shrink basis-0 text-white text-base font-normal leading-relaxed">
                 Our Partner House of Chimera will write a research report about
@@ -67,7 +80,7 @@ export default function Apply() {
               />
             </div>
           </Accordion>
-          <Accordion number={4} title={"Upfront costs"}>
+          <Accordion number={4} title={"Upfront costs"} canOpen={true}>
             <div className="flex flex-col lg:flex-row w-full lg:pl-[70px] justify-center items-start gap-6 ">
               <div className="lg:max-w-[246px] w-full grow shrink basis-0 text-white text-base font-normal leading-relaxed">
                 Costs associated with launching on Camada.
@@ -80,7 +93,7 @@ export default function Apply() {
               />
             </div>
           </Accordion>
-          <Accordion number={5} title={"Optional feedback"}>
+          <Accordion number={5} title={"Optional feedback"} canOpen={true}>
             <div className="flex flex-col lg:flex-row w-full lg:pl-[70px] justify-center items-start gap-6 ">
               <div className="lg:max-w-[246px] w-full grow shrink basis-0 text-white text-base font-normal leading-relaxed">
                 Thank you for choosing to work with us. We strive to be the most
