@@ -2,8 +2,15 @@ import { PageHeader } from "@/components/PageHeader"
 import { colors } from "@/utils/colors"
 import { FaTelegramPlane } from "react-icons/fa"
 import { AiOutlineMail } from "react-icons/ai"
+import { ContactForm } from "./forms/contactForm"
+import { ContactFormValues } from "@/types/forms"
 
 export default function Contact() {
+  const handleFormSubmit = (data: ContactFormValues) => {
+    console.log("data", data)
+    // TODO: implements form integration
+  }
+
   return (
     <>
       <PageHeader
@@ -90,34 +97,10 @@ export default function Contact() {
               </div>
             </div>
           </div>
-
-          <div className="max-w-[620px] w-full flex-col justify-start items-start gap-4 inline-flex">
-            <div className="self-stretch h-[46px] px-3.5 py-2.5 bg-gray-500 rounded-lg shadow border border-white border-opacity-5 justify-start items-center gap-2 inline-flex">
-              <div className="grow shrink basis-0 h-[26px] justify-start items-center gap-2 flex">
-                <div className="grow shrink basis-0 text-white text-opacity-40 text-base font-normal leading-relaxed">
-                  Name
-                </div>
-              </div>
-            </div>
-            <div className="self-stretch h-[46px] px-3.5 py-2.5 bg-gray-500 rounded-lg shadow border border-white border-opacity-5 justify-start items-center gap-2 inline-flex">
-              <div className="grow shrink basis-0 h-[26px] justify-start items-center gap-2 flex">
-                <div className="grow shrink basis-0 text-white text-opacity-40 text-base font-normal leading-relaxed">
-                  Email
-                </div>
-              </div>
-            </div>
-            <div className="self-stretch h-[180px] px-3.5 py-2.5 bg-gray-500 rounded-lg shadow border border-white border-opacity-5 justify-start items-start gap-2 inline-flex">
-              <div className="grow shrink basis-0 h-[26px] justify-start items-center gap-2 flex">
-                <div className="grow shrink basis-0 text-white text-opacity-40 text-base font-normal leading-relaxed">
-                  Your message...
-                </div>
-              </div>
-            </div>
-            <div className="self-stretch h-[55px] px-6 py-4 bg-brandBlue-200 rounded-[5px] justify-center items-center gap-2.5 inline-flex">
-              <div className="text-white text-lg font-bold">Send</div>
-            </div>
-          </div>
-
+          <ContactForm
+            defaultValues={{ name: "", email: "", message: "" }}
+            onSubmit={(data) => handleFormSubmit(data)}
+          />
           <div className="lg:hidden grow shrink basis-0 flex-col justify-start items-start gap-10 inline-flex">
             <div className="self-stretch flex-col justify-start items-start gap-4 flex">
               <div className="w-12 h-12 relative bg-brandBlue-200 rounded-full justify-center items-center">
