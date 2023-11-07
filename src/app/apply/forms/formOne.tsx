@@ -26,9 +26,14 @@ export const FormOne = ({ defaultValues, onSubmit }: Props) => {
     !!errors?.name?.message ||
     !!errors?.email?.message
 
+  const handleOnSubmit: SubmitHandler<StepOneFormValues> = (data, event) => {
+    event?.preventDefault()
+    onSubmit(data)
+  }
+
   return (
     <form
-      onSubmit={handleSubmit(onSubmit)}
+      onSubmit={handleSubmit(handleOnSubmit)}
       noValidate
       className="max-w-[900px] w-full flex"
     >

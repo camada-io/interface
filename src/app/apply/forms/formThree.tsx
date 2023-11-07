@@ -8,9 +8,10 @@ import { Radio } from "@/components/Radio"
 type Props = {
   defaultValues: StepThreeFormValues
   onSubmit: SubmitHandler<StepThreeFormValues>
+  handlePrev: () => void
 }
 
-export const FormThree = ({ defaultValues, onSubmit }: Props) => {
+export const FormThree = ({ defaultValues, onSubmit, handlePrev }: Props) => {
   const {
     handleSubmit,
     control,
@@ -21,9 +22,15 @@ export const FormThree = ({ defaultValues, onSubmit }: Props) => {
   })
 
   const invalid = !!errors?.agreedResearch?.message
+
+  const handleOnSubmit: SubmitHandler<StepThreeFormValues> = (data, event) => {
+    event?.preventDefault()
+    onSubmit(data)
+  }
+
   return (
     <form
-      onSubmit={handleSubmit(onSubmit)}
+      onSubmit={handleSubmit(handleOnSubmit)}
       noValidate
       className="max-w-[900px] w-full flex"
     >
@@ -68,10 +75,10 @@ export const FormThree = ({ defaultValues, onSubmit }: Props) => {
 
         <div className="self-stretch justify-center items-center gap-4 inline-flex">
           <Button
-            type="submit"
             text="Prev"
             maxWidth="lg:max-w-[147px]"
             outline
+            onClick={handlePrev}
           />
           <Button
             type="submit"

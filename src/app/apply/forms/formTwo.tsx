@@ -8,9 +8,10 @@ import { Button } from "@/components/Button"
 type Props = {
   defaultValues: StepTwoFormValues
   onSubmit: SubmitHandler<StepTwoFormValues>
+  handlePrev: () => void
 }
 
-export const FormTwo = ({ defaultValues, onSubmit }: Props) => {
+export const FormTwo = ({ defaultValues, onSubmit, handlePrev }: Props) => {
   const {
     handleSubmit,
     control,
@@ -22,9 +23,14 @@ export const FormTwo = ({ defaultValues, onSubmit }: Props) => {
 
   const invalid = !!errors?.projectName?.message || !!errors?.about?.message
 
+  const handleOnSubmit: SubmitHandler<StepTwoFormValues> = (data, event) => {
+    event?.preventDefault()
+    onSubmit(data)
+  }
+
   return (
     <form
-      onSubmit={handleSubmit(onSubmit)}
+      onSubmit={handleSubmit(handleOnSubmit)}
       noValidate
       className="max-w-[900px] w-full flex"
     >
@@ -61,10 +67,10 @@ export const FormTwo = ({ defaultValues, onSubmit }: Props) => {
 
         <div className="self-stretch justify-center items-center gap-4 inline-flex">
           <Button
-            type="submit"
             text="Prev"
             maxWidth="lg:max-w-[147px]"
             outline
+            onClick={handlePrev}
           />
           <Button
             type="submit"

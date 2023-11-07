@@ -8,9 +8,10 @@ import { schemaStepFour } from "../schema"
 type Props = {
   defaultValues: StepFourFormValues
   onSubmit: SubmitHandler<StepFourFormValues>
+  handlePrev: () => void
 }
 
-export const FormFour = ({ defaultValues, onSubmit }: Props) => {
+export const FormFour = ({ defaultValues, onSubmit, handlePrev }: Props) => {
   const {
     handleSubmit,
     control,
@@ -22,9 +23,14 @@ export const FormFour = ({ defaultValues, onSubmit }: Props) => {
 
   const invalid = !!errors?.agreedUpfront?.message
 
+  const handleOnSubmit: SubmitHandler<StepFourFormValues> = (data, event) => {
+    event?.preventDefault()
+    onSubmit(data)
+  }
+
   return (
     <form
-      onSubmit={handleSubmit(onSubmit)}
+      onSubmit={handleSubmit(handleOnSubmit)}
       noValidate
       className="max-w-[900px] w-full flex"
     >
@@ -62,10 +68,10 @@ export const FormFour = ({ defaultValues, onSubmit }: Props) => {
 
         <div className="self-stretch justify-center items-center gap-4 inline-flex">
           <Button
-            type="submit"
             text="Prev"
             maxWidth="lg:max-w-[147px]"
             outline
+            onClick={handlePrev}
           />
           <Button
             type="submit"

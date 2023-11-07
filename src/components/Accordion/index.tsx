@@ -1,33 +1,59 @@
-import { useState } from "react"
+import { RiCheckLine } from "react-icons/ri"
 
 type Props = {
   number: number
   title: string
   children: any
   canOpen: boolean
+  isFormChecked?: boolean
+  isOpen: boolean // Adicione esta linha
+  toggleAccordion: () => void
 }
 
-export const Accordion = ({ number, title, children, canOpen }: Props) => {
-  const [isOpen, setIsOpen] = useState(false)
+export const Accordion = ({
+  number,
+  title,
+  children,
+  canOpen,
+  isFormChecked,
+  isOpen,
+  toggleAccordion,
+}: Props) => {
+  // const [isOpen, setIsOpen] = useState(false)
 
-  const toggleAccordion = () => {
-    if (canOpen) {
-      setIsOpen(!isOpen)
-    }
-  }
+  // Efeito para abrir o acordeão automaticamente quando autoOpen se torna true
+  // useEffect(() => {
+  //   if (autoOpen) {
+  //     setIsOpen(true)
+  //   }
+  // }, [autoOpen])
+
+  // const toggleAccordion = () => {
+  //   if (canOpen) {
+  //     setIsOpen(!isOpen)
+  //   }
+  // }
 
   return (
     <>
       <button
-        className="flex items-center w-full text-left focus:outline-none"
+        className="flex items-center w-full justify-center text-left focus:outline-none"
         onClick={toggleAccordion}
         disabled={!canOpen}
       >
         <div className="max-w-[1240px] w-full justify-start items-center gap-6 inline-flex">
-          <div className="h-[45px] w-[45px] pt-2 pb-[7px] bg-gray-600 rounded-[5px] border border-brandBlue-100 justify-center items-center flex">
-            <div className="text-brandBlue-100 text-xl font-bold leading-[30px]">
-              {number}
-            </div>
+          <div
+            className={`h-[45px] w-[45px] pt-2 pb-[7px] ${
+              isFormChecked ? "bg-brandBlue-200" : "bg-gray-600"
+            }  rounded-[5px] border border-brandBlue-100 justify-center items-center flex`}
+          >
+            {isFormChecked ? (
+              <RiCheckLine size={24} />
+            ) : (
+              <div className="text-brandBlue-100 text-xl font-bold leading-[30px]">
+                {number}
+              </div>
+            )}
           </div>
           <div className="text-white text-xl font-extrabold leading-[30px]">
             {title}

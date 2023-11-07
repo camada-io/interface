@@ -8,9 +8,10 @@ import { Button } from "@/components/Button"
 type Props = {
   defaultValues: StepFiveFormValues
   onSubmit: SubmitHandler<StepFiveFormValues>
+  handlePrev: () => void
 }
 
-export const FormFive = ({ defaultValues, onSubmit }: Props) => {
+export const FormFive = ({ defaultValues, onSubmit, handlePrev }: Props) => {
   const {
     handleSubmit,
     control,
@@ -20,9 +21,14 @@ export const FormFive = ({ defaultValues, onSubmit }: Props) => {
     defaultValues,
   })
 
+  const handleOnSubmit: SubmitHandler<StepFiveFormValues> = (data, event) => {
+    event?.preventDefault()
+    onSubmit(data)
+  }
+
   return (
     <form
-      onSubmit={handleSubmit(onSubmit)}
+      onSubmit={handleSubmit(handleOnSubmit)}
       noValidate
       className="max-w-[900px] w-full flex"
     >
@@ -48,14 +54,14 @@ export const FormFive = ({ defaultValues, onSubmit }: Props) => {
 
         <div className="self-stretch justify-center items-center gap-4 inline-flex">
           <Button
-            type="submit"
             text="Prev"
             maxWidth="lg:max-w-[147px]"
             outline
+            onClick={handlePrev}
           />
           <Button
             type="submit"
-            text="Next"
+            text="Submit"
             maxWidth="lg:max-w-[147px]"
             isLoading={isSubmitting}
           />
