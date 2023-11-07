@@ -5,6 +5,12 @@ export const typeDefs = gql`
     sort: [Sort]
   }
 
+  input EmailInput {
+    name: String
+    email: String
+    message: String
+  }
+
   type Sort {
     name: String
     order: String

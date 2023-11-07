@@ -32,13 +32,12 @@ export function StakeTab({ stakeProps }: { stakeProps: StakeProps }) {
   } = stakeProps
 
   const getNextTierMissingPoints = useCallback(() => {
-    if (!tier) return 0
+    if (!tier && !stakedBalance) return 0
 
     const nextTier = allTiers.at(tier) as number
 
     return nextTier - stakedBalance
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [tier])
+  }, [tier, stakedBalance, allTiers])
 
   return !isLoading ? (
     <>
@@ -51,7 +50,7 @@ export function StakeTab({ stakeProps }: { stakeProps: StakeProps }) {
           tokens={[
             {
               icon: "/images/spad.png",
-              name: "spad",
+              symbol: "spad",
             },
           ]}
         />

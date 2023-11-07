@@ -24,7 +24,7 @@ export function UnstakeTab({ stakeProps }: { stakeProps: StakeProps }) {
   const { isLoading, stakedBalance, tier, allTiers } = stakeProps
 
   const getNextTier = useCallback(() => {
-    if (!tier) return allTiers.at(0)
+    if (!tier) return 0
 
     const nextTierAmount = stakedBalance - amount
 
@@ -50,7 +50,7 @@ export function UnstakeTab({ stakeProps }: { stakeProps: StakeProps }) {
           tokens={[
             {
               icon: "/images/spad.png",
-              name: "spad",
+              symbol: "spad",
             },
           ]}
         />

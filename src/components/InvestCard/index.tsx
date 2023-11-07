@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { ButtonHTMLAttributes, DetailedHTMLProps, useState } from "react"
 import Image from "next/image"
 
 import { InputNumber } from "../InputNumber"
@@ -10,7 +10,12 @@ import { Loading } from "../Loading"
 type Token = {
   address?: string
   icon: string
-  name: string
+  symbol: string
+}
+
+type ChangeData = {
+  token: Token | null
+  amount: number
 }
 
 type Props = {
@@ -23,10 +28,23 @@ type Props = {
   projectTokenName?: string
   projectTokenSymbol?: string
   projectTokenIcon?: string
-  projectBalance?: string
+  projectBalance?: number
   projectPrice?: number
   stableTokenBalance?: string
-  onSelectToken?: (token: Token) => void
+  claimBalance?: number
+  refundBalance?: { usdc: number; usdt: number }
+  availableToClaimBalance?: number
+  onChangeData?: ({ token, amount }: ChangeData) => void
+  isConnected: boolean
+}
+
+interface ButtonProps
+  extends DetailedHTMLProps<
+    ButtonHTMLAttributes<HTMLButtonElement>,
+    HTMLButtonElement
+  > {
+  text: string
+  handle: () => void
 }
 
 export const InvestCard = ({
@@ -41,15 +59,23 @@ export const InvestCard = ({
   projectTokenIcon,
   projectBalance,
   stableTokenBalance,
-  onSelectToken,
+  claimBalance,
+  refundBalance,
+  availableToClaimBalance,
+  onChangeData,
   projectPrice,
+  isConnected,
 }: Props) => {
-  const [amount, setAmount] = useState(0)
+  const [investmentData, setInvestmentData] = useState({
+    token: tokens ? tokens[0] : null,
+    amount: 0,
+  })
 
-  const Button = ({ text, handle }: { text: string; handle: () => void }) => {
+  const Button = ({ text, handle, className, ...props }: ButtonProps) => {
     return (
       <button
-        className="self-stretch h-[55px] px-6 py-4 bg-brandBlue-200 rounded-[5px] justify-center items-center gap-2.5 inline-flex"
+        {...props}
+        className={`self-stretch h-[55px] px-6 py-4 bg-brandBlue-200 rounded-[5px] justify-center items-center gap-2.5 inline-flex disabled:cursor-not-allowed ${className}`}
         onClick={handle}
       >
         {!isLoading ? (
@@ -83,7 +109,7 @@ export const InvestCard = ({
                 />
               </div>
               <div className="text-white text-md font-medium leading-normal">
-                {projectBalance ?? 0} {projectTokenSymbol}
+                {projectBalance || 0} {projectTokenSymbol}
               </div>
             </div>
           </div>
@@ -91,8 +117,14 @@ export const InvestCard = ({
         <InputNumber
           balance={stableTokenBalance ?? 0}
           tokens={tokens}
-          onSelectToken={onSelectToken}
-          onInputChange={setAmount}
+          onSelectToken={(token) => {
+            onChangeData?.({ ...investmentData, token })
+            setInvestmentData({ ...investmentData, token })
+          }}
+          onInputChange={(amount) => {
+            onChangeData?.({ ...investmentData, amount })
+            setInvestmentData({ ...investmentData, amount })
+          }}
         />
         <div className="self-stretch justify-between items-start inline-flex">
           <div className="text-white text-base font-normal leading-relaxed">
@@ -108,11 +140,21 @@ export const InvestCard = ({
               />
             </div>
             <div className="text-white text-base font-normal leading-relaxed">
-              {projectPrice ? amount / projectPrice : 0} {projectTokenSymbol}
+              {projectPrice
+                ? Number(
+                    Number(investmentData.amount / projectPrice).toFixed(2),
+                  )
+                : 0}{" "}
+              {projectTokenSymbol}
             </div>
           </div>
         </div>
-        <Button text={"Invest now"} handle={() => investHandle?.()} />
+        <Button
+          className="disabled:opacity-[0.5]"
+          disabled={isConnected && investmentData.amount <= 0}
+          text={isConnected ? "Invest now" : "Connect Wallet"}
+          handle={() => investHandle?.()}
+        />
       </div>
     )
   if (type === CardProjectType.CLAIM)
@@ -121,21 +163,63 @@ export const InvestCard = ({
         <div className="self-stretch justify-between items-start lg:items-center inline-flex flex-col lg:flex-row">
           <div className="text-white text-lg font-bold leading-7">Claim</div>
         </div>
-        <InputNumber balance={"1"} balanceLabel="Your balance:" />
+        <InputNumber
+          balance={claimBalance ?? 0}
+          tokens={[
+            {
+              icon: projectTokenIcon ?? "/images/icon_not_found.jpg",
+              symbol: projectTokenSymbol ?? "",
+            },
+          ]}
+          balanceLabel="Your balance:"
+          onInputChange={(amount) => {
+            onChangeData?.({ ...investmentData, amount })
+            setInvestmentData({ ...investmentData, amount })
+          }}
+        />
+        <div className="self-stretch justify-between items-start inline-flex">
+          <div className="text-white text-base font-normal leading-relaxed">
+            Available tokens to claim
+          </div>
+          <div className="h-[26px] justify-end items-center gap-2 flex">
+            <div className="w-6 h-6 relative flex justify-center items-center">
+              <Image
+                src={projectTokenIcon ?? "/images/icon_not_found.jpg"}
+                alt="symbol"
+                fill
+                className="rounded-full"
+              />
+            </div>
+            <div className="text-white text-base font-normal leading-relaxed">
+              {availableToClaimBalance ?? 0} {projectTokenSymbol}
+            </div>
+          </div>
+        </div>
         <div className="self-stretch justify-between items-start inline-flex">
           <div className="text-white text-base font-normal leading-relaxed">
             You will receive
           </div>
           <div className="h-[26px] justify-end items-center gap-2 flex">
             <div className="w-6 h-6 relative flex justify-center items-center">
-              <Image src="../images/favicon.svg" alt="symbol" fill />
+              <Image
+                src={projectTokenIcon ?? "/images/icon_not_found.jpg"}
+                alt="symbol"
+                fill
+                className="rounded-full"
+              />
             </div>
             <div className="text-white text-base font-normal leading-relaxed">
-              10 PSYS
+              {claimBalance ? claimBalance : 0} {projectTokenSymbol}
             </div>
           </div>
         </div>
-        <Button text={"Claim now"} handle={() => claimHandle} />
+
+        <Button
+          className="disabled:opacity-[0.5]"
+          disabled={isConnected && !availableToClaimBalance}
+          text={isConnected ? "Claim now" : "Connect Wallet"}
+          handle={() => claimHandle?.()}
+        />
       </div>
     )
   if (type === CardProjectType.REFUND)
@@ -149,20 +233,45 @@ export const InvestCard = ({
           refund of your investment.
         </div>
 
-        <div className="self-stretch justify-between items-start inline-flex">
-          <div className="text-white text-base font-normal leading-relaxed">
-            Your balance
-          </div>
-          <div className="h-[26px] justify-end items-center gap-2 flex">
-            <div className="w-6 h-6 relative flex justify-center items-center">
-              <Image src="/images/usdt.svg" alt="symbol" fill />
-            </div>
+        <div className="flex flex-col w-full gap-2">
+          <div className="self-stretch justify-between items-start inline-flex">
             <div className="text-white text-base font-normal leading-relaxed">
-              10 USDT
+              USDC balance
+            </div>
+            <div className="h-[26px] justify-end items-center gap-2 flex">
+              <div className="w-6 h-6 relative flex justify-center items-center">
+                <Image src="/images/usdc.svg" alt="symbol" fill />
+              </div>
+              <div className="text-white text-base font-normal leading-relaxed">
+                {refundBalance ? refundBalance.usdc / 1e6 : 0} USDC
+              </div>
+            </div>
+          </div>
+          <div className="self-stretch justify-between items-start inline-flex">
+            <div className="text-white text-base font-normal leading-relaxed">
+              USDT balance
+            </div>
+            <div className="h-[26px] justify-end items-center gap-2 flex">
+              <div className="w-6 h-6 relative flex justify-center items-center">
+                <Image src="/images/usdt.svg" alt="symbol" fill />
+              </div>
+              <div className="text-white text-base font-normal leading-relaxed">
+                {refundBalance ? refundBalance.usdt / 1e6 : 0} USDT
+              </div>
             </div>
           </div>
         </div>
-        <Button text={"Refund now"} handle={() => refundHandle} />
+
+        <Button
+          className={
+            !refundBalance?.usdc && !refundBalance?.usdt && isConnected
+              ? "disabled:opacity-[0.5]"
+              : ""
+          }
+          disabled={!refundBalance?.usdc && !refundBalance?.usdt && isConnected}
+          text={isConnected ? "Refund now" : "Connect Wallet"}
+          handle={() => refundHandle?.()}
+        />
       </div>
     )
   return null
