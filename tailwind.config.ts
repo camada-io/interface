@@ -43,6 +43,8 @@ const config: Config = {
           700: "#272C39",
           900: "#222631",
         },
+        orange: "#FF9900",
+        red: "#B50A0A",
       },
       backgroundImage: {
         "background-dark": "url('/assets/background.svg')",

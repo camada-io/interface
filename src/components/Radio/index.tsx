@@ -1,41 +1,42 @@
 "use client"
 
-import { useState } from "react"
+import { Control, useController } from "react-hook-form"
 
 interface RadioOption {
   label: string
-  value: string
+  value: boolean
 }
 
 interface RadioComponentProps {
   name: string
   options: RadioOption[]
-  defaultValue?: string
   className?: string
+  control: Control<any>
 }
 
 export const Radio = ({
   name,
   options,
-  defaultValue,
+  control,
   className,
 }: RadioComponentProps) => {
-  const [selectedValue, setSelectedValue] = useState(defaultValue)
-
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSelectedValue(event.target.value)
-  }
+  const {
+    field: { onChange, ref, value },
+  } = useController({
+    name,
+    control,
+  })
 
   return (
     <div className={`flex justify-start items-start gap-8 ${className}`}>
-      {options.map((option) => (
+      {options.map((option, index) => (
         <label
-          key={option.value}
+          key={index}
           className="flex justify-start items-center gap-1 cursor-pointer"
         >
           <div
             className={`w-5 h-5 rounded-full  ${
-              selectedValue === option.value
+              value === option.value
                 ? "border-brandBlue-200 border-4"
                 : "border-neutral-400 opacity-50 border-2"
             }`}
@@ -43,9 +44,10 @@ export const Radio = ({
           <input
             type="radio"
             name={name}
-            value={option.value}
-            checked={selectedValue === option.value}
-            onChange={handleChange}
+            value={option.value.toString()}
+            ref={ref}
+            checked={value === option.value}
+            onChange={() => onChange(option.value)}
             className="hidden" // Hide the default radio button
           />
           <span className="text-white text-base font-normal leading-relaxed">

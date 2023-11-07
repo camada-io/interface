@@ -170,7 +170,7 @@ export default function Projects() {
           </div>
 
           <div className="flex w-full justify-end relative max-[1200px]:hidden">
-            <div className="absolute right-0 top-[14px] right-[14px]">
+            <div className="absolute top-[14px] right-[14px]">
               <FiSearch size={32} color="#FFFFFF5C" />
             </div>
             <input
