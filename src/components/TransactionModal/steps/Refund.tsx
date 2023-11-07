@@ -2,37 +2,31 @@
 
 import { useCallback, useEffect } from "react"
 import Image from "next/image"
-import { useContractWrite, useWaitForTransaction } from "wagmi"
 import { BsCheckLg } from "react-icons/bs"
+import { useContractWrite, useWaitForTransaction } from "wagmi"
 
 import { TransactionModalState } from "../../../stores/transactionModal"
-import abi from "@/contracts/stakeAbi"
+import abi from "@/contracts/saleAbi"
 import { Loading } from "@/components/Loading"
 
 type ApproveProps = {
   state: TransactionModalState
-  amount: number
+  refundAmount: { usdc?: number; usdt?: number }
+  saleAddress: string
 }
 
 type Address = `0x${string}`
 
-const contractAddres = process.env.NEXT_PUBLIC_STAKE_CONTRACT as Address
-
-export function Claim({ state, amount }: ApproveProps) {
-  const claim = useContractWrite({
-    address: contractAddres,
+export function Refund({ state, refundAmount, saleAddress }: ApproveProps) {
+  const refund = useContractWrite({
+    address: saleAddress as Address,
     abi: abi,
-    functionName: "getReward",
+    functionName: "refundUser",
   })
 
   const transaction = useWaitForTransaction({
-    hash: claim.data?.hash,
+    hash: refund.data?.hash,
   })
-
-  useEffect(() => {
-    if (!amount) state.onClose()
-    // eslint-disable-next-line
-  }, [])
 
   useEffect(() => {
     if (transaction.isSuccess) {
@@ -40,10 +34,17 @@ export function Claim({ state, amount }: ApproveProps) {
     }
   }, [transaction.isSuccess, state])
 
+  useEffect(() => {
+    if (!refundAmount.usdc && !refundAmount.usdt) {
+      state.onClose()
+    }
+    // eslint-disable-next-line
+  }, [])
+
   const titleState = useCallback(() => {
-    if (transaction.isLoading) return "Claiming"
-    if (transaction.isSuccess) return "Claimed"
-    return "Claim"
+    if (transaction.isLoading) return "Refunding"
+    if (transaction.isSuccess) return "Refunded"
+    return "Refund"
   }, [transaction.isLoading, transaction.isSuccess])
 
   return (
@@ -71,36 +72,56 @@ export function Claim({ state, amount }: ApproveProps) {
 
               <div>
                 {transaction.isSuccess && (
-                  <p>You successfully claimed your rewards!</p>
+                  <p>The amount is avaiable in your wallet!</p>
                 )}
               </div>
 
-              <div className="flex h-full items-start justify-between">
-                <p>Claiming amount</p>
-                <div>
-                  <div className="flex items-center gap-[10px]">
-                    <Image
-                      width={20}
-                      height={20}
-                      alt=""
-                      src={"/images/spad.png"}
-                      className="rounded-full"
-                    />
-                    <p>{amount} sPAD</p>
+              {!!refundAmount?.usdc && (
+                <div className="flex h-full items-start justify-between">
+                  <p>USDC amount</p>
+                  <div>
+                    <div className="flex items-center gap-[10px]">
+                      <Image
+                        width={20}
+                        height={20}
+                        alt=""
+                        src="/images/usdc.svg"
+                        className="rounded-full"
+                      />
+                      <p>{` ${refundAmount.usdc / 1e6} USDC`}</p>
+                    </div>
                   </div>
                 </div>
-              </div>
+              )}
+
+              {!!refundAmount?.usdt && (
+                <div className="flex h-full items-start justify-between">
+                  <p>USDt amount</p>
+                  <div>
+                    <div className="flex items-center gap-[10px]">
+                      <Image
+                        width={20}
+                        height={20}
+                        alt=""
+                        src="/images/usdt.svg"
+                        className="rounded-full"
+                      />
+                      <p>{` ${refundAmount.usdt / 1e6} USDT`}</p>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>
 
         <button
-          onClick={() => claim.write()}
+          onClick={() => refund.write()}
           type="button"
           className="p-[8px] rounded-[5px] bg-brandBlue-200 text-center w-full disabled:opacity-[0.5] disabled:cursor-not-allowed hover:bg-brandBlue-100 transition:all duration-300"
-          disabled={claim.isLoading}
+          disabled={refund.isLoading}
         >
-          Claim
+          Refund
         </button>
       </div>
     </div>

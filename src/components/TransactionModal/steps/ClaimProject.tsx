@@ -1,28 +1,32 @@
 "use client"
 
-import { useCallback, useEffect } from "react"
 import Image from "next/image"
 import { useContractWrite, useWaitForTransaction } from "wagmi"
-import { BsCheckLg } from "react-icons/bs"
-
 import { TransactionModalState } from "../../../stores/transactionModal"
-import abi from "@/contracts/stakeAbi"
+import abi from "@/contracts/saleAbi"
+import { useCallback, useEffect } from "react"
 import { Loading } from "@/components/Loading"
+import { parseUnits } from "ethers"
+import { BsCheckLg } from "react-icons/bs"
 
 type ApproveProps = {
   state: TransactionModalState
   amount: number
+  project: {
+    address: string
+    name: string
+    symbol: string
+    icon: string
+  }
 }
 
 type Address = `0x${string}`
 
-const contractAddres = process.env.NEXT_PUBLIC_STAKE_CONTRACT as Address
-
-export function Claim({ state, amount }: ApproveProps) {
+export function ClaimProject({ state, amount, project }: ApproveProps) {
   const claim = useContractWrite({
-    address: contractAddres,
+    address: project.address as Address,
     abi: abi,
-    functionName: "getReward",
+    functionName: "claimTokens",
   })
 
   const transaction = useWaitForTransaction({
@@ -75,6 +79,23 @@ export function Claim({ state, amount }: ApproveProps) {
                 )}
               </div>
 
+              <div className="flex flex-col gap-[10px] my-6">
+                <div className="flex h-full items-start justify-between">
+                  <p>Project</p>
+                  <div>
+                    <div className="flex items-center gap-[10px]">
+                      <Image
+                        width={20}
+                        height={20}
+                        alt=""
+                        src={project.icon}
+                        className="rounded-full"
+                      />
+                      <p>{`${project.name} ${project.symbol}`}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
               <div className="flex h-full items-start justify-between">
                 <p>Claiming amount</p>
                 <div>
@@ -83,10 +104,10 @@ export function Claim({ state, amount }: ApproveProps) {
                       width={20}
                       height={20}
                       alt=""
-                      src={"/images/spad.png"}
+                      src={project.icon}
                       className="rounded-full"
                     />
-                    <p>{amount} sPAD</p>
+                    <p>{` ${amount} ${project.symbol}`}</p>
                   </div>
                 </div>
               </div>
@@ -95,7 +116,11 @@ export function Claim({ state, amount }: ApproveProps) {
         </div>
 
         <button
-          onClick={() => claim.write()}
+          onClick={() =>
+            claim.write({
+              args: [project.address as Address, parseUnits(String(amount), 6)],
+            })
+          }
           type="button"
           className="p-[8px] rounded-[5px] bg-brandBlue-200 text-center w-full disabled:opacity-[0.5] disabled:cursor-not-allowed hover:bg-brandBlue-100 transition:all duration-300"
           disabled={claim.isLoading}
