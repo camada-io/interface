@@ -1,14 +1,24 @@
+"use client"
+
 import { PageHeader } from "@/components/PageHeader"
 import { colors } from "@/utils/colors"
 import { FaTelegramPlane } from "react-icons/fa"
 import { AiOutlineMail } from "react-icons/ai"
 import { ContactForm } from "./forms/contactForm"
 import { ContactFormValues } from "@/types/forms"
+import { useMutation } from "@apollo/client"
+import { SEND_EMAIL } from "@/Apollo/queries/mail"
 
 export default function Contact() {
-  const handleFormSubmit = (data: ContactFormValues) => {
-    console.log("data", data)
-    // TODO: implements form integration
+  const [sendEmail] = useMutation(SEND_EMAIL)
+
+  const handleFormSubmit = async (data: ContactFormValues) => {
+    data.email
+    await sendEmail({
+      variables: {
+        input: data,
+      },
+    })
   }
 
   return (
@@ -97,10 +107,12 @@ export default function Contact() {
               </div>
             </div>
           </div>
+
           <ContactForm
             defaultValues={{ name: "", email: "", message: "" }}
             onSubmit={(data) => handleFormSubmit(data)}
           />
+
           <div className="lg:hidden grow shrink basis-0 flex-col justify-start items-start gap-10 inline-flex">
             <div className="self-stretch flex-col justify-start items-start gap-4 flex">
               <div className="w-12 h-12 relative bg-brandBlue-200 rounded-full justify-center items-center">
