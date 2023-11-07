@@ -8,17 +8,44 @@ import { ContactForm } from "./forms/contactForm"
 import { ContactFormValues } from "@/types/forms"
 import { useMutation } from "@apollo/client"
 import { SEND_EMAIL } from "@/Apollo/queries/mail"
+import { Alert } from "@/components/Alert"
+import { useState } from "react"
+import { useForm } from "react-hook-form"
 
 export default function Contact() {
   const [sendEmail] = useMutation(SEND_EMAIL)
+  const [showAlert, setShowAlert] = useState(false)
+  const [error, setError] = useState(false)
+  const [isSending, setIsSending] = useState(false)
+
+  const { reset } = useForm<ContactFormValues>({
+    defaultValues: {
+      name: "",
+      email: "",
+      message: "",
+    },
+  })
 
   const handleFormSubmit = async (data: ContactFormValues) => {
-    data.email
+    setIsSending(true)
+
     await sendEmail({
       variables: {
         input: data,
       },
     })
+      .then(() => {
+        reset()
+        setError(false)
+        setShowAlert(true)
+        setIsSending(false)
+      })
+      .catch((_) => {
+        setIsSending(false)
+        setError(true)
+        setShowAlert(true)
+        reset()
+      })
   }
 
   return (
@@ -108,10 +135,15 @@ export default function Contact() {
             </div>
           </div>
 
-          <ContactForm
-            defaultValues={{ name: "", email: "", message: "" }}
-            onSubmit={(data) => handleFormSubmit(data)}
-          />
+          <div className="w-full h-full flex flex-col gap-4">
+            <ContactForm
+              defaultValues={{ name: "", email: "", message: "" }}
+              onSubmit={(data) => handleFormSubmit(data)}
+              isSending={isSending}
+            />
+
+            <Alert maxWidth="max-w-[620px]" show={showAlert} isError={error} />
+          </div>
 
           <div className="lg:hidden grow shrink basis-0 flex-col justify-start items-start gap-10 inline-flex">
             <div className="self-stretch flex-col justify-start items-start gap-4 flex">

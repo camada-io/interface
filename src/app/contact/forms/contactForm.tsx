@@ -10,13 +10,14 @@ import { Button } from "@/components/Button"
 type Props = {
   defaultValues: ContactFormValues
   onSubmit: SubmitHandler<ContactFormValues>
+  isSending: boolean
 }
 
-export const ContactForm = ({ defaultValues, onSubmit }: Props) => {
+export const ContactForm = ({ defaultValues, onSubmit, isSending }: Props) => {
   const {
     handleSubmit,
     control,
-    formState: { isSubmitting, errors },
+    formState: { errors },
   } = useForm<ContactFormValues>({
     resolver: yupResolver(schemaContact),
     defaultValues,
@@ -50,8 +51,8 @@ export const ContactForm = ({ defaultValues, onSubmit }: Props) => {
         <Button
           type="submit"
           text="Send"
-          disabled={invalid}
-          isLoading={isSubmitting}
+          disabled={invalid || isSending}
+          isLoading={isSending}
         />
       </div>
     </form>
