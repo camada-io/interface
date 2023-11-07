@@ -37,6 +37,11 @@ const abi = [
         type: "uint256",
       },
       {
+        internalType: "uint256",
+        name: "_minimumSaleAmountForClaim",
+        type: "uint256",
+      },
+      {
         internalType: "address",
         name: "_fundingWallet",
         type: "address",
@@ -61,6 +66,19 @@ const abi = [
       },
     ],
     name: "FundingWalletChanged",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
+    ],
+    name: "MinimumSaleAmountForClaimChanged",
     type: "event",
   },
   {
@@ -120,6 +138,43 @@ const abi = [
       {
         indexed: false,
         internalType: "address",
+        name: "wallet",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "address",
+        name: "usdc",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "usdcAmount",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "address",
+        name: "usdt",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "usdtAmount",
+        type: "uint256",
+      },
+    ],
+    name: "RefundUser",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "address",
         name: "saleAddress",
         type: "address",
       },
@@ -165,6 +220,12 @@ const abi = [
         name: "saleAmount",
         type: "uint256",
       },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "minimumSaleAmountForClaim",
+        type: "uint256",
+      },
     ],
     name: "SaleCreated",
     type: "event",
@@ -205,6 +266,43 @@ const abi = [
       },
     ],
     name: "ScheduleChanged",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "address",
+        name: "wallet",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "address",
+        name: "usdc",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "usdcAmount",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "address",
+        name: "usdt",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "usdtAmount",
+        type: "uint256",
+      },
+    ],
+    name: "SendAmountRaisedToFundingWallet",
     type: "event",
   },
   {
@@ -276,6 +374,25 @@ const abi = [
     ],
     name: "UsdConversionRateChanged",
     type: "event",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    name: "amoutRaised",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
   },
   {
     inputs: [
@@ -450,6 +567,30 @@ const abi = [
     type: "function",
   },
   {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_address",
+        type: "address",
+      },
+    ],
+    name: "getUSDAvailableForRefund",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
     inputs: [],
     name: "isClaimable",
     outputs: [
@@ -482,6 +623,19 @@ const abi = [
       {
         internalType: "bool",
         name: "open",
+        type: "bool",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "isOverAndDidnSellEnought",
+    outputs: [
+      {
+        internalType: "bool",
+        name: "needsRefund",
         type: "bool",
       },
     ],
@@ -568,6 +722,19 @@ const abi = [
   },
   {
     inputs: [],
+    name: "minimumSaleAmountForClaim",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
     name: "openTime",
     outputs: [
       {
@@ -620,7 +787,27 @@ const abi = [
         type: "address",
       },
     ],
+    name: "refundAllTokensToOwner",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_wallet",
+        type: "address",
+      },
+    ],
     name: "refundRemainingTokensToOwner",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "refundUser",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
@@ -685,6 +872,13 @@ const abi = [
     type: "function",
   },
   {
+    inputs: [],
+    name: "sendAmoutRaisedToFundingWallet",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
     inputs: [
       {
         internalType: "address",
@@ -729,6 +923,19 @@ const abi = [
     inputs: [
       {
         internalType: "uint256",
+        name: "_amount",
+        type: "uint256",
+      },
+    ],
+    name: "setMinimumSaleAmountForClaim",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
         name: "_newAmount",
         type: "uint256",
       },
@@ -764,6 +971,19 @@ const abi = [
     name: "setSchedule",
     outputs: [],
     stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "soldEnoughForClaim",
+    outputs: [
+      {
+        internalType: "bool",
+        name: "soldEnough",
+        type: "bool",
+      },
+    ],
+    stateMutability: "view",
     type: "function",
   },
   {
@@ -833,6 +1053,32 @@ const abi = [
         internalType: "uint256",
         name: "",
         type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "usdc",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "usdt",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
       },
     ],
     stateMutability: "view",

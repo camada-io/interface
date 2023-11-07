@@ -32,6 +32,7 @@ type Props = {
   projectPrice?: number
   stableTokenBalance?: string
   claimBalance?: number
+  refundBalance?: { usdc: number; usdt: number }
   availableToClaimBalance?: number
   onChangeData?: ({ token, amount }: ChangeData) => void
   isConnected: boolean
@@ -59,6 +60,7 @@ export const InvestCard = ({
   projectBalance,
   stableTokenBalance,
   claimBalance,
+  refundBalance,
   availableToClaimBalance,
   onChangeData,
   projectPrice,
@@ -231,20 +233,45 @@ export const InvestCard = ({
           refund of your investment.
         </div>
 
-        <div className="self-stretch justify-between items-start inline-flex">
-          <div className="text-white text-base font-normal leading-relaxed">
-            Your balance
-          </div>
-          <div className="h-[26px] justify-end items-center gap-2 flex">
-            <div className="w-6 h-6 relative flex justify-center items-center">
-              <Image src="/images/usdt.svg" alt="symbol" fill />
-            </div>
+        <div className="flex flex-col w-full gap-2">
+          <div className="self-stretch justify-between items-start inline-flex">
             <div className="text-white text-base font-normal leading-relaxed">
-              10 USDT
+              USDC balance
+            </div>
+            <div className="h-[26px] justify-end items-center gap-2 flex">
+              <div className="w-6 h-6 relative flex justify-center items-center">
+                <Image src="/images/usdc.svg" alt="symbol" fill />
+              </div>
+              <div className="text-white text-base font-normal leading-relaxed">
+                {refundBalance ? refundBalance.usdc / 1e6 : 0} USDC
+              </div>
+            </div>
+          </div>
+          <div className="self-stretch justify-between items-start inline-flex">
+            <div className="text-white text-base font-normal leading-relaxed">
+              USDT balance
+            </div>
+            <div className="h-[26px] justify-end items-center gap-2 flex">
+              <div className="w-6 h-6 relative flex justify-center items-center">
+                <Image src="/images/usdt.svg" alt="symbol" fill />
+              </div>
+              <div className="text-white text-base font-normal leading-relaxed">
+                {refundBalance ? refundBalance.usdt / 1e6 : 0} USDT
+              </div>
             </div>
           </div>
         </div>
-        <Button text={"Refund now"} handle={() => refundHandle?.()} />
+
+        <Button
+          className={
+            !refundBalance?.usdc && !refundBalance?.usdt && isConnected
+              ? "disabled:opacity-[0.5]"
+              : ""
+          }
+          disabled={!refundBalance?.usdc && !refundBalance?.usdt && isConnected}
+          text={isConnected ? "Refund now" : "Connect Wallet"}
+          handle={() => refundHandle?.()}
+        />
       </div>
     )
   return null

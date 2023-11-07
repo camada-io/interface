@@ -27,6 +27,7 @@ import { Invest } from "@/components/TransactionModal/steps/Invest"
 import { ApproveProject } from "@/components/TransactionModal/steps/ApproveProject"
 import { formatUnits } from "ethers"
 import { ClaimProject } from "@/components/TransactionModal/steps/ClaimProject"
+import { Refund } from "@/components/TransactionModal/steps/Refund"
 
 dayjs.extend(LocalizedFormart)
 
@@ -84,12 +85,24 @@ export default function Project({ params }: { params: { address: string } }) {
 
   if (!project && !loading) notFound()
 
+  const isRefundable =
+    project?.status === "Finished" && project.saleProgress < 100
+
   const { data: projectBalance } = useContractRead({
     address: address as Address,
     abi: abi,
     functionName: "getBoughtTokens",
     args: [account as Address],
     enabled: !!account && !!address && !loading,
+    watch: !!account && !!address,
+  })
+
+  const { data: refundBalance } = useContractRead({
+    address: address as Address,
+    abi: abi,
+    functionName: "getUSDAvailableForRefund",
+    args: [account as Address],
+    enabled: !!account && !!address && !loading && isRefundable,
     watch: !!account && !!address,
   })
 
@@ -123,10 +136,14 @@ export default function Project({ params }: { params: { address: string } }) {
   })
 
   const cardProjectType = useCallback(() => {
+    if (isRefundable) return CardProjectType.REFUND
+
     if (project?.status === "On going") return CardProjectType.INVEST
+
     if (project?.status === "Finished") return CardProjectType.CLAIM
+
     return CardProjectType.INVEST
-  }, [project?.status])
+  }, [project?.status, isRefundable])
 
   return !loading && project ? (
     <>
@@ -154,6 +171,10 @@ export default function Project({ params }: { params: { address: string } }) {
             projectTokenSymbol={project.tokenSymbol}
             projectBalance={Number(projectBalance) ?? 0}
             claimBalance={Number(claimBalance) ?? 0}
+            refundBalance={{
+              usdc: Number(refundBalance?.at(0)) || 0,
+              usdt: Number(refundBalance?.at(1)) || 0,
+            }}
             availableToClaimBalance={Number(availableToClaimBalance) ?? 0}
             stableTokenBalance={
               stableTokenBalance ? `${formatUnits(stableTokenBalance)}` : "0"
@@ -161,6 +182,7 @@ export default function Project({ params }: { params: { address: string } }) {
             projectPrice={project.averageUSDPrice}
             investHandle={state.onOpen}
             claimHandle={state.onOpen}
+            refundHandle={state.onOpen}
             onChangeData={setInvestmentData as any}
             isConnected={!!account}
           />
@@ -477,7 +499,7 @@ export default function Project({ params }: { params: { address: string } }) {
             stableToken={investmentData.token}
           />
         )}
-        {project?.status === "Finished" && (
+        {project?.status === "Finished" && !isRefundable && (
           <ClaimProject
             state={state}
             project={{
@@ -487,6 +509,16 @@ export default function Project({ params }: { params: { address: string } }) {
               icon: project?.icon ?? "/images/icon_not_found.jpg",
             }}
             amount={investmentData.amount}
+          />
+        )}
+        {project?.status === "Finished" && isRefundable && (
+          <Refund
+            state={state}
+            saleAddress={project?.address}
+            refundAmount={{
+              usdc: Number(refundBalance?.at(0) ?? 0),
+              usdt: Number(refundBalance?.at(1)) ?? 0,
+            }}
           />
         )}
       </TransactionModal>
