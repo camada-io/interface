@@ -1,9 +1,53 @@
+"use client"
+
 import { PageHeader } from "@/components/PageHeader"
 import { colors } from "@/utils/colors"
 import { FaTelegramPlane } from "react-icons/fa"
 import { AiOutlineMail } from "react-icons/ai"
+import { ContactForm } from "./forms/contactForm"
+import { ContactFormValues } from "@/types/forms"
+import { useMutation } from "@apollo/client"
+import { SEND_EMAIL } from "@/Apollo/queries/mail"
+import { Alert } from "@/components/Alert"
+import { useState } from "react"
+import { useForm } from "react-hook-form"
 
 export default function Contact() {
+  const [sendEmail] = useMutation(SEND_EMAIL)
+  const [showAlert, setShowAlert] = useState(false)
+  const [error, setError] = useState(false)
+  const [isSending, setIsSending] = useState(false)
+
+  const { reset } = useForm<ContactFormValues>({
+    defaultValues: {
+      name: "",
+      email: "",
+      message: "",
+    },
+  })
+
+  const handleFormSubmit = async (data: ContactFormValues) => {
+    setIsSending(true)
+
+    await sendEmail({
+      variables: {
+        input: data,
+      },
+    })
+      .then(() => {
+        reset()
+        setError(false)
+        setShowAlert(true)
+        setIsSending(false)
+      })
+      .catch((_) => {
+        setIsSending(false)
+        setError(true)
+        setShowAlert(true)
+        reset()
+      })
+  }
+
   return (
     <>
       <PageHeader
@@ -91,31 +135,14 @@ export default function Contact() {
             </div>
           </div>
 
-          <div className="max-w-[620px] w-full flex-col justify-start items-start gap-4 inline-flex">
-            <div className="self-stretch h-[46px] px-3.5 py-2.5 bg-gray-500 rounded-lg shadow border border-white border-opacity-5 justify-start items-center gap-2 inline-flex">
-              <div className="grow shrink basis-0 h-[26px] justify-start items-center gap-2 flex">
-                <div className="grow shrink basis-0 text-white text-opacity-40 text-base font-normal leading-relaxed">
-                  Name
-                </div>
-              </div>
-            </div>
-            <div className="self-stretch h-[46px] px-3.5 py-2.5 bg-gray-500 rounded-lg shadow border border-white border-opacity-5 justify-start items-center gap-2 inline-flex">
-              <div className="grow shrink basis-0 h-[26px] justify-start items-center gap-2 flex">
-                <div className="grow shrink basis-0 text-white text-opacity-40 text-base font-normal leading-relaxed">
-                  Email
-                </div>
-              </div>
-            </div>
-            <div className="self-stretch h-[180px] px-3.5 py-2.5 bg-gray-500 rounded-lg shadow border border-white border-opacity-5 justify-start items-start gap-2 inline-flex">
-              <div className="grow shrink basis-0 h-[26px] justify-start items-center gap-2 flex">
-                <div className="grow shrink basis-0 text-white text-opacity-40 text-base font-normal leading-relaxed">
-                  Your message...
-                </div>
-              </div>
-            </div>
-            <div className="self-stretch h-[55px] px-6 py-4 bg-brandBlue-200 rounded-[5px] justify-center items-center gap-2.5 inline-flex">
-              <div className="text-white text-lg font-bold">Send</div>
-            </div>
+          <div className="w-full h-full flex flex-col gap-4">
+            <ContactForm
+              defaultValues={{ name: "", email: "", message: "" }}
+              onSubmit={(data) => handleFormSubmit(data)}
+              isSending={isSending}
+            />
+
+            <Alert maxWidth="max-w-[620px]" show={showAlert} isError={error} />
           </div>
 
           <div className="lg:hidden grow shrink basis-0 flex-col justify-start items-start gap-10 inline-flex">

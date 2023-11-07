@@ -19,21 +19,6 @@ export const Accordion = ({
   isOpen,
   toggleAccordion,
 }: Props) => {
-  // const [isOpen, setIsOpen] = useState(false)
-
-  // Efeito para abrir o acordeão automaticamente quando autoOpen se torna true
-  // useEffect(() => {
-  //   if (autoOpen) {
-  //     setIsOpen(true)
-  //   }
-  // }, [autoOpen])
-
-  // const toggleAccordion = () => {
-  //   if (canOpen) {
-  //     setIsOpen(!isOpen)
-  //   }
-  // }
-
   return (
     <>
       <button

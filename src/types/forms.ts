@@ -23,3 +23,9 @@ export type StepFiveFormValues = {
   decideWork?: string | null
   feedback?: string | null
 }
+
+export type ContactFormValues = {
+  name: string
+  email: string
+  message: string
+}
