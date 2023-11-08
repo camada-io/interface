@@ -5,10 +5,25 @@ export const typeDefs = gql`
     sort: [Sort]
   }
 
-  input EmailInput {
+  input EmailContactInput {
     name: String
     email: String
     message: String
+  }
+
+  input EmailProjectInput {
+    name: String
+    email: String
+    nameProject: String
+    emailProject: String
+    agreedTerms: Boolean
+    projectName: String
+    about: String
+    agreedResearch: Boolean
+    agreedUpfront: Boolean
+    aboutUs: String
+    decideWork: String
+    feedback: String
   }
 
   type Sort {
