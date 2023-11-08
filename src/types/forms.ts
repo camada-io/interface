@@ -29,3 +29,18 @@ export type ContactFormValues = {
   email: string
   message: string
 }
+
+export type ProjectFormValues = {
+  name: string
+  email: string
+  nameProject: string
+  emailProject: string
+  agreedTerms: boolean
+  projectName: string
+  about: string
+  agreedResearch: boolean
+  agreedUpfront: boolean
+  aboutUs: string
+  decideWork: string
+  feedback: string
+}

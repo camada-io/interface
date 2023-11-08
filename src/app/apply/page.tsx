@@ -7,14 +7,19 @@ import { FormThree } from "./forms/formThree"
 import { FormFour } from "./forms/formFour"
 import { FormFive } from "./forms/formFive"
 import { Accordion } from "@/components/Accordion"
-import { useEffect, useMemo, useState } from "react"
+import { useCallback, useEffect, useMemo, useState } from "react"
 import {
+  ProjectFormValues,
   StepFiveFormValues,
   StepFourFormValues,
   StepOneFormValues,
   StepThreeFormValues,
   StepTwoFormValues,
 } from "@/types/forms"
+import { SEND_PROJECT } from "@/Apollo/queries/mail"
+import { useMutation } from "@apollo/client"
+import { useForm } from "react-hook-form"
+import { Alert } from "@/components/Alert"
 
 type FormCompletion = {
   formOne: boolean
@@ -25,6 +30,11 @@ type FormCompletion = {
 }
 
 export default function Apply() {
+  const [sendProjectEmail] = useMutation(SEND_PROJECT)
+  const [isSending, setIsSending] = useState(false)
+  const [isSended, setIsSended] = useState(false)
+  const [hasError, setHasError] = useState(false)
+
   const [formCompletion, setFormCompletion] = useState({
     formOne: false,
     formTwo: false,
@@ -33,13 +43,7 @@ export default function Apply() {
     formFive: false,
   })
 
-  const [formData, setFormData] = useState<{
-    formOne: StepOneFormValues
-    formTwo: StepTwoFormValues
-    formThree: StepThreeFormValues
-    formFour: StepFourFormValues
-    formFive: StepFiveFormValues
-  }>({
+  const defaultFormData = {
     formOne: {
       name: "",
       email: "",
@@ -62,7 +66,73 @@ export default function Apply() {
       decideWork: "",
       feedback: "",
     },
+  }
+
+  const { reset: resetFormOne } = useForm<StepOneFormValues>({
+    defaultValues: {
+      name: "",
+      email: "",
+      nameProject: "",
+      emailProject: "",
+      agreedTerms: false,
+    },
   })
+
+  const { reset: resetFormTwo } = useForm<StepTwoFormValues>({
+    defaultValues: {
+      projectName: "",
+      about: "",
+    },
+  })
+
+  const { reset: resetFormThree } = useForm<StepThreeFormValues>({
+    defaultValues: {
+      agreedResearch: false,
+    },
+  })
+
+  const { reset: resetFormFour } = useForm<StepFourFormValues>({
+    defaultValues: {
+      agreedUpfront: false,
+    },
+  })
+
+  const { reset: resetFormFive } = useForm<StepFiveFormValues>({
+    defaultValues: {
+      aboutUs: "",
+      decideWork: "",
+      feedback: "",
+    },
+  })
+
+  const [formData, setFormData] = useState<{
+    formOne: StepOneFormValues
+    formTwo: StepTwoFormValues
+    formThree: StepThreeFormValues
+    formFour: StepFourFormValues
+    formFive: StepFiveFormValues
+  }>(defaultFormData)
+
+  const resetFormData = useCallback(() => {
+    setFormData(defaultFormData)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [setFormData])
+
+  const resetAllForms = useCallback(() => {
+    resetFormData()
+    resetFormOne()
+    resetFormTwo()
+    resetFormThree()
+    resetFormFour()
+    resetFormFive()
+  }, [
+    resetFormData,
+    resetFormFive,
+    resetFormFour,
+    resetFormOne,
+    resetFormThree,
+    resetFormTwo,
+  ])
 
   const [openAccordion, setOpenAccordion] = useState<number | undefined>(1)
 
@@ -84,7 +154,7 @@ export default function Apply() {
         formTwo: 3,
         formThree: 4,
         formFour: 5,
-        formFive: 6, // assumindo que não há um sexto acordeão
+        formFive: 6,
       }[lastCompletedForm]
       setOpenAccordion(nextAccordion)
     }
@@ -117,6 +187,58 @@ export default function Apply() {
   const allFormsCompleted = useMemo(() => {
     return Object.values(formCompletion).every((status) => status)
   }, [formCompletion])
+
+  const sendProjectForm = useCallback(
+    async (data: ProjectFormValues) => {
+      setIsSending(true)
+
+      try {
+        await sendProjectEmail({
+          variables: {
+            input: data,
+          },
+        })
+        resetAllForms()
+        setIsSending(false)
+        setIsSended(true)
+      } catch (error) {
+        resetAllForms()
+        setIsSending(false)
+        setHasError(true)
+      }
+    },
+    [resetAllForms, sendProjectEmail],
+  )
+
+  const transformToProjectFormValues = (formData: {
+    formOne: StepOneFormValues
+    formTwo: StepTwoFormValues
+    formThree: StepThreeFormValues
+    formFour: StepFourFormValues
+    formFive: StepFiveFormValues
+  }): ProjectFormValues => {
+    return {
+      name: formData.formOne.name,
+      email: formData.formOne.email,
+      nameProject: formData.formOne.nameProject || "",
+      emailProject: formData.formOne.emailProject || "",
+      agreedTerms: formData.formOne.agreedTerms,
+      projectName: formData.formTwo.projectName,
+      about: formData.formTwo.about,
+      agreedResearch: formData.formThree.agreedResearch,
+      agreedUpfront: formData.formFour.agreedUpfront,
+      aboutUs: formData.formFive.aboutUs || "",
+      decideWork: formData.formFive.decideWork || "",
+      feedback: formData.formFive.feedback || "",
+    }
+  }
+
+  useEffect(() => {
+    if (allFormsCompleted) {
+      const projectFormData = transformToProjectFormValues(formData)
+      sendProjectForm(projectFormData)
+    }
+  }, [allFormsCompleted, formData, sendProjectForm])
 
   const toggleAccordion = (accordionNumber: number) => {
     if (openAccordion === accordionNumber) {
@@ -233,11 +355,12 @@ export default function Apply() {
                 defaultValues={formData.formFive}
                 onSubmit={(data) => handleFormSubmit("formFive", data)}
                 handlePrev={() => toggleAccordion(4)}
+                isSending={isSending}
               />
             </div>
           </Accordion>
 
-          {allFormsCompleted && (
+          {allFormsCompleted && isSended && (
             <div className="w-full h-full pt-6 justify-start items-center gap-2.5 inline-flex">
               <div className="flex flex-col grow shrink basis-0 text-center">
                 <span className="text-brandBlue-100 text-lg font-bold leading-7">
@@ -249,6 +372,7 @@ export default function Apply() {
               </div>
             </div>
           )}
+          {hasError && <Alert show={true} isError />}
         </div>
       </div>
     </>

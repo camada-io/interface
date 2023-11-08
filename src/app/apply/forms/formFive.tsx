@@ -9,14 +9,16 @@ type Props = {
   defaultValues: StepFiveFormValues
   onSubmit: SubmitHandler<StepFiveFormValues>
   handlePrev: () => void
+  isSending: boolean
 }
 
-export const FormFive = ({ defaultValues, onSubmit, handlePrev }: Props) => {
-  const {
-    handleSubmit,
-    control,
-    formState: { isSubmitting },
-  } = useForm<StepFiveFormValues>({
+export const FormFive = ({
+  defaultValues,
+  onSubmit,
+  handlePrev,
+  isSending,
+}: Props) => {
+  const { handleSubmit, control } = useForm<StepFiveFormValues>({
     resolver: yupResolver(schemaStepFive),
     defaultValues,
   })
@@ -63,7 +65,8 @@ export const FormFive = ({ defaultValues, onSubmit, handlePrev }: Props) => {
             type="submit"
             text="Submit"
             maxWidth="lg:max-w-[147px]"
-            isLoading={isSubmitting}
+            disabled={isSending}
+            isLoading={isSending}
           />
         </div>
       </div>
