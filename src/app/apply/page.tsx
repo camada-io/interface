@@ -234,11 +234,12 @@ export default function Apply() {
   }
 
   useEffect(() => {
-    if (allFormsCompleted) {
+    if (allFormsCompleted && !isSended) {
       const projectFormData = transformToProjectFormValues(formData)
       sendProjectForm(projectFormData)
     }
-  }, [allFormsCompleted, formData, sendProjectForm])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [allFormsCompleted, formData])
 
   const toggleAccordion = (accordionNumber: number) => {
     if (openAccordion === accordionNumber) {
