@@ -4,6 +4,7 @@ import { StepFourFormValues } from "@/types/forms"
 import { yupResolver } from "@hookform/resolvers/yup"
 import { SubmitHandler, useForm } from "react-hook-form"
 import { schemaStepFour } from "../schema"
+import { useEffect, useState } from "react"
 
 type Props = {
   defaultValues: StepFourFormValues
@@ -15,6 +16,7 @@ export const FormFour = ({ defaultValues, onSubmit, handlePrev }: Props) => {
   const {
     handleSubmit,
     control,
+    watch,
     formState: { isSubmitting, errors },
   } = useForm<StepFourFormValues>({
     resolver: yupResolver(schemaStepFour),
@@ -22,6 +24,15 @@ export const FormFour = ({ defaultValues, onSubmit, handlePrev }: Props) => {
   })
 
   const invalid = !!errors?.agreedUpfront?.message
+  const [isFormFilled, setIsFormFilled] = useState(false)
+
+  const watchedFields = watch(["agreedUpfront"])
+
+  useEffect(() => {
+    const isAgreedTermsTrue = watchedFields[0] === true
+
+    setIsFormFilled(isAgreedTermsTrue)
+  }, [watchedFields])
 
   const handleOnSubmit: SubmitHandler<StepFourFormValues> = (data, event) => {
     event?.preventDefault()
@@ -77,7 +88,7 @@ export const FormFour = ({ defaultValues, onSubmit, handlePrev }: Props) => {
             type="submit"
             text="Next"
             maxWidth="lg:max-w-[147px]"
-            disabled={invalid}
+            disabled={invalid || !isFormFilled}
             isLoading={isSubmitting}
           />
         </div>

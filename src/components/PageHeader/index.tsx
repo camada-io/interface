@@ -19,7 +19,7 @@ export function PageHeader({
     flex items-center justify-between sm:before:content-[url('/images/page-header-bg.png')]
     sm:after:content-[url('/images/page-header-bg-right-2.png')] sm:after:absolute sm:after:right-0 sm:after:h-[160px]
     before:left-[0px] before:absolute max-[639px]:after:content-[url('/images/page-header-bg-right.png')]
-    max-[639px]:after:right-0 max-[639px]:after:absolute max-[639px]:after:bottom-0 max-[639px]:flex-col max-[1279px]:px-[32px] text-center"
+    max-[639px]:after:right-0 max-[639px]:after:absolute max-[639px]:after:bottom-0 max-[639px]:flex-col px-[20px] lg:px-[64px] text-center"
     >
       <div className="w-full h-full flex flex-col py-[30px] lg:flex-row justify-between items-center max-w-[1280px] mx-auto bottom-0 border-b-[2px] border-brandBlue-200">
         <div className="flex items-end gap-6">
@@ -33,7 +33,7 @@ export function PageHeader({
                 height={45}
               />
             )}
-            <div className="text-white text-[40px] font-extrabold leading-[60px]">
+            <div className="text-white text-[30px] lg:text-[40px] font-extrabold leading-[60px]">
               {title}
             </div>
           </div>

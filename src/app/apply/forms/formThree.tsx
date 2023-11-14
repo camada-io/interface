@@ -4,6 +4,7 @@ import { SubmitHandler, useForm } from "react-hook-form"
 import { schemaStepThree } from "../schema"
 import { Button } from "@/components/Button"
 import { Radio } from "@/components/Radio"
+import { useEffect, useState } from "react"
 
 type Props = {
   defaultValues: StepThreeFormValues
@@ -15,6 +16,7 @@ export const FormThree = ({ defaultValues, onSubmit, handlePrev }: Props) => {
   const {
     handleSubmit,
     control,
+    watch,
     formState: { isSubmitting, errors },
   } = useForm<StepThreeFormValues>({
     resolver: yupResolver(schemaStepThree),
@@ -22,6 +24,15 @@ export const FormThree = ({ defaultValues, onSubmit, handlePrev }: Props) => {
   })
 
   const invalid = !!errors?.agreedResearch?.message
+  const [isFormFilled, setIsFormFilled] = useState(false)
+
+  const watchedFields = watch(["agreedResearch"])
+
+  useEffect(() => {
+    const isAgreedTermsTrue = watchedFields[0] === true
+
+    setIsFormFilled(isAgreedTermsTrue)
+  }, [watchedFields])
 
   const handleOnSubmit: SubmitHandler<StepThreeFormValues> = (data, event) => {
     event?.preventDefault()
@@ -84,7 +95,7 @@ export const FormThree = ({ defaultValues, onSubmit, handlePrev }: Props) => {
             type="submit"
             text="Next"
             maxWidth="lg:max-w-[147px]"
-            disabled={invalid}
+            disabled={invalid || !isFormFilled}
             isLoading={isSubmitting}
           />
         </div>
