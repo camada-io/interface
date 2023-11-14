@@ -1,23 +1,37 @@
 import { BsFilterLeft } from "react-icons/bs"
 import { ItemList } from "./itemList"
-import { Card } from "./Card"
+import { Card } from "@/components/Card"
 import Link from "next/link"
+import { IconNames } from "./SocialIcon"
 
-type Project = {
+type Data = {
   id: string
-  address: string
   tokenName: string
   tokenSymbol: string
+  tokenAddress: string
+  address: string
   icon: string
   banner: string
-  status: string
+  status: "On going" | "Finished" | "Coming soon"
   saleProgress: number
   categories: string[]
   saleAmountUsd: number
+  description: string
+  about: string
+  averageUSDPrice: number
+  endTime: string
+  closeTime: string
+  openTime: string
+  socialLinks: LinkType
+  totalRaised: number
+}
+
+type LinkType = {
+  [key in IconNames]: string
 }
 
 type ProjectListProps = {
-  projects: Project[]
+  projects: Data[]
   pageInfo?: { hasNextPage: boolean; hasPreviousPage: boolean }
   status: string[]
   categories: string[]
@@ -56,12 +70,12 @@ export function ProjectList({
   return (
     <>
       <div
-        className={`flex w-full bg-gray-600 flex-col rounded-[20px] max-[639px]:bg-transparent ${
-          view === "grid" ? "bg-transparent spa" : ""
+        className={`flex w-full flex-col rounded-[20px] max-[639px]:bg-transparent ${
+          view === "grid" ? "bg-transparent" : ""
         }`}
       >
         {view === "list" && (
-          <div className="flex w-full gap-4 items-center p-4 font-bold text-[16px] rounded-t-[20px] bg-gray-600 max-[639px]:hidden">
+          <div className="flex w-full gap-4 items-center p-4 font-bold text-[16px] rounded-t-[20px] bg-gray-600 max-[1023px]:hidden">
             <div className="flex w-full">
               <p>Project</p>
             </div>
@@ -77,7 +91,7 @@ export function ProjectList({
                 </div>
               </div>
             </div>
-            <div className="flex w-full">
+            <div className="flex w-full max-[1023px]:hidden">
               <p>Categories</p>
             </div>
             <div className="flex w-full flex-start max-w-[150px]">
@@ -92,7 +106,7 @@ export function ProjectList({
                 </div>
               </div>
             </div>
-            <div className="flex w-full flex-start items-center sm:min-w-[400px] max-[0px]:min-w-[10px]">
+            <div className="flex w-full flex-start items-center max-[639px]:min-w-[400px] max-[0px]:min-w-[10px]">
               <div className="flex items-center gap-2">
                 <p>Progress</p>
                 <div onClick={changeOrder}>
@@ -110,8 +124,8 @@ export function ProjectList({
         <div
           className={`${
             view === "grid"
-              ? "grid grid-auto-cols-[minmax(0,1fr)]  sm:grid-cols-3 gap-4"
-              : "flex-col flex max-[639px]:gap-10"
+              ? "grid grid-cols-3 gap-4 max-[960px]:grid-cols-2 max-[639px]:grid-cols-1"
+              : "flex-col flex"
           }`}
         >
           {view === "list"
@@ -121,7 +135,11 @@ export function ProjectList({
             : view === "grid"
             ? projects.map((project) => (
                 <Link key={project.id} href={`/projects/${project.address}`}>
-                  <Card project={project} />
+                  <Card
+                    amountLabel="Expected Raise"
+                    typeBadge={project.status}
+                    data={project}
+                  />
                 </Link>
               ))
             : null}

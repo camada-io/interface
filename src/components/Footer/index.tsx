@@ -8,8 +8,8 @@ import { colors } from "@/utils/colors"
 
 export const Footer = () => {
   return (
-    <footer className="bg-primary bg-opacity-5 mb-[74px] lg:mb-[0px]">
-      <div className="w-full pt-[30px] pb-[80px] lg:pb-[30px] lg:py-[60px] px-6 lg:px-[136px] bg-gray-600 flex justify-between items-center flex-col xl:flex-row gap-6">
+    <footer className="flex w-full flex-col mb-[74px] lg:mb-[0px] bg-gray-600">
+      <div className="w-full pt-[30px] pb-[80px] lg:pb-[30px] lg:py-[60px] px-0 max-w-[1280px] mx-auto max-[1279px]:px-[32px] flex justify-between items-center flex-col xl:flex-row gap-6">
         <div className="flex flex-col justify-center items-center lg:items-start gap-6 ">
           <div className="justify-start items-start inline-flex">
             <Link href="/">
@@ -115,19 +115,22 @@ export const Footer = () => {
           </div>
         </div>
       </div>
-      <div className="hidden py-6 bg-brandBlue-100 px-[135px] lg:flex justify-between items-center text-gray-900">
-        <div className="text-sm font-normal leading-normal">
-          © 2023 SYSPAD, Inc. All rights reserved.
-        </div>
-        <div className="justify-start items-center gap-2 flex">
-          <div className="pt-1 justify-start items-center gap-2.5 flex">
-            <div className="w-4 h-4 relative"></div>
+      <div className="hidden py-6 bg-brandBlue-100 px-0 lg:flex text-gray-900">
+        <div className="flex w-full justify-between items-center max-w-[1280px] mx-auto max-[1279px]:px-[32px] ">
+          <div className="text-sm font-normal leading-normal">
+            © 2023 SYSPAD, Inc. All rights reserved.
           </div>
-          <div className="text-base font-medium leading-relaxed">
-            contact@camada.io
+          <div className="justify-start items-center gap-2 flex">
+            <div className="pt-1 justify-start items-center gap-2.5 flex">
+              <div className="w-4 h-4 relative"></div>
+            </div>
+            <div className="text-base font-medium leading-relaxed">
+              contact@camada.io
+            </div>
           </div>
         </div>
       </div>
+
       <FooterMenu />
     </footer>
   )

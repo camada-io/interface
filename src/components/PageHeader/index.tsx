@@ -15,13 +15,13 @@ export function PageHeader({
 }: PageHeaderProps) {
   return (
     <div
-      className="relative bg-gray-600 h-full lg:h-[160px] sm:before:h-[160px] sm:px-[136px]
+      className="bg-gray-600 h-full lg:h-[160px] sm:before:h-[160px]
     flex items-center justify-between sm:before:content-[url('/images/page-header-bg.png')]
     sm:after:content-[url('/images/page-header-bg-right-2.png')] sm:after:absolute sm:after:right-0 sm:after:h-[160px]
     before:left-[0px] before:absolute max-[639px]:after:content-[url('/images/page-header-bg-right.png')]
-    max-[639px]:after:right-0 max-[639px]:after:absolute max-[639px]:after:bottom-0 max-[639px]:flex-col py-[30px] max-[639px]:px-[64px] text-center"
+    max-[639px]:after:right-0 max-[639px]:after:absolute max-[639px]:after:bottom-0 max-[639px]:flex-col max-[1279px]:px-[32px] text-center"
     >
-      <div className="w-full h-full flex flex-col lg:flex-row justify-between items-center">
+      <div className="w-full h-full flex flex-col py-[30px] lg:flex-row justify-between items-center max-w-[1280px] mx-auto bottom-0 border-b-[2px] border-brandBlue-200">
         <div className="flex items-end gap-6">
           <div className="flex items-center gap-4">
             {icon && (
@@ -51,7 +51,6 @@ export function PageHeader({
           </div>
         )}
       </div>
-      <div className="flex w-[calc(100%-272px)] max-[639px]:w-[calc(100%-64px)] absolute bottom-0 border-b-[2px] border-brandBlue-200"></div>
     </div>
   )
 }

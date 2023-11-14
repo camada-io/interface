@@ -29,6 +29,7 @@ export function StakeTab({ stakeProps }: { stakeProps: StakeProps }) {
     tier,
     allTiers,
     stakedBalance,
+    isWhitelisted,
   } = stakeProps
 
   const getNextTierMissingPoints = useCallback(() => {
@@ -39,7 +40,7 @@ export function StakeTab({ stakeProps }: { stakeProps: StakeProps }) {
     return nextTier - stakedBalance
   }, [tier, stakedBalance, allTiers])
 
-  return !isLoading ? (
+  return (
     <>
       <div className="flex w-full flex-col gap-4">
         <InputNumber
@@ -55,11 +56,11 @@ export function StakeTab({ stakeProps }: { stakeProps: StakeProps }) {
           ]}
         />
 
-        {isConnected && (
+        {isConnected && !isLoading && (
           <div className="flex flex-col w-full justify-between gap-[8px]">
             <div className="flex w-full justify-between">
               <p>Current Tier</p>
-              <p>Tier {!isLoading ? tier : 0}</p>
+              <p>Tier {tier}</p>
             </div>
 
             <div className="flex w-full justify-between">
@@ -75,12 +76,12 @@ export function StakeTab({ stakeProps }: { stakeProps: StakeProps }) {
 
         <button
           type="button"
-          disabled={!amount && isConnected}
+          disabled={!isLoading && (!isWhitelisted || (!amount && isConnected))}
           className="flex w-full justify-center items-center gap-4 rounded-[5px] py-[16px] px-[24px]
           text-center text-[18px] font-bold text-white bg-brandBlue-200 disabled:opacity-[0.5] disabled:cursor-not-allowed hover:bg-brandBlue-100 transition:all duration-300"
           onClick={onOpen}
         >
-          {isConnected ? "Stake now" : "Connect Wallet"}
+          {isConnected && !isLoading ? "Stake now" : "Connect Wallet"}
         </button>
       </div>
 
@@ -91,5 +92,5 @@ export function StakeTab({ stakeProps }: { stakeProps: StakeProps }) {
         <StakeToken state={state} amount={amount} />
       </TransactionModal>
     </>
-  ) : null
+  )
 }
