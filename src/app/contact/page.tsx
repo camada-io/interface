@@ -122,7 +122,7 @@ export default function Contact() {
             </div>
             <div className="self-stretch flex-col justify-start items-start gap-4 flex">
               <div className="flex justify-center items-center w-12 h-12 relative bg-brandBlue-200 rounded-full">
-                <AiOutlineMail size={24} />
+                <AiOutlineMail size={24} className="text-center" />
               </div>
               <div className="flex-col justify-start items-start gap-1 flex">
                 <div className="w-[260px] text-white text-2xl font-extrabold leading-10">
