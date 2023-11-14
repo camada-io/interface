@@ -4,6 +4,7 @@ import { SubmitHandler, useForm } from "react-hook-form"
 import { schemaStepTwo } from "../schema"
 import { Input } from "@/components/Input"
 import { Button } from "@/components/Button"
+import { useEffect, useState } from "react"
 
 type Props = {
   defaultValues: StepTwoFormValues
@@ -15,6 +16,7 @@ export const FormTwo = ({ defaultValues, onSubmit, handlePrev }: Props) => {
   const {
     handleSubmit,
     control,
+    watch,
     formState: { isSubmitting, errors },
   } = useForm<StepTwoFormValues>({
     resolver: yupResolver(schemaStepTwo),
@@ -22,6 +24,16 @@ export const FormTwo = ({ defaultValues, onSubmit, handlePrev }: Props) => {
   })
 
   const invalid = !!errors?.projectName?.message || !!errors?.about?.message
+  const [isFormFilled, setIsFormFilled] = useState(false)
+
+  const watchedFields = watch(["projectName", "about"])
+
+  useEffect(() => {
+    const isProjectNameFilled = watchedFields[0].trim() !== ""
+    const isAboutFilled = watchedFields[1].trim() !== ""
+
+    setIsFormFilled(isProjectNameFilled && isAboutFilled)
+  }, [watchedFields])
 
   const handleOnSubmit: SubmitHandler<StepTwoFormValues> = (data, event) => {
     event?.preventDefault()
@@ -76,7 +88,7 @@ export const FormTwo = ({ defaultValues, onSubmit, handlePrev }: Props) => {
             type="submit"
             text="Next"
             maxWidth="lg:max-w-[147px]"
-            disabled={invalid}
+            disabled={invalid || !isFormFilled}
             isLoading={isSubmitting}
           />
         </div>

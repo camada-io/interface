@@ -5,6 +5,7 @@ import { StepOneFormValues } from "@/types/forms"
 import { SubmitHandler, useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import { schemaStepOne } from "../schema"
+import { useEffect, useState } from "react"
 
 type Props = {
   defaultValues: StepOneFormValues
@@ -15,6 +16,7 @@ export const FormOne = ({ defaultValues, onSubmit }: Props) => {
   const {
     handleSubmit,
     control,
+    watch,
     formState: { isSubmitting, errors },
   } = useForm<StepOneFormValues>({
     resolver: yupResolver(schemaStepOne),
@@ -26,8 +28,19 @@ export const FormOne = ({ defaultValues, onSubmit }: Props) => {
     !!errors?.name?.message ||
     !!errors?.email?.message
 
-  const handleOnSubmit: SubmitHandler<StepOneFormValues> = (data, event) => {
-    event?.preventDefault()
+  const [isFormFilled, setIsFormFilled] = useState(false)
+
+  const watchedFields = watch(["name", "email", "agreedTerms"])
+
+  useEffect(() => {
+    const isNameFilled = watchedFields[0].trim() !== ""
+    const isEmailFilled = watchedFields[1].trim() !== ""
+    const isAgreedTermsTrue = watchedFields[2] === true
+
+    setIsFormFilled(isNameFilled && isEmailFilled && isAgreedTermsTrue)
+  }, [watchedFields])
+
+  const handleOnSubmit: SubmitHandler<StepOneFormValues> = (data) => {
     onSubmit(data)
   }
 
@@ -100,7 +113,7 @@ export const FormOne = ({ defaultValues, onSubmit }: Props) => {
             type="submit"
             text="Next"
             maxWidth="lg:max-w-[147px]"
-            disabled={invalid}
+            disabled={invalid || !isFormFilled}
             isLoading={isSubmitting}
           />
         </div>
