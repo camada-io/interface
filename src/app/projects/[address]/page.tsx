@@ -153,9 +153,9 @@ export default function Project({ params }: { params: { address: string } }) {
         icon={project.icon ?? "/images/icon_not_found.jpg"}
         symbol={project.tokenSymbol}
       />
-      <div className="flex flex-col py-32 gap-32 px-8 lg:px-0">
-        <div className="mx-auto flex w-full lg:max-h-[331.23px] flex-col lg:flex-row h-full justify-center items-start gap-[60px]">
-          <div className="max-w-[590px] w-full h-[331.23px] rounded-[20px] flex-col justify-between items-start inline-flex">
+      <div className="flex flex-col py-12 lg:py-32 gap-12 lg:gap-32 px-8 lg:px-0">
+        <div className="mx-auto flex w-full lg:max-h-[331.23px] flex-col lg:flex-row h-full justify-center items-start gap-12 lg:gap-[60px]">
+          <div className="max-w-[590px] w-full h-full lg:h-[331.23px] rounded-[20px] flex-col justify-between items-start inline-flex">
             <Card
               typeBadge={project.status}
               maxWidth="590px"
