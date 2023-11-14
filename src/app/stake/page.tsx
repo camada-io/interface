@@ -19,7 +19,7 @@ export default function Stake() {
         description="Stake your tokens to invest inside CAMADA"
       />
 
-      <div className="sm:px-[136px] py-[50px] sm:py-[100px] mx-auto flex gap-[60px] justify-center items-start max-[639px]:flex-col max-[639px]:px-[32px]">
+      <div className="py-[50px] sm:py-[100px] gap-[60px] mx-auto flex justify-center items-start flex-row max-[1279px]:px-[32px] px-0 max-[1023px]:flex-col max-w-[1280px]">
         <Tabs className="w-full">
           <Tab label="Stake">
             <StakeTab stakeProps={stakeProps} />

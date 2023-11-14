@@ -39,13 +39,13 @@ export const Header = () => {
 
   return (
     <header
-      className={`header top-0 z-40 flex w-full lg:px-[130px] justify-center items-center bg-transparent h-[105px] ${
+      className={`header top-0 z-40 flex w-full justify-center items-center bg-transparent h-[105px] ${
         sticky
           ? "!fixed !bg-gray-900 !bg-opacity-80 shadow-sticky backdrop-blur-sm !transition dark:!bg-primary dark:!bg-opacity-20"
           : "absolute"
       }`}
     >
-      <div className="relative flex w-full lg:justify-between justify-center items-center">
+      <div className="relative flex w-full lg:justify-between justify-center items-center px-0 max-[1279px]:px-[32px] max-w-[1280px]">
         <div className="w-52 max-w-full">
           <Link
             href="/"

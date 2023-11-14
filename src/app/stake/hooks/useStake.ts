@@ -97,12 +97,22 @@ export function useStake() {
     functionName: "symbol",
   })
 
+  const { data: isWhitelisted, isLoading: isWhitelistedLoading } =
+    useContractRead({
+      address: lauchpadAdress,
+      abi: launchpadAbi,
+      functionName: "isWhitelisted",
+      args: [address as Address],
+      enabled: !!address && isAllowedChain,
+      watch: !!address && isAllowedChain,
+    })
+
   const { data: tier } = useContractRead({
     address: lauchpadAdress,
     abi: launchpadAbi,
     functionName: "getTier",
     args: [address as Address],
-    enabled: !!address && isAllowedChain,
+    enabled: !!address && isAllowedChain && isWhitelisted,
     watch: !!address && isAllowedChain,
   })
 
@@ -115,6 +125,7 @@ export function useStake() {
       apyLoading,
       tokenBalanceLoading,
       tokenSymbolLoading,
+      isWhitelistedLoading,
     ].every((loading) => loading === false)
 
     setLoading(!loading)
@@ -127,6 +138,7 @@ export function useStake() {
     tokenBalanceLoading,
     tokenAllowanceLoading,
     tokenSymbolLoading,
+    isWhitelistedLoading,
   ])
 
   const parseNumber = (value: bigint | undefined, unit = 18) => {
@@ -144,6 +156,7 @@ export function useStake() {
     apy: parseNumber(apy) ?? 0,
     tier: Number(tier) || 0,
     allTiers: [350, 1500, 10000, 50000],
+    isWhitelisted: isWhitelisted ?? false,
     isLoading,
   }
 }

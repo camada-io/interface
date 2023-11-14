@@ -1,3 +1,5 @@
+"use client"
+
 import Image from "next/image"
 import dayjs from "dayjs"
 
@@ -33,19 +35,23 @@ type LinkType = {
 
 type BadgeNames = "Default" | "Finished"
 
+type CardProps = {
+  defaultImage?: string
+  typeBadge: number | string
+  maxWidth?: string
+  height?: string
+  data?: Data
+  amountLabel?: string
+}
+
 export const Card = ({
   defaultImage = "/images/backgroundCardDefault.svg",
   typeBadge,
   maxWidth,
   height,
   data,
-}: {
-  defaultImage?: string
-  height?: string
-  maxWidth?: string
-  typeBadge: number | string
-  data?: Data
-}) => {
+  amountLabel = "Total Raised:",
+}: CardProps) => {
   const Badge = () => {
     const badgeNames = ["Default", "Finished"]
 
@@ -89,7 +95,7 @@ export const Card = ({
 
   return (
     <div
-      className={`flex flex-col max-w-[${maxWidth}] w-full h-[${height}] bg-no-repeat pt-6 bg-cover rounded-[20px] justify-between`}
+      className={`flex flex-col max-w-[${maxWidth}] w-full h-[${height}] min-h-[240px] bg-no-repeat pt-6 bg-cover rounded-[20px] justify-between`}
       style={{ backgroundImage: `url(${defaultImage})` }}
     >
       <div className="w-full h-7 px-6 justify-start items-start gap-1 inline-flex">
@@ -121,7 +127,7 @@ export const Card = ({
         </div>
         <div className="w-full h-6 left-[10px] justify-start items-start gap-2 inline-flex">
           <div className="text-white text-sm font-bold leading-normal">
-            Total Raised:
+            {amountLabel}
           </div>
           <div className="text-white text-sm font-bold leading-normal">
             {formatCurrency(data?.totalRaised ?? 0)}
