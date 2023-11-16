@@ -11,17 +11,17 @@ export const Stake = () => {
         <div className="text-brandBlue-100 text-base font-bold leading-relaxed">
           Staking with camada!
         </div>
-        <div className="self-stretch text-white text-[40px] font-extrabold leading-[60px]">
+        <div className="self-stretch text-white text-[30px] sm:leading-[38px] sm:text-[40px] font-extrabold sm:!leading-[60px]">
           Stake your tokens to invest inside Camada
         </div>
-        <div className="self-stretch text-white text-lg font-normal leading-7">
+        <div className="self-stretch text-white text-lg font-[300] leading-7">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam etiam
           viverra tellus imperd.Lorem ipsum dolor sit amet, consectetur
           adipiscing elit.
         </div>
         <div className="w-full">
           <Link href={"/stake"}>
-            <button className="flex w-full lg:w-[325px] h-[55px] px-6 py-4 bg-brandBlue-200 rounded-[5px] justify-center items-center gap-2.5">
+            <button className="flex w-full sm:w-[325px] h-[55px] px-6 py-4 bg-brandBlue-200 rounded-[5px] justify-center items-center gap-2.5">
               <div className="text-white text-lg font-bold">Start now</div>
             </button>
           </Link>

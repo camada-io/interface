@@ -78,7 +78,7 @@ export const Input = ({
             onFocus={onFocusLocal}
             onBlur={onBlurLocal}
             placeholder={placeholder}
-            className="grow shrink basis-0 h-[26px] bg-transparent text-white text-opacity-40 text-base font-normal leading-relaxed outline-none"
+            className="grow shrink basis-0 h-[26px] bg-transparent !text-white text-opacity-40 text-base font-normal leading-relaxed outline-none"
           />
         ) : (
           !isTextArea && (
@@ -90,7 +90,7 @@ export const Input = ({
               onChange={onChange}
               onBlur={onBlur}
               placeholder={placeholder}
-              className="grow shrink basis-0 h-[26px] bg-transparent text-white text-opacity-40 text-base font-normal leading-relaxed outline-none"
+              className="grow shrink basis-0 h-[26px] bg-transparent !text-white text-opacity-40 text-base font-normal leading-relaxed outline-none"
             />
           )
         )}
@@ -103,7 +103,7 @@ export const Input = ({
             onBlur={onBlur}
             placeholder={placeholder}
             rows={4} // Sets the minimum number of visible text lines
-            className="grow shrink basis-0 max-h-[180px] h-full bg-transparent text-white text-opacity-40 text-base font-normal leading-relaxed outline-none"
+            className="grow shrink basis-0 max-h-[180px] h-full bg-transparent !text-white text-opacity-40 text-base font-normal leading-relaxed outline-none"
           />
         )}
       </div>

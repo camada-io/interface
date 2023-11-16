@@ -2,10 +2,13 @@
 
 import Image from "next/image"
 import dayjs from "dayjs"
+import LocalizedFormart from "dayjs/plugin/localizedFormat"
 
 import { Tag, TagProject } from "../Tag"
 import { BadgeTime } from "../BadgeTime"
 import { IconNames } from "@/app/projects/components/SocialIcon"
+
+dayjs.extend(LocalizedFormart)
 
 type Data = {
   id: string
@@ -74,7 +77,10 @@ export const Card = ({
       ),
       Finished: (
         <>
-          <BadgeTime type={3} time={dayjs(data?.closeTime).format("ll")} />
+          <BadgeTime
+            type="Finished"
+            time={dayjs(data?.closeTime).format("ll")}
+          />
         </>
       ),
     }
