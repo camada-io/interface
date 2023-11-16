@@ -7,7 +7,7 @@ import { Syslabs } from "@/components/Syslabs"
 
 export default function Home() {
   return (
-    <div className="flex flex-col gap-11 lg:gap-32">
+    <div className="flex flex-col gap-20 lg:gap-[120px]">
       <Hero />
       <Projects />
       <Apply />

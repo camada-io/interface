@@ -1,110 +1,81 @@
 "use client"
-import { Swiper, SwiperSlide } from "swiper/react"
-import "swiper/css"
+
+import Link from "next/link"
+
+import Slider from "../Slider"
 import { Card } from "../Card"
-import { FreeMode, Navigation, Pagination } from "swiper/modules"
-import { RiArrowLeftSLine, RiArrowRightSLine } from "react-icons/ri"
-import { useUA } from "@/hooks/useUA"
+import { IconNames } from "@/app/projects/components/SocialIcon"
+import { PROJECTS } from "@/Apollo/queries/sales"
+import { useQuery } from "@apollo/client"
 
-export const Carousel = () => {
-  const { isMobile } = useUA()
+type Project = {
+  id: string
+  tokenName: string
+  tokenSymbol: string
+  tokenAddress: string
+  address: string
+  icon: string
+  banner: string
+  status: "On going" | "Finished" | "Coming soon"
+  saleProgress: number
+  categories: string[]
+  saleAmountUsd: number
+  description: string
+  about: string
+  averageUSDPrice: number
+  endTime: string
+  closeTime: string
+  openTime: string
+  socialLinks: LinkType
+  totalRaised: number
+}
 
-  const slides = [
-    {
-      defaultImage: "/images/backgroundCardDefault.svg",
-      letter: "A",
-      description: "BLOCK A",
-      progress: "40%",
-      expectedRaise: "$11,549,430",
-    },
-    {
-      defaultImage: "/images/backgroundCardDefault.svg",
-      letter: "B",
-      description: "BLOCK B",
-      progress: "20%",
-      expectedRaise: "$11,549,430",
-    },
-    {
-      defaultImage: "/images/backgroundCardDefault.svg",
-      letter: "C",
-      description: "BLOCK C",
-      progress: "80%",
-      expectedRaise: "$11,549,430",
-    },
-    // {
-    //   defaultImage: '/images/backgroundCardDefault.svg',
-    //   letter: 'D',
-    //   description: 'BLOCK D',
-    //   progress: '80%',
-    //   expectedRaise: '$11,549,430',
-    // },
-    // {
-    //   defaultImage: '/images/backgroundCardDefault.svg',
-    //   letter: 'D',
-    //   description: 'BLOCK D',
-    //   progress: '80%',
-    //   expectedRaise: '$11,549,430',
-    // },
-    // {
-    //   defaultImage: '/images/backgroundCardDefault.svg',
-    //   letter: 'E',
-    //   description: 'BLOCK E',
-    //   progress: '80%',
-    //   expectedRaise: '$11,549,430',
-    // },
-  ]
+type LinkType = {
+  [key in IconNames]: string
+}
 
-  const slidesPerViewConfig = isMobile
-    ? 1
-    : slides.length <= 3
-    ? slides.length
-    : 3
-  const centeredSlidesConfig = slides.length < 3
+type Props = {
+  navigation?: boolean
+  showNavigationDots?: boolean
+  maxSlidesPerView?: number
+}
+
+export function Carousel({
+  navigation = true,
+  showNavigationDots = true,
+  maxSlidesPerView = 3,
+}: Props) {
+  const { data } = useQuery(PROJECTS, {
+    variables: {
+      active: true,
+      limit: 9,
+    },
+  })
+
+  const projects = (data?.getAllSales?.sales || []) as Project[]
 
   return (
-    <div className="flex w-full justify-center items-center h-full">
-      <Swiper
-        spaceBetween={24}
-        slidesPerView={slidesPerViewConfig}
-        centeredSlides={centeredSlidesConfig}
-        mousewheel={false}
-        simulateTouch={false}
-        preventClicks={true}
-        pagination={{
-          el: ".swiper-pagination",
-          clickable: true,
-          bulletClass: "swiper-pagination-bullet",
-          bulletActiveClass: "swiper-pagination-bullet-active",
-        }}
-        scrollbar={false}
-        className="w-full relative"
-        modules={[Navigation, Pagination, FreeMode]}
-        navigation={{
-          nextEl: ".swiper-button-next",
-          prevEl: ".swiper-button-prev",
-        }}
+    <div className="flex w-full justify-center items-center h-full max-w-[1280px]">
+      <Slider
+        maxSlidesPerView={maxSlidesPerView}
+        navigation={navigation}
+        showNavigationDots={showNavigationDots}
       >
-        {slides.map((card, index) => (
-          <SwiperSlide
-            key={index}
-            style={{
-              maxWidth: "398px",
-              display: "flex",
-              justifyContent: "center",
-            }}
+        {projects.map((data) => (
+          <Link
+            key={data.address}
+            href={`/projects/${data.address}`}
+            className="flex w-full max-w-[398px] h-[224px] justify-center items-center"
           >
             <Card
-              defaultImage={card.defaultImage}
-              typeBadge={1}
+              data={data}
+              typeBadge={data.status}
               maxWidth="398px"
               height="224px"
             />
-          </SwiperSlide>
+          </Link>
         ))}
-        <RiArrowRightSLine size={24} className="swiper-button-next" />
-        <RiArrowLeftSLine size={24} className="swiper-button-prev" />
-        <div className="swiper-pagination"></div>
-      </Swiper>
+      </Slider>
     </div>
   )
 }

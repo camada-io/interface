@@ -38,6 +38,7 @@ export const PROJECTS = gql`
         availableTokens
         saleProgress
         averageUSDPrice
+        totalRaised
         saleId
         tokenAddress
         address
@@ -58,6 +59,39 @@ export const PROJECTS = gql`
 export const PROJECT = gql`
   query ProjectQuery($address: String!) {
     getSaleByAddress(address: $address) {
+      id
+      _id
+      bannerImage
+      status
+      openTime
+      closeTime
+      releaseTime
+      releaseEndTime
+      saleAmountUsd
+      saleAmountToken
+      availableTokens
+      saleProgress
+      averageUSDPrice
+      totalRaised
+      saleId
+      tokenAddress
+      address
+      icon
+      tokenName
+      description
+      about
+      tokenSymbol
+      whitepaper
+      active
+      socialLinks
+      categories
+    }
+  }
+`
+
+export const FEATURED_PROJECT = gql`
+  query FeaturedProjectQuery {
+    getFeaturedSale {
       id
       _id
       bannerImage
