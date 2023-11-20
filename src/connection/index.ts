@@ -60,7 +60,7 @@ export const connectionConfig = createConfig({
     new WalletConnectConnector({
       chains,
       options: {
-        projectId: "7d4d4bcd74915500431c20f675eda851",
+        projectId: "167d74fa7a5c33030956a191a1a849ae",
       },
     }),
     new InjectedConnector({

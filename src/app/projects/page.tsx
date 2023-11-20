@@ -272,7 +272,7 @@ export default function Projects() {
             <div className="flex w-full justify-between items-center gap-6 mb-6">
               <div
                 onClick={clearAll}
-                className="grow shrink basis-0 h-[45px] px-6 py-4 rounded-[5px] border border-sky-300 justify-center items-center gap-2.5 flex"
+                className="grow shrink basis-0 h-[45px] px-6 py-4 rounded-[5px] border border-brandBlue-100 justify-center items-center gap-2.5 flex"
               >
                 <div className="text-white text-lg font-bold">Clear all</div>
               </div>

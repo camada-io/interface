@@ -6,12 +6,15 @@ import { useEffect, useState } from "react"
 import { menuData } from "./menuData"
 import { usePathname } from "next/navigation"
 import { BiWallet } from "react-icons/bi"
-import { useAccount } from "wagmi"
+import { RiUserLine, RiLogoutBoxLine } from "react-icons/ri"
+import { useAccount, useDisconnect } from "wagmi"
 import { useStore } from "zustand"
 import { useConnectWallet } from "@/stores/connectWallet"
 
 export const Header = () => {
   const pathname = usePathname()
+
+  const { disconnect } = useDisconnect()
 
   const { onOpen } = useStore(useConnectWallet)
 
@@ -88,18 +91,39 @@ export const Header = () => {
             </ul>
           </nav>
         </div>
-        <button
-          type="button"
-          className="hidden lg:flex max-w-[212px] h-[45px] pl-4 pr-6 py-4 bg-brandBlue-200 rounded-[5px] justify-center items-center gap-4 font-size-[14px]"
-          onClick={!isConnected ? onOpen : undefined}
-        >
-          <BiWallet size={"1.5rem"} />
-          <div className="text-white text-lg font-bold">
-            {isClient && address
-              ? `${address.slice(0, 6)}...${address.slice(-4)}`
-              : "Connect Wallet"}
-          </div>
-        </button>
+        <div className="min-w-[212px] hidden lg:flex">
+          {isClient &&
+            (!isConnected ? (
+              <button
+                type="button"
+                className="flex max-w-[212px] h-[45px] pl-4 pr-6 py-4 bg-brandBlue-200 rounded-[5px] justify-center items-center gap-4 text-sm"
+                onClick={onOpen}
+              >
+                <BiWallet size={"1.5rem"} />
+                <div className="text-white text-lg font-bold">
+                  Connect Wallet
+                </div>
+              </button>
+            ) : (
+              <div className="flex group flex-col relative cursor-pointer">
+                <div className="flex max-w-[212px] h-[45px] pl-4 pr-6 py-4 bg-gray-500 rounded-[5px] justify-center items-center gap-4 text-sm">
+                  <div className="w-30 h-30 rounded-full flex justify-center items-center bg-brandBlue-200 p-2">
+                    <RiUserLine size={18} color="white" />
+                  </div>
+                  {address && `${address.slice(0, 6)}...${address.slice(-4)}`}
+                </div>
+                <div className="flex group-hover:flex opacity-0 group-hover:opacity-100 group-hover:transition-opacity absolute bottom-[-50px] left-0 right-0 z-1">
+                  <button
+                    onClick={() => disconnect()}
+                    className="flex mt-2 gap-2 bg-gray-500 rounded-[5px] w-full h-[45px] justify-center items-center"
+                  >
+                    <RiLogoutBoxLine size={18} color="white" />
+                    <div>Disconnect</div>
+                  </button>
+                </div>
+              </div>
+            ))}
+        </div>
       </div>
     </header>
   )

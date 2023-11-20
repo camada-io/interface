@@ -14,7 +14,7 @@ const ImageComponent = ({
   width: number
   height: number
 }) => (
-  <Link href={link}>
+  <Link href={link} target="_blank">
     <Image
       src={src}
       alt={alt}

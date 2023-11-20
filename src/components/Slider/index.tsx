@@ -1,5 +1,6 @@
 "use client"
 
+import { useSpring, animated } from "@react-spring/web"
 import throttle from "lodash.throttle"
 import { Children, useCallback, useEffect, useState } from "react"
 import { RiArrowRightSLine, RiArrowLeftSLine } from "react-icons/ri"
@@ -8,7 +9,6 @@ interface SliderProps extends React.HTMLAttributes<HTMLDivElement> {
   navigation?: boolean
   className?: string
   showNavigationDots?: boolean
-  centerSlides?: boolean
   contentContainerStyle?: React.CSSProperties
   contentContainerClassName?: string
   maxSlidesPerView?: number
@@ -20,7 +20,6 @@ export default function Slider({
   navigation = false,
   className = "",
   showNavigationDots = true,
-  centerSlides = true,
   contentContainerClassName = "",
   contentContainerStyle = {},
   maxSlidesPerView = 1,
@@ -30,6 +29,12 @@ export default function Slider({
   const [activeView, setActiveView] = useState(0)
 
   const items = Children.toArray(props.children)
+
+  const [styles, api] = useSpring(() => ({
+    from: { x: 0, opacity: 0 },
+    to: { x: 0, opacity: 1 },
+    config: { clamp: true },
+  }))
 
   const slidesPerViewBreakpoints = {
     640: 1,
@@ -49,23 +54,31 @@ export default function Slider({
   const nextSlide = useCallback(() => {
     if (activeView < totalViews - 1) {
       setActiveView(activeView + 1)
+      api.start({
+        from: { x: 250, opacity: 0 },
+        to: { x: 0, opacity: 1 },
+      })
     }
-  }, [activeView, totalViews])
+  }, [activeView, totalViews, api])
 
   const prevSlide = useCallback(() => {
     if (activeView > 0) {
       setActiveView(activeView - 1)
+      api.start({
+        from: { x: -250, opacity: 0 },
+        to: { x: 0, opacity: 1 },
+      })
     }
-  }, [activeView])
+  }, [activeView, api])
 
   useEffect(() => {
     if (isCLient) {
       getBreakpoint()
 
-      window.addEventListener("resize", throttle(getBreakpoint, 500))
+      window.addEventListener("resize", throttle(getBreakpoint, 200))
 
       return () => {
-        window.addEventListener("resize", throttle(getBreakpoint, 500))
+        window.addEventListener("resize", throttle(getBreakpoint, 200))
       }
     }
 
@@ -108,23 +121,26 @@ export default function Slider({
     <div {...props} className={`flex w-full ${className}`}>
       <div
         style={contentContainerStyle}
-        className={`flex w-full gap-6 justify-center relative ${contentContainerClassName} ${
-          centerSlides && "mx-auto"
-        }`}
+        className={`flex w-full justify-center relative mx-auto ${contentContainerClassName}`}
       >
-        {slides}
+        <animated.div
+          style={styles}
+          className="flex w-full gap-6 justify-center"
+        >
+          {slides}
+        </animated.div>
 
         {navigation && !!totalViews && (
           <>
             <RiArrowLeftSLine
               size={24}
-              className="absolute left-[-32px] top-[50%] translate-y-[-50%] cursor-pointer"
+              className="absolute max-[1280px]:left-0 left-[-32px] top-[50%] translate-y-[-50%] cursor-pointer"
               color="#FFFFFF5C"
               onClick={prevSlide}
             />
             <RiArrowRightSLine
               size={24}
-              className="absolute right-[-32px]  top-[50%] translate-y-[-50%] cursor-pointer"
+              className="absolute max-[1280px]:right-0 right-[-32px] top-[50%] translate-y-[-50%] cursor-pointer"
               color="#FFFFFF5C"
               onClick={nextSlide}
             />
