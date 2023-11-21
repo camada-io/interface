@@ -55,7 +55,7 @@ export function Carousel({
   const projects = (data?.getAllSales?.sales || []) as Project[]
 
   return (
-    <div className="flex w-full justify-center items-center h-full max-w-[1280px]">
+    <div className="flex w-full justify-center items-center h-full">
       <Slider
         maxSlidesPerView={maxSlidesPerView}
         navigation={navigation}

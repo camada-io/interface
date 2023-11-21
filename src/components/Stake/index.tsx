@@ -14,7 +14,7 @@ export const Stake = () => {
         <div className="self-stretch text-white text-[30px] sm:leading-[38px] sm:text-[40px] font-extrabold sm:!leading-[60px]">
           Stake your tokens to invest inside Camada
         </div>
-        <div className="self-stretch text-white text-lg font-[300] leading-7">
+        <div className="self-stretch text-white text-lg font-light leading-7">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam etiam
           viverra tellus imperd.Lorem ipsum dolor sit amet, consectetur
           adipiscing elit.

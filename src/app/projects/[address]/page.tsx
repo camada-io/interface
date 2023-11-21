@@ -159,7 +159,7 @@ export default function Project({ params }: { params: { address: string } }) {
             <Card
               typeBadge={project.status}
               maxWidth="590px"
-              height={isMobile ? "224px" : "331.23px"}
+              height={isMobile ? "224px" : "370px"}
               data={project}
             />
           </div>
@@ -462,7 +462,7 @@ export default function Project({ params }: { params: { address: string } }) {
           </div>
         )}
 
-        <div className="flex w-full flex-col justify-center items-center gap-6">
+        <div className="flex w-full flex-col justify-center items-center gap-6 max-w-[1280px] mx-auto">
           <div className="text-white text-3xl font-extrabold leading-[50px]">
             You also must like
           </div>

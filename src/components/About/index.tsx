@@ -5,7 +5,7 @@ import { RiArrowRightLine } from "react-icons/ri"
 export const About = () => {
   return (
     <div className="w-full h-full lg:h-72 flex-col justify-start items-center inline-flex px-8">
-      <div className="p-6 h-full w-full max-w-[1280px] lg:p-12 bg-gray-600 rounded-[10px] border border-white border-opacity-5 flex-col justify-center items-start gap-6 ">
+      <div className="p-6 h-full w-full max-w-[1280px] lg:p-12 bg-gray-600 rounded-[10px] border border-white border-opacity-5 flex-col justify-center items-start gap-6 relative">
         <div className="flex flex-col sm:flex-row justify-start items-center gap-6">
           <div className="sm:hidden w-[160px] h-[160px] justify-center items-center flex relative">
             <Image src="images/camada.svg" alt="stakeOne" fill />
@@ -34,8 +34,9 @@ export const About = () => {
               <RiArrowRightLine size={"1.5rem"} />
             </Link>
           </div>
-          <div className="max-[639px]:hidden max-w-[160px] w-full h-[160px] justify-center items-center lg:flex relative">
-            <Image src="images/camada.svg" alt="stakeOne" fill />
+          <div className="max-[639px]:hidden max-w-[200px] w-full h-full"></div>
+          <div className="max-[639px]:hidden max-w-[539px] w-full h-[290px] justify-center items-center lg:flex absolute right-0 bottom-0">
+            <Image src="/images/camada.png" alt="" fill />
           </div>
         </div>
       </div>
