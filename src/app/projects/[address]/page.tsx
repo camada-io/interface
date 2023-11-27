@@ -85,9 +85,6 @@ export default function Project({ params }: { params: { address: string } }) {
 
   if (!project && !loading) notFound()
 
-  const isRefundable =
-    project?.status === "Finished" && project.saleProgress < 100
-
   const { data: projectBalance } = useContractRead({
     address: address as Address,
     abi: abi,
@@ -96,6 +93,26 @@ export default function Project({ params }: { params: { address: string } }) {
     enabled: !!account && !!address && !loading,
     watch: !!account && !!address,
   })
+
+  const { data: minimumSaleAmount } = useContractRead({
+    address: address as Address,
+    abi: abi,
+    functionName: "minimumSaleAmountForClaim",
+    enabled: !!account && !!address && !loading,
+    watch: !!account && !!address,
+  })
+
+  const { data: tokenSold } = useContractRead({
+    address: address as Address,
+    abi: abi,
+    functionName: "tokenSold",
+    enabled: !!account && !!address && !loading,
+    watch: !!account && !!address,
+  })
+
+  const isRefundable =
+    project?.status === "Finished" &&
+    (tokenSold || 0) < (minimumSaleAmount || 0)
 
   const { data: refundBalance } = useContractRead({
     address: address as Address,
