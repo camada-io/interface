@@ -116,11 +116,7 @@ export function ClaimProject({ state, amount, project }: ApproveProps) {
         </div>
 
         <button
-          onClick={() =>
-            claim.write({
-              args: [project.address as Address, parseUnits(String(amount), 6)],
-            })
-          }
+          onClick={() => claim.write()}
           type="button"
           className="p-[8px] rounded-[5px] bg-brandBlue-200 text-center w-full disabled:opacity-[0.5] disabled:cursor-not-allowed hover:bg-brandBlue-100 transition:all duration-300"
           disabled={claim.isLoading}
