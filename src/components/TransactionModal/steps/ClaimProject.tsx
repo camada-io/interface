@@ -6,7 +6,6 @@ import { TransactionModalState } from "../../../stores/transactionModal"
 import abi from "@/contracts/saleAbi"
 import { useCallback, useEffect } from "react"
 import { Loading } from "@/components/Loading"
-import { parseUnits } from "ethers"
 import { BsCheckLg } from "react-icons/bs"
 
 type ApproveProps = {
