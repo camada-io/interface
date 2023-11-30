@@ -1,6 +1,11 @@
 "use client"
 
-import { ButtonHTMLAttributes, DetailedHTMLProps, useState } from "react"
+import {
+  ButtonHTMLAttributes,
+  DetailedHTMLProps,
+  useEffect,
+  useState,
+} from "react"
 import Image from "next/image"
 
 import { InputNumber } from "../InputNumber"
@@ -70,6 +75,16 @@ export const InvestCard = ({
     token: tokens ? tokens[0] : null,
     amount: 0,
   })
+
+  useEffect(() => {
+    if (type === CardProjectType.CLAIM) {
+      onChangeData?.({
+        ...investmentData,
+        amount: availableToClaimBalance || 0,
+      })
+    }
+    // eslint-disable-next-line
+  }, [availableToClaimBalance, type])
 
   const Button = ({ text, handle, className, ...props }: ButtonProps) => {
     return (
@@ -163,41 +178,9 @@ export const InvestCard = ({
         <div className="self-stretch justify-between items-start lg:items-center inline-flex flex-col lg:flex-row">
           <div className="text-white text-lg font-bold leading-7">Claim</div>
         </div>
-        <InputNumber
-          balance={claimBalance ?? 0}
-          tokens={[
-            {
-              icon: projectTokenIcon ?? "/images/icon_not_found.jpg",
-              symbol: projectTokenSymbol ?? "",
-            },
-          ]}
-          balanceLabel="Your balance:"
-          onInputChange={(amount) => {
-            onChangeData?.({ ...investmentData, amount })
-            setInvestmentData({ ...investmentData, amount })
-          }}
-        />
         <div className="self-stretch justify-between items-start inline-flex">
           <div className="text-white text-base font-normal leading-relaxed">
-            Available tokens to claim
-          </div>
-          <div className="h-[26px] justify-end items-center gap-2 flex">
-            <div className="w-6 h-6 relative flex justify-center items-center">
-              <Image
-                src={projectTokenIcon ?? "/images/icon_not_found.jpg"}
-                alt="symbol"
-                fill
-                className="rounded-full"
-              />
-            </div>
-            <div className="text-white text-base font-normal leading-relaxed">
-              {availableToClaimBalance ?? 0} {projectTokenSymbol}
-            </div>
-          </div>
-        </div>
-        <div className="self-stretch justify-between items-start inline-flex">
-          <div className="text-white text-base font-normal leading-relaxed">
-            You will receive
+            Unclaimed Tokens
           </div>
           <div className="h-[26px] justify-end items-center gap-2 flex">
             <div className="w-6 h-6 relative flex justify-center items-center">
@@ -213,11 +196,29 @@ export const InvestCard = ({
             </div>
           </div>
         </div>
+        <div className="self-stretch justify-between items-start inline-flex">
+          <div className="text-white text-base font-normal leading-relaxed">
+            Available tokens to claim
+          </div>
+          <div className="h-[26px] justify-end items-center gap-2 flex">
+            <div className="w-6 h-6 relative flex justify-center items-center">
+              <Image
+                src={projectTokenIcon ?? "/images/icon_not_found.jpg"}
+                alt="symbol"
+                fill
+                className="rounded-full"
+              />
+            </div>
+            <div className="text-white text-base font-normal leading-relaxed">
+              {availableToClaimBalance} {projectTokenSymbol}
+            </div>
+          </div>
+        </div>
 
         <Button
           className="disabled:opacity-[0.5]"
           disabled={isConnected && !availableToClaimBalance}
-          text={isConnected ? "Claim now" : "Connect Wallet"}
+          text={isConnected ? "Claim available tokens" : "Connect Wallet"}
           handle={() => claimHandle?.()}
         />
       </div>
