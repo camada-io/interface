@@ -21,7 +21,7 @@ export const HeroCard = () => {
       </div>
       <div
         className="hidden sm:block absolute z-10 right-0 top-[220px] max-[1024px]:top-80 w-full
-      max-[1024px]:!h-[150px] max-[1024px]:!right-[-25px] max-w-[195px] max-[1024px]:!top-[280px] h-[208px]"
+      max-[1024px]:!h-[150px] max-[1024px]:!right-[-25px] max-w-[195px] h-[208px]"
       >
         <Image src="images/heroTwo.svg" alt="heroImage" fill />
       </div>

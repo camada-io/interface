@@ -3,7 +3,7 @@ import { HeroCard } from "./HeroCard"
 
 export const Hero = () => {
   return (
-    <div className="w-full mt-[80px] flex-col sm:flex-row sm:h-[454px] relative flex justify-between items-center sm:items-start gap-6 lg:gap-0 max-w-[1280px] mx-auto max-[1279px]:px-[32px] max-[1024px]:!gap-0">
+    <div className="w-full lg:mt-[80px] flex-col sm:flex-row sm:h-[454px] relative flex justify-between items-center sm:items-start gap-6 lg:gap-0 max-w-[1280px] mx-auto max-[1279px]:px-[32px] max-[1024px]:!gap-0">
       <div className="flex flex-col gap-6  w-full sm:w-[616px]">
         <div className="max-w-[520px] text-[30px] leading-[38px] sm:!text-[40px] sm:leading-[50px] lg:!text-[55px] font-extrabold sm:leading-[60px]">
           <span className="text-white">Launching the Future, </span>

@@ -11,7 +11,7 @@ export const Apply = () => {
           </div>
           <div className="flex w-full md:w-[50%] flex-col justify-start items-start gap-6">
             <div className="flex w-full max-w-[395.35px] text-gray-400 text-base font-normal leading-relaxed">
-              Apply to bring your project onto the Syspad Platform and into the
+              Apply to bring your project onto the Camada Platform and into the
               Syscoin Ecosystem.
             </div>
             <Link href="/apply" className="hidden sm:flex">

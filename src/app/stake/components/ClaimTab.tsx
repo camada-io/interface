@@ -35,8 +35,8 @@ export function ClaimTab({ stakeProps }: { stakeProps: StakeProps }) {
           tokens={[
             {
               address: "0x0000000000000000000000000000000000000000",
-              icon: "/images/spad.png",
-              symbol: "spad",
+              icon: "/images/syscoin-logo.svg",
+              symbol: "SYS",
             },
           ]}
         />

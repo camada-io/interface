@@ -72,8 +72,13 @@ export function StakeToken({ state, amount }: ApproveProps) {
             <p>Staking amount</p>
 
             <div className="flex items-center gap-[10px]">
-              <Image width={20} height={20} alt="" src={"/images/spad.png"} />
-              <p>{amount} sPAD</p>
+              <Image
+                width={20}
+                height={20}
+                alt=""
+                src={"/images/syscoin-logo.png"}
+              />
+              <p>{amount} SYS</p>
             </div>
           </div>
         </div>

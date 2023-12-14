@@ -49,8 +49,13 @@ export function UnstakeToken({ state, amount }: ApproveProps) {
           <p>Unstaking amount</p>
 
           <div className="flex items-start gap-[10px]">
-            <Image width={30} height={30} alt="" src={"/images/spad.png"} />
-            <p>{amount} SPAD</p>
+            <Image
+              width={30}
+              height={30}
+              alt=""
+              src={"/images/syscoin-logo.png"}
+            />
+            <p>{amount} SYS</p>
           </div>
         </div>
 
