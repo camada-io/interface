@@ -1,6 +1,6 @@
 "use client"
 
-import { useCallback, useEffect } from "react"
+import { useCallback, useEffect, useState } from "react"
 import Image from "next/image"
 import { BsCheckLg } from "react-icons/bs"
 import { useContractWrite, useWaitForTransaction } from "wagmi"
@@ -8,6 +8,7 @@ import { useContractWrite, useWaitForTransaction } from "wagmi"
 import { TransactionModalState } from "../../../stores/transactionModal"
 import abi from "@/contracts/saleAbi"
 import { Loading } from "@/components/Loading"
+import { Alert } from "@/components/Alert"
 
 type ApproveProps = {
   state: TransactionModalState
@@ -17,11 +18,24 @@ type ApproveProps = {
 
 type Address = `0x${string}`
 
+const parseErrors = (errorMessage: string) => {
+  if (errorMessage.includes("CamadaSale::NOT_QUALIFIED_FOR_FULL_REFUND")) {
+    return "Not qualified for full refund."
+  }
+
+  return "Something went wrong"
+}
+
 export function Refund({ state, refundAmount, saleAddress }: ApproveProps) {
+  const [message, setMessage] = useState("")
+
   const refund = useContractWrite({
     address: saleAddress as Address,
     abi: abi,
     functionName: "refundUser",
+    onError(error) {
+      setMessage(parseErrors(error.message))
+    },
   })
 
   const transaction = useWaitForTransaction({
@@ -56,18 +70,20 @@ export function Refund({ state, refundAmount, saleAddress }: ApproveProps) {
         <div className="flex h-full items-start">
           <div className="flex w-full justify-between mt-4">
             <div className="flex w-full flex-col">
-              <div className="w-[30px] h-[30px] mx-auto">
-                {transaction.isLoading && (
-                  <div className="flex mx-auto bg-brandBlue-100 rounded-full p-[3px] justify-center">
+              <div className="w-full mx-auto mb-4">
+                {transaction.isLoading && !message && (
+                  <div className="w-[30px] mx-auto bg-brandBlue-100 rounded-full p-[3px] justify-center">
                     <Loading size={24} />
                   </div>
                 )}
 
-                {transaction.isSuccess && (
-                  <div className="flex mx-auto bg-brandBlue-100 rounded-full p-[3px]">
+                {transaction.isSuccess && !message && (
+                  <div className="w-[30px] mx-auto bg-brandBlue-100 rounded-full p-[3px]">
                     <BsCheckLg size={24} />
                   </div>
                 )}
+
+                <Alert show={!!message} message={message} isError />
               </div>
 
               <div>
@@ -119,7 +135,7 @@ export function Refund({ state, refundAmount, saleAddress }: ApproveProps) {
           onClick={() => refund.write()}
           type="button"
           className="p-[8px] rounded-[5px] bg-brandBlue-200 text-center w-full disabled:opacity-[0.5] disabled:cursor-not-allowed hover:bg-brandBlue-100 transition:all duration-300"
-          disabled={refund.isLoading}
+          disabled={transaction.isLoading || transaction.isSuccess}
         >
           Refund
         </button>

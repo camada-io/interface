@@ -102,7 +102,7 @@ export const InvestCard = ({
             <div className="flex gap-2">
               <div className="w-6 h-6 relative flex justify-center items-center">
                 <Image
-                  src={projectTokenIcon ?? "/images/icon_not_found.jpg"}
+                  src={projectTokenIcon || "/images/icon_not_found.jpg"}
                   alt="symbol"
                   fill
                   className="rounded-full"
@@ -133,7 +133,7 @@ export const InvestCard = ({
           <div className="h-[26px] justify-end items-center gap-2 flex">
             <div className="w-6 h-6 relative flex justify-center items-center">
               <Image
-                src={projectTokenIcon ?? "/images/icon_not_found.jpg"}
+                src={projectTokenIcon || "/images/icon_not_found.jpg"}
                 alt="symbol"
                 fill
                 className="rounded-full"
@@ -167,8 +167,8 @@ export const InvestCard = ({
           balance={claimBalance ?? 0}
           tokens={[
             {
-              icon: projectTokenIcon ?? "/images/icon_not_found.jpg",
-              symbol: projectTokenSymbol ?? "",
+              icon: projectTokenIcon || "/images/icon_not_found.jpg",
+              symbol: projectTokenSymbol || "",
             },
           ]}
           balanceLabel="Your balance:"
@@ -184,7 +184,7 @@ export const InvestCard = ({
           <div className="h-[26px] justify-end items-center gap-2 flex">
             <div className="w-6 h-6 relative flex justify-center items-center">
               <Image
-                src={projectTokenIcon ?? "/images/icon_not_found.jpg"}
+                src={projectTokenIcon || "/images/icon_not_found.jpg"}
                 alt="symbol"
                 fill
                 className="rounded-full"
@@ -202,7 +202,7 @@ export const InvestCard = ({
           <div className="h-[26px] justify-end items-center gap-2 flex">
             <div className="w-6 h-6 relative flex justify-center items-center">
               <Image
-                src={projectTokenIcon ?? "/images/icon_not_found.jpg"}
+                src={projectTokenIcon || "/images/icon_not_found.jpg"}
                 alt="symbol"
                 fill
                 className="rounded-full"

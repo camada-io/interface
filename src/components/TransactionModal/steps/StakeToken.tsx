@@ -76,7 +76,7 @@ export function StakeToken({ state, amount }: ApproveProps) {
                 width={20}
                 height={20}
                 alt=""
-                src={"/images/syscoin-logo.png"}
+                src={"/images/syscoin-logo.svg"}
               />
               <p>{amount} SYS</p>
             </div>
@@ -87,7 +87,7 @@ export function StakeToken({ state, amount }: ApproveProps) {
           onClick={() => stake.write({ args: [parseEther(amount.toString())] })}
           type="button"
           className="p-[8px] rounded-[5px] bg-brandBlue-200 mt-6 text-center w-full disabled:opacity-[0.5] disabled:cursor-not-allowed hover:bg-brandBlue-100 transition:all duration-300"
-          disabled={stake.isLoading}
+          disabled={transaction.isLoading || transaction.isSuccess}
         >
           Stake
         </button>
