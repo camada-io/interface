@@ -37,9 +37,9 @@ export const ContactForm = ({ defaultValues, onSubmit, isSending }: Props) => {
     <form
       onSubmit={handleSubmit(handleOnSubmit)}
       noValidate
-      className="max-w-[620px] w-full flex"
+      className="w-full flex shrink"
     >
-      <div className="max-w-[620px] w-full flex-col justify-start items-start gap-4 inline-flex">
+      <div className="max-w-[620px] w-full flex-col justify-start items-start gap-4 flex">
         <Input name="name" control={control} placeholder="Name" />
         <Input name="email" control={control} placeholder="Email" />
         <Input

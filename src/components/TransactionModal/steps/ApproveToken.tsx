@@ -99,10 +99,10 @@ export function ApproveToken({ state, amount }: ApproveProps) {
                     width={20}
                     height={20}
                     alt=""
-                    src="/images/spad.png"
+                    src="/images/syscoin-logo.svg"
                     className="rounded-full"
                   />
-                  <p>{` ${amount} sPAD`}</p>
+                  <p>{` ${amount} SYS`}</p>
                 </div>
               </div>
             </div>

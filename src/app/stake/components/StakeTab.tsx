@@ -50,8 +50,8 @@ export function StakeTab({ stakeProps }: { stakeProps: StakeProps }) {
           balanceLabel="Your Balance:"
           tokens={[
             {
-              icon: "/images/spad.png",
-              symbol: "spad",
+              icon: "/images/syscoin-logo.svg",
+              symbol: "SYS",
             },
           ]}
         />

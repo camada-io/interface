@@ -118,7 +118,7 @@ export const Footer = () => {
       <div className="hidden py-6 bg-brandBlue-100 px-0 lg:flex text-gray-900">
         <div className="flex w-full justify-between items-center max-w-[1280px] mx-auto max-[1279px]:px-[32px] ">
           <div className="text-sm font-normal leading-normal">
-            © 2023 SYSPAD, Inc. All rights reserved.
+            © 2023 CAMADA, Inc. All rights reserved.
           </div>
           <div className="justify-start items-center gap-2 flex">
             <div className="pt-1 justify-start items-center gap-2.5 flex">
