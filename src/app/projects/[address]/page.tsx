@@ -192,7 +192,7 @@ export default function Project({ params }: { params: { address: string } }) {
               usdc: Number(refundBalance?.at(0)) || 0,
               usdt: Number(refundBalance?.at(1)) || 0,
             }}
-            availableToClaimBalance={Number(availableToClaimBalance) ?? 0}
+            availableToClaimBalance={Number(availableToClaimBalance) || 0}
             stableTokenBalance={
               stableTokenBalance ? `${formatUnits(stableTokenBalance)}` : "0"
             }
