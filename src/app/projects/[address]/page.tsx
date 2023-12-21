@@ -186,8 +186,8 @@ export default function Project({ params }: { params: { address: string } }) {
             tokens={stableTokens}
             projectTokenName={project.tokenName}
             projectTokenSymbol={project.tokenSymbol}
-            projectBalance={Number(projectBalance) ?? 0}
-            claimBalance={Number(claimBalance) ?? 0}
+            projectBalance={Number(projectBalance) || 0}
+            claimBalance={Number(claimBalance) || 0}
             refundBalance={{
               usdc: Number(refundBalance?.at(0)) || 0,
               usdt: Number(refundBalance?.at(1)) || 0,
@@ -372,7 +372,7 @@ export default function Project({ params }: { params: { address: string } }) {
                   <div className="h-[26px] justify-end items-center gap-2 flex">
                     <div className="w-6 h-6 relative flex justify-center items-center">
                       <Image
-                        src={project.icon ?? "/images/icon_not_found.jpg"}
+                        src={project.icon || "/images/icon_not_found.jpg"}
                         alt="symbol"
                         fill
                         className="rounded-full"
@@ -498,7 +498,7 @@ export default function Project({ params }: { params: { address: string } }) {
               address: project?.address,
               name: project?.tokenName,
               symbol: project?.tokenSymbol,
-              icon: project?.icon ?? "/images/icon_not_found.jpg",
+              icon: project?.icon || "/images/icon_not_found.jpg",
             }}
             stableToken={investmentData.token}
           />
@@ -511,7 +511,7 @@ export default function Project({ params }: { params: { address: string } }) {
               address: project?.address,
               name: project?.tokenName,
               symbol: project?.tokenSymbol,
-              icon: project?.icon ?? "/images/icon_not_found.jpg",
+              icon: project?.icon || "/images/icon_not_found.jpg",
             }}
             stableToken={investmentData.token}
           />
@@ -523,7 +523,7 @@ export default function Project({ params }: { params: { address: string } }) {
               address: project?.address,
               name: project?.tokenName,
               symbol: project?.tokenSymbol,
-              icon: project?.icon ?? "/images/icon_not_found.jpg",
+              icon: project?.icon || "/images/icon_not_found.jpg",
             }}
             amount={investmentData.amount}
           />

@@ -117,7 +117,7 @@ export const InvestCard = ({
             <div className="flex gap-2">
               <div className="w-6 h-6 relative flex justify-center items-center">
                 <Image
-                  src={projectTokenIcon ?? "/images/icon_not_found.jpg"}
+                  src={projectTokenIcon || "/images/icon_not_found.jpg"}
                   alt="symbol"
                   fill
                   className="rounded-full"
@@ -148,7 +148,7 @@ export const InvestCard = ({
           <div className="h-[26px] justify-end items-center gap-2 flex">
             <div className="w-6 h-6 relative flex justify-center items-center">
               <Image
-                src={projectTokenIcon ?? "/images/icon_not_found.jpg"}
+                src={projectTokenIcon || "/images/icon_not_found.jpg"}
                 alt="symbol"
                 fill
                 className="rounded-full"
@@ -178,6 +178,20 @@ export const InvestCard = ({
         <div className="self-stretch justify-between items-start lg:items-center inline-flex flex-col lg:flex-row">
           <div className="text-white text-lg font-bold leading-7">Claim</div>
         </div>
+        <InputNumber
+          balance={claimBalance ?? 0}
+          tokens={[
+            {
+              icon: projectTokenIcon || "/images/icon_not_found.jpg",
+              symbol: projectTokenSymbol || "",
+            },
+          ]}
+          balanceLabel="Your balance:"
+          onInputChange={(amount) => {
+            onChangeData?.({ ...investmentData, amount })
+            setInvestmentData({ ...investmentData, amount })
+          }}
+        />
         <div className="self-stretch justify-between items-start inline-flex">
           <div className="text-white text-base font-normal leading-relaxed">
             Unclaimed Tokens
@@ -185,7 +199,7 @@ export const InvestCard = ({
           <div className="h-[26px] justify-end items-center gap-2 flex">
             <div className="w-6 h-6 relative flex justify-center items-center">
               <Image
-                src={projectTokenIcon ?? "/images/icon_not_found.jpg"}
+                src={projectTokenIcon || "/images/icon_not_found.jpg"}
                 alt="symbol"
                 fill
                 className="rounded-full"
@@ -203,7 +217,7 @@ export const InvestCard = ({
           <div className="h-[26px] justify-end items-center gap-2 flex">
             <div className="w-6 h-6 relative flex justify-center items-center">
               <Image
-                src={projectTokenIcon ?? "/images/icon_not_found.jpg"}
+                src={projectTokenIcon || "/images/icon_not_found.jpg"}
                 alt="symbol"
                 fill
                 className="rounded-full"

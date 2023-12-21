@@ -8,14 +8,22 @@ import {
 import { XMarkIcon } from "@heroicons/react/24/solid"
 
 import Modal from "../Modal"
-import { useTransactionModal } from "@/stores/transactionModal"
+import {
+  useTransactionModal,
+  TransactionModalState,
+} from "@/stores/transactionModal"
 
 type TransactionModalProps = {
   children: React.ReactNode
+  modalState?: TransactionModalState
 }
 
-export function TransactionModal({ children }: TransactionModalProps) {
-  const state = useTransactionModal()
+export function TransactionModal({
+  children,
+  modalState,
+}: TransactionModalProps) {
+  const defaultState = useTransactionModal()
+  const state = modalState || defaultState
   const { isOpen, onClose, dispatchStep, currentStep } = state
   const steps = Children.toArray(children) as React.ReactElement[]
 

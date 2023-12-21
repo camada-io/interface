@@ -1,7 +1,7 @@
 "use client"
 
 import { InputNumber } from "@/components/InputNumber"
-import { useCallback, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { useAccount } from "wagmi"
 import { useStake } from "../hooks/useStake"
 import { useTransactionModal } from "@/stores/transactionModal"
@@ -15,10 +15,10 @@ type StakeProps = ReturnType<typeof useStake>
 
 export function StakeTab({ stakeProps }: { stakeProps: StakeProps }) {
   const { isConnected } = useAccount()
+  const [amount, setAmount] = useState(0)
+  const [isClient, setIsClient] = useState(false)
 
   const state = useTransactionModal()
-
-  const [amount, setAmount] = useState(0)
 
   const { onOpen } = state
 
@@ -39,6 +39,10 @@ export function StakeTab({ stakeProps }: { stakeProps: StakeProps }) {
 
     return nextTier - stakedBalance
   }, [tier, stakedBalance, allTiers])
+
+  useEffect(() => {
+    setIsClient(true)
+  }, [])
 
   return (
     <>
@@ -76,12 +80,16 @@ export function StakeTab({ stakeProps }: { stakeProps: StakeProps }) {
 
         <button
           type="button"
-          disabled={!isLoading && (!isWhitelisted || (!amount && isConnected))}
+          disabled={!isWhitelisted || (!amount && isConnected)}
           className="flex w-full justify-center items-center gap-4 rounded-[5px] py-[16px] px-[24px]
           text-center text-[18px] font-bold text-white bg-brandBlue-200 disabled:opacity-[0.5] disabled:cursor-not-allowed hover:bg-brandBlue-100 transition:all duration-300"
           onClick={onOpen}
         >
-          {isConnected && !isLoading ? "Stake now" : "Connect Wallet"}
+          {isClient
+            ? isConnected
+              ? "Stake now"
+              : "Connect Wallet"
+            : "Stake Now"}
         </button>
       </div>
 

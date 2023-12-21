@@ -35,7 +35,7 @@ export const Alert = ({ maxWidth, show, message, isError = false }: Props) => {
       ) : (
         <RiCheckLine size={30} color={colors.brandBlue[200]} />
       )}
-      <div className="grow shrink basis-0 h-full lg:h-[27px] pt-[5px] pb-0.5 justify-start items-start gap-2.5 flex">
+      <div className="grow shrink basis-0 h-full lg:h-[27px] pb-0.5 justify-start items-center gap-2.5 flex">
         <div className="grow shrink basis-0 text-white text-sm font-normal leading-tight">
           {message
             ? message

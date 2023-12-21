@@ -7,6 +7,7 @@ export type TransactionModalState = {
   onOpen: () => void
   onClose: () => void
   dispatchStep: (action: StepsAction) => void
+  setStep?: (step: number) => void
 }
 
 type StepsState = {
@@ -29,6 +30,9 @@ export const useTransactionModal = create<TransactionModalState>(
     onClose: () => set({ isOpen: false }),
     dispatchStep: (action: StepsAction) => {
       set(stepsReducer(get(), action))
+    },
+    setStep: (step: number) => {
+      set({ currentStep: step })
     },
   }),
 )

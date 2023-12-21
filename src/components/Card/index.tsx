@@ -110,7 +110,7 @@ export const Card = ({
       <div className="flex flex-col p-6 h-32 backdrop-blur-sm bg-opacity-50 rounded-tr-[100px] rounded-bl-[20px] rounded-br-[20px] bg-gray-650 gap-2">
         <div className="max-w-max pl-2 pr-5 h-7 flex justify-start items-center gap-2">
           <Image
-            src={data?.icon ?? "/images/icon_not_found.jpg"}
+            src={data?.icon || "/images/icon_not_found.jpg"}
             alt="heroImage"
             width={20}
             height={20}
