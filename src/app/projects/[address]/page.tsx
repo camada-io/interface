@@ -186,8 +186,8 @@ export default function Project({ params }: { params: { address: string } }) {
             tokens={stableTokens}
             projectTokenName={project.tokenName}
             projectTokenSymbol={project.tokenSymbol}
-            projectBalance={Number(projectBalance) ?? 0}
-            claimBalance={Number(claimBalance) ?? 0}
+            projectBalance={Number(projectBalance) || 0}
+            claimBalance={Number(claimBalance) || 0}
             refundBalance={{
               usdc: Number(refundBalance?.at(0)) || 0,
               usdt: Number(refundBalance?.at(1)) || 0,

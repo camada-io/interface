@@ -8,7 +8,6 @@ import { usePathname } from "next/navigation"
 import { BiWallet } from "react-icons/bi"
 import { RiUserLine, RiLogoutBoxLine } from "react-icons/ri"
 import { useAccount, useDisconnect } from "wagmi"
-import { useStore } from "zustand"
 import { useConnectWallet } from "@/stores/connectWallet"
 
 export const Header = () => {
@@ -16,7 +15,7 @@ export const Header = () => {
 
   const { disconnect } = useDisconnect()
 
-  const { onOpen } = useStore(useConnectWallet)
+  const { onOpen } = useConnectWallet()
 
   const { address, isConnected } = useAccount()
 

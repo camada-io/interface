@@ -56,7 +56,10 @@ const { chains, publicClient, webSocketPublicClient } = configureChains(
 export const connectionConfig = createConfig({
   autoConnect: true,
   connectors: [
-    new MetaMaskConnector({ chains }),
+    new MetaMaskConnector({
+      chains,
+      options: { UNSTABLE_shimOnConnectSelectAccount: true },
+    }),
     new WalletConnectConnector({
       chains,
       options: {

@@ -111,14 +111,6 @@ export function ApproveToken({ state, amount }: ApproveProps) {
 
         <div className="flex w-full justify-between gap-[16px]">
           <button
-            onClick={state?.onClose}
-            disabled={transaction.isLoading}
-            type="button"
-            className="p-[8px] rounded-[5px] bg-gray-900 mt-6 text-center w-full border-[1px] border-brandBlue-100 hover:bg-whiteAlpha-100 transition:all duration-300"
-          >
-            Cancel
-          </button>
-          <button
             disabled={transaction.isLoading}
             onClick={() =>
               approve.writeAsync({

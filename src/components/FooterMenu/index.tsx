@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation"
 import { useEffect, useState } from "react"
 import { RiHome2Line } from "react-icons/ri"
 import { useAccount } from "wagmi"
-import { ConnectWallet } from "../ConnectWallet"
+import { ConnectWalletModal } from "../ConnectWallet"
 
 export const FooterMenu = () => {
   const [isClient, setIsClient] = useState(false)
@@ -87,7 +87,7 @@ export const FooterMenu = () => {
           ))}
         </div>
       </div>
-      <ConnectWallet />
+      <ConnectWalletModal />
     </div>
   )
 }
