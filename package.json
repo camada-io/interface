@@ -12,6 +12,7 @@
     "@apollo/client": "^3.8.6",
     "@heroicons/react": "^2.0.18",
     "@hookform/resolvers": "^3.3.2",
+    "@idos-network/idos-sdk": "^0.0.30",
     "@react-spring/web": "^9.7.3",
     "@types/react-input-mask": "^3.0.4",
     "dayjs": "^1.11.10",

@@ -6,7 +6,7 @@ import Image from "next/image"
 import { notFound } from "next/navigation"
 import { useQuery } from "@apollo/client"
 import { useAccount, useContractRead, Address, erc20ABI } from "wagmi"
-import { useCallback, useState } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
 import dayjs from "dayjs"
 import LocalizedFormart from "dayjs/plugin/localizedFormat"
 
@@ -25,9 +25,10 @@ import { CheckNetwork } from "@/components/TransactionModal/steps/CheckNetwork"
 import { useTransactionModal } from "@/stores/transactionModal"
 import { Invest } from "@/components/TransactionModal/steps/Invest"
 import { ApproveProject } from "@/components/TransactionModal/steps/ApproveProject"
-import { formatUnits } from "ethers"
+import { ethers, formatUnits } from "ethers"
 import { ClaimProject } from "@/components/TransactionModal/steps/ClaimProject"
 import { Refund } from "@/components/TransactionModal/steps/Refund"
+import { idOS } from "@idos-network/idos-sdk"
 
 dayjs.extend(LocalizedFormart)
 
@@ -66,6 +67,8 @@ const stableTokens = [
 ]
 
 export default function Project({ params }: { params: { address: string } }) {
+  const idosContainerRef = useRef(null)
+  const [hasFractalProfile, setHasFractalProfile] = useState(false)
   const isMobile = useIsMobile()
   const { address: account } = useAccount()
   const [investmentData, setInvestmentData] = useState({
@@ -161,6 +164,42 @@ export default function Project({ params }: { params: { address: string } }) {
 
     return CardProjectType.INVEST
   }, [project?.status, isRefundable])
+
+  useEffect(() => {
+    ;(async () => {
+      if (account && idosContainerRef.current) {
+        const idos = await idOS.init({ container: "#idos-container" })
+
+        const provider = new ethers.BrowserProvider(window?.ethereum)
+        await provider.send("eth_requestAccounts", [])
+        const signer = await provider.getSigner()
+        await idos.setSigner("EVM", signer)
+        // await idos.enclave.confirm(
+        //   "Do we have your consent to read data from the idOS?",
+        // )
+
+        const hasProfile = await idos.hasProfile(account)
+
+        console.log(hasProfile)
+        setHasFractalProfile(hasProfile)
+
+        const credentials = await idos.data.list("credentials")
+
+        console.log(credentials)
+
+        console.log(
+          await idos.data.get(
+            "credentials",
+            "8401c1bb-2633-46c7-aaeb-3e8043d4e877",
+          ),
+        )
+      }
+    })()
+
+    // eslint-disable-next-line
+  }, [account, idosContainerRef.current])
+
+  // criar botao pra autorizar o app a acessar os dados do fractal profile
 
   return !loading && project ? (
     <>
@@ -486,6 +525,8 @@ export default function Project({ params }: { params: { address: string } }) {
           <Carousel />
         </div>
       </div>
+
+      <div ref={idosContainerRef} id="idos-container" className="hidden"></div>
 
       <TransactionModal>
         <ConnectWallet state={state} />
