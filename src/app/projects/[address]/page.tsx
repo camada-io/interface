@@ -90,15 +90,14 @@ export default function Project({ params }: { params: { address: string } }) {
 
   if (!project && !loading) notFound()
 
-  const { data: isWhitelisted, isLoading: isWhitelistedLoading } =
-    useContractRead({
-      address: lauchpadAdress,
-      abi: launchpadAbi,
-      functionName: "isWhitelisted",
-      args: [account as Address],
-      enabled: !!account && isAllowedChain,
-      watch: !!account && isAllowedChain,
-    })
+  const { data: isWhitelisted } = useContractRead({
+    address: lauchpadAdress,
+    abi: launchpadAbi,
+    functionName: "isWhitelisted",
+    args: [account as Address],
+    enabled: !!account && isAllowedChain,
+    watch: !!account && isAllowedChain,
+  })
 
   const { data: projectBalance } = useContractRead({
     address: address as Address,
@@ -184,8 +183,6 @@ export default function Project({ params }: { params: { address: string } }) {
   }, [connector])
 
   const cardProjectType = useCallback(() => {
-    return CardProjectType.INVEST
-
     if (isRefundable) return CardProjectType.REFUND
 
     if (project?.status === "On going") return CardProjectType.INVEST
