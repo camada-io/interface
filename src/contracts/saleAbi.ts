@@ -2,7 +2,7 @@ const abi = [
   {
     inputs: [
       {
-        internalType: "contract IERC20",
+        internalType: "address",
         name: "_token",
         type: "address",
       },
@@ -991,7 +991,7 @@ const abi = [
     name: "token",
     outputs: [
       {
-        internalType: "contract IERC20",
+        internalType: "contract ICamadaToken",
         name: "",
         type: "address",
       },
