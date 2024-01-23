@@ -41,6 +41,7 @@ type Props = {
   availableToClaimBalance?: number
   onChangeData?: ({ token, amount }: ChangeData) => void
   isConnected: boolean
+  hasFractalProfile?: boolean
 }
 
 interface ButtonProps
