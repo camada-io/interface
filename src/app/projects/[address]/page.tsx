@@ -56,6 +56,7 @@ type Project = {
   endTime: string
   closeTime: string
   openTime: string
+  releaseTime: string
   socialLinks: LinkType
   totalRaised: number
 }
@@ -321,7 +322,7 @@ export default function Project({ params }: { params: { address: string } }) {
                     Estimated legend
                   </div>
                   <div className="text-white text-base font-normal leading-relaxed">
-                    {dayjs(project.endTime).format("ll")}
+                    {dayjs(project.releaseTime).format("ll")}
                   </div>
                 </div>
                 <div className="self-stretch py-2 justify-between items-center inline-flex">
@@ -450,7 +451,7 @@ export default function Project({ params }: { params: { address: string } }) {
                     Estimated legend
                   </div>
                   <div className="text-white text-base font-normal leading-relaxed">
-                    {dayjs(project.endTime).format("ll")}
+                    {dayjs(project.releaseTime).format("ll")}
                   </div>
                 </div>
                 <div className="self-stretch py-2 justify-between items-center inline-flex">
