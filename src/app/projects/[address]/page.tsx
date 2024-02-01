@@ -286,7 +286,12 @@ export default function Project({ params }: { params: { address: string } }) {
                       {project.tokenAddress.slice(0, 4)}...
                       {project.tokenAddress.slice(-4)}
                     </div>
-                    <button className="w-4 h-4 justify-center items-center flex">
+                    <button
+                      className="w-4 h-4 justify-center items-center flex"
+                      onClick={() => {
+                        navigator.clipboard.writeText(project.tokenAddress)
+                      }}
+                    >
                       <RiFileCopyLine size={16} />
                     </button>
                   </div>
@@ -303,7 +308,12 @@ export default function Project({ params }: { params: { address: string } }) {
                       {project.address.slice(0, 4)}...
                       {project.address.slice(-4)}
                     </div>
-                    <button className="w-4 h-4 justify-center items-center flex">
+                    <button
+                      className="w-4 h-4 justify-center items-center flex"
+                      onClick={() =>
+                        navigator.clipboard.writeText(project.address)
+                      }
+                    >
                       <RiFileCopyLine size={16} />
                     </button>
                   </div>
@@ -424,7 +434,12 @@ export default function Project({ params }: { params: { address: string } }) {
                       {project.tokenAddress.slice(0, 4)}...
                       {project.tokenAddress.slice(-4)}
                     </div>
-                    <button className="w-4 h-4 justify-center items-center flex">
+                    <button
+                      className="w-4 h-4 justify-center items-center flex"
+                      onClick={() => {
+                        navigator.clipboard.writeText(project.tokenAddress)
+                      }}
+                    >
                       <RiFileCopyLine size={16} />
                     </button>
                   </div>
@@ -441,7 +456,12 @@ export default function Project({ params }: { params: { address: string } }) {
                       {project.address.slice(0, 4)}...
                       {project.address.slice(-4)}
                     </div>
-                    <button className="w-4 h-4 justify-center items-center flex">
+                    <button
+                      className="w-4 h-4 justify-center items-center flex"
+                      onClick={() =>
+                        navigator.clipboard.writeText(project.address)
+                      }
+                    >
                       <RiFileCopyLine size={16} />
                     </button>
                   </div>
