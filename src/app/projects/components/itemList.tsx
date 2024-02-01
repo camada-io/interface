@@ -65,7 +65,10 @@ export function ItemList({ project }: { project: Project }) {
           <p>{project.saleProgress}%</p>
           <div className="flex w-full h-[8px] bg-whiteAlpha-500 rounded-[100px]">
             <div
-              className={`flex w-[${project.saleProgress}%] h-[8px] bg-brandBlue-100 rounded-[100px]`}
+              className={`flex h-[8px] bg-brandBlue-100 rounded-[100px]`}
+              style={{
+                width: project.saleProgress ? `${project.saleProgress}%` : "0%",
+              }}
             ></div>
           </div>
         </div>
