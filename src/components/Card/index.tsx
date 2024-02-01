@@ -99,8 +99,6 @@ export const Card = ({
     }).format(value)
   }
 
-  console.log(data?.saleProgress)
-
   return (
     <div
       className={`flex flex-col max-w-[${maxWidth}] w-full h-[${height}] min-h-[240px] bg-no-repeat pt-6 bg-cover rounded-[20px] justify-between`}
