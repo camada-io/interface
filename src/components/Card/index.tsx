@@ -99,6 +99,8 @@ export const Card = ({
     }).format(value)
   }
 
+  console.log(data?.saleProgress)
+
   return (
     <div
       className={`flex flex-col max-w-[${maxWidth}] w-full h-[${height}] min-h-[240px] bg-no-repeat pt-6 bg-cover rounded-[20px] justify-between`}
@@ -124,7 +126,9 @@ export const Card = ({
           <div className="flex h-2 w-full bg-white bg-opacity-40 rounded-[100px] items-center justify-start">
             <div
               className="flex h-2 text-xs leading-none text-center text-white bg-brandBlue-200 rounded-[100px]"
-              style={{ width: data?.saleProgress ?? 0 }}
+              style={{
+                width: data?.saleProgress ? `${data?.saleProgress}%` : 0,
+              }}
             />
           </div>
           <div className="text-white text-sm font-bold leading-normal">

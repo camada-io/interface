@@ -217,13 +217,15 @@ export default function Project({ params }: { params: { address: string } }) {
             tokens={stableTokens}
             projectTokenName={project.tokenName}
             projectTokenSymbol={project.tokenSymbol}
-            projectBalance={Number(projectBalance) || 0}
-            claimBalance={Number(claimBalance) || 0}
+            projectBalance={(Number(projectBalance) || 0) / 1e18}
+            claimBalance={(Number(claimBalance) || 0) / 1e18}
             refundBalance={{
               usdc: Number(refundBalance?.at(0)) || 0,
               usdt: Number(refundBalance?.at(1)) || 0,
             }}
-            availableToClaimBalance={Number(availableToClaimBalance) || 0}
+            availableToClaimBalance={
+              (Number(availableToClaimBalance) || 0) / 1e18
+            }
             stableTokenBalance={
               stableTokenBalance ? `${formatUnits(stableTokenBalance)}` : "0"
             }
@@ -325,6 +327,15 @@ export default function Project({ params }: { params: { address: string } }) {
                     {dayjs(project.releaseTime).format("ll")}
                   </div>
                 </div>
+                <div className="self-stretch justify-between items-center inline-flex">
+                  <div className="text-white text-base font-normal leading-relaxed">
+                    Initial Milestone
+                  </div>
+                  <div className="text-white text-base font-normal leading-relaxed">
+                    {Number(minimumSaleAmount) / 1e18} {project.tokenSymbol}
+                  </div>
+                </div>
+
                 <div className="self-stretch py-2 justify-between items-center inline-flex">
                   <div className="grow shrink basis-0 h-[0px] border border-white border-opacity-20"></div>
                 </div>
@@ -376,7 +387,7 @@ export default function Project({ params }: { params: { address: string } }) {
         ) : (
           <div className="flex w-full lg:max-h-[592.50px] h-full items-start justify-center gap-[60px]">
             <div className="flex-col justify-end items-start gap-6 inline-flex">
-              <div className="max-h-[467px] max-w-[590px] w-full h-full p-6 bg-gray-600 flex-col justify-end items-start gap-2 flex">
+              <div className="max-h-[500px] max-w-[590px] w-full h-full p-6 bg-gray-600 flex-col justify-end items-start gap-2 flex">
                 <div className="self-stretch justify-between items-center inline-flex">
                   <div className="text-white text-base font-normal leading-relaxed">
                     Token name
@@ -452,6 +463,14 @@ export default function Project({ params }: { params: { address: string } }) {
                   </div>
                   <div className="text-white text-base font-normal leading-relaxed">
                     {dayjs(project.releaseTime).format("ll")}
+                  </div>
+                </div>
+                <div className="self-stretch justify-between items-center inline-flex">
+                  <div className="text-white text-base font-normal leading-relaxed">
+                    Initial Milestone
+                  </div>
+                  <div className="text-white text-base font-normal leading-relaxed">
+                    {Number(minimumSaleAmount) / 1e18} {project.tokenSymbol}
                   </div>
                 </div>
                 <div className="self-stretch py-2 justify-between items-center inline-flex">
