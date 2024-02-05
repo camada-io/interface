@@ -207,7 +207,7 @@ export const InvestCard = ({
               />
             </div>
             <div className="text-white text-base font-normal leading-relaxed">
-              {claimBalance ? claimBalance : 0} {projectTokenSymbol}
+              {claimBalance ? claimBalance.toFixed() : 0} {projectTokenSymbol}
             </div>
           </div>
         </div>
@@ -225,7 +225,8 @@ export const InvestCard = ({
               />
             </div>
             <div className="text-white text-base font-normal leading-relaxed">
-              {availableToClaimBalance} {projectTokenSymbol}
+              {availableToClaimBalance ? availableToClaimBalance.toFixed() : 0}{" "}
+              {projectTokenSymbol}
             </div>
           </div>
         </div>
