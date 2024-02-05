@@ -217,17 +217,15 @@ export default function Project({ params }: { params: { address: string } }) {
             tokens={stableTokens}
             projectTokenName={project.tokenName}
             projectTokenSymbol={project.tokenSymbol}
-            projectBalance={(Number(projectBalance) || 0) / 1e18}
-            claimBalance={(Number(claimBalance) || 0) / 1e18}
+            projectBalance={Number(projectBalance) || 0}
+            claimBalance={Number(claimBalance) || 0}
             refundBalance={{
               usdc: Number(refundBalance?.at(0)) || 0,
               usdt: Number(refundBalance?.at(1)) || 0,
             }}
-            availableToClaimBalance={
-              (Number(availableToClaimBalance) || 0) / 1e18
-            }
+            availableToClaimBalance={Number(availableToClaimBalance) || 0}
             stableTokenBalance={
-              stableTokenBalance ? `${formatUnits(stableTokenBalance)}` : "0"
+              stableTokenBalance ? `${formatUnits(stableTokenBalance, 6)}` : "0"
             }
             projectPrice={project.averageUSDPrice}
             investHandle={state.onOpen}

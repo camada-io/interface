@@ -144,7 +144,7 @@ export function ApproveProject({
               approve.writeAsync({
                 args: [
                   project.address as Address,
-                  parseEther(Number(amount * 1e6).toString()),
+                  parseEther(Number(amount).toString()),
                 ],
               })
             }
