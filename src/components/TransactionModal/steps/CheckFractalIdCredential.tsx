@@ -83,14 +83,14 @@ export function CheckFractalIdCredential({ state, isWhitelisted }: Props) {
 
       setIdos(_idos)
 
-      setHasFractalProfile(hasProfile)
-
       const credentials = await _idos.data.list("credentials")
+
+      setHasFractalProfile(hasProfile)
 
       setIsLoading(false)
 
       const credential = credentials.find(
-        (credential) => credential.credential_level === "basic",
+        (credential) => credential?.credential_level === "basic",
       )
 
       if (credential) setCredentialId(credential.id as string)
@@ -156,6 +156,19 @@ export function CheckFractalIdCredential({ state, isWhitelisted }: Props) {
             <div className="flex mx-auto flex-col justify-between items-center h-full">
               <div className="text-md">
                 To continue, authorize all requests requested by the wallet.
+              </div>
+              <Button
+                text="Retry"
+                isLoading={isLoading && !isOnError}
+                onClick={() => checkCredentials(address as string)}
+              />
+            </div>
+          )}
+
+          {!isLoading && !credentialId && (
+            <div className="flex mx-auto flex-col justify-between items-center h-full">
+              <div className="text-md">
+                You don't have a KYC credential or it has not yet been approved.
               </div>
               <Button
                 text="Retry"
