@@ -3,12 +3,11 @@
 import Link from "next/link"
 import { HeroCard } from "./HeroCard"
 import { checkUserAuthenticated } from "@/utils/userAuth"
-import { BiWallet } from "react-icons/bi"
-import { useConnectWallet } from "@/stores/connectWallet"
+import { useAccount } from "wagmi"
 
 export const Hero = () => {
-  const isUserAuthenticated = checkUserAuthenticated()
-  const { onOpen } = useConnectWallet()
+  const { isConnected } = useAccount()
+  const isUserAuthenticated = checkUserAuthenticated(isConnected)
 
   return (
     <div className="w-full lg:mt-[80px] flex-col sm:flex-row sm:h-[454px] relative flex justify-between items-center sm:items-start gap-6 lg:gap-0 max-w-[1280px] mx-auto max-[1279px]:px-[32px] max-[1024px]:!gap-0">
@@ -23,7 +22,7 @@ export const Hero = () => {
           Transparency, accessibility, and innovation to financial markets.
         </p>
         <div className="flex gap-4 max-[1024px]:gap-4 flex-col sm:flex-row">
-          {isUserAuthenticated ? (
+          {isUserAuthenticated && (
             <>
               <Link
                 href={"/projects"}
@@ -40,15 +39,6 @@ export const Hero = () => {
                 <span className="text-white text-lg font-bold">Stake now</span>
               </Link>
             </>
-          ) : (
-            <button
-              type="button"
-              className="flex max-w-[212px] h-[45px] pl-4 pr-6 py-4 bg-brandBlue-200 rounded-[5px] justify-center items-center gap-4 text-sm"
-              onClick={onOpen}
-            >
-              <BiWallet size={"1.5rem"} />
-              <div className="text-white text-lg font-bold">Connect Wallet</div>
-            </button>
           )}
         </div>
       </div>

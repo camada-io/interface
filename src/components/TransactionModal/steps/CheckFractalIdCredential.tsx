@@ -118,7 +118,7 @@ export function CheckFractalIdCredential({ state, isWhitelisted }: Props) {
           if (!isWhitelisted) {
             await attest(address as string)
           }
-
+          // TODO: add credential on localStorage
           state.dispatchStep({ type: "NEXT_STEP" })
         }
       }

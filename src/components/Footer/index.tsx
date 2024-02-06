@@ -6,9 +6,11 @@ import { FaTelegramPlane } from "react-icons/fa"
 import { FooterMenu } from "../FooterMenu"
 import { colors } from "@/utils/colors"
 import { checkUserAuthenticated } from "@/utils/userAuth"
+import { useAccount } from "wagmi"
 
 export const Footer = () => {
-  const isUserAuthenticated = checkUserAuthenticated()
+  const { isConnected } = useAccount()
+  const isUserAuthenticated = checkUserAuthenticated(isConnected)
 
   return (
     <footer className="flex w-full flex-col mb-[74px] lg:mb-[0px] bg-gray-600">

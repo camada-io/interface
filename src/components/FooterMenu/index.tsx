@@ -12,13 +12,12 @@ import { APP_ROUTES } from "@/utils/appRoutes"
 
 export const FooterMenu = () => {
   const [isClient, setIsClient] = useState(false)
+  const { address, isConnected } = useAccount()
 
   const pathname = usePathname()
-  const isUserAuthenticated = checkUserAuthenticated()
+  const isUserAuthenticated = checkUserAuthenticated(isConnected)
   const appPublicRoutes = Object.values(APP_ROUTES.public)
   const modalConnectDisclosure = useDisclosure()
-
-  const { address, isConnected } = useAccount()
 
   useEffect(() => {
     setIsClient(true)
