@@ -2,23 +2,25 @@
 
 import Image from "next/image"
 import Link from "next/link"
-import { useEffect, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { menuData } from "./menuData"
 import { usePathname } from "next/navigation"
 import { BiWallet } from "react-icons/bi"
 import { RiUserLine, RiLogoutBoxLine } from "react-icons/ri"
 import { useAccount, useDisconnect } from "wagmi"
 import { useConnectWallet } from "@/stores/connectWallet"
+import { checkUserAuthenticated } from "@/utils/userAuth"
+import { APP_ROUTES } from "@/utils/appRoutes"
 
 export const Header = () => {
   const pathname = usePathname()
+  const isUserAuthenticated = checkUserAuthenticated()
+  const appPublicRoutes = Object.values(APP_ROUTES.public)
 
   const { disconnect } = useDisconnect()
-
   const { onOpen } = useConnectWallet()
 
   const { address, isConnected } = useAccount()
-
   const [isClient, setIsClient] = useState(false)
 
   // Sticky Navbar
@@ -38,6 +40,16 @@ export const Header = () => {
   useEffect(() => {
     window.addEventListener("scroll", handleStickyNavbar)
   })
+
+  const menuDataFiltered = useMemo(() => {
+    if (!isUserAuthenticated) {
+      return menuData.filter((menuItem) =>
+        appPublicRoutes.includes(menuItem.path || "/"),
+      )
+    } else {
+      return menuData
+    }
+  }, [appPublicRoutes, isUserAuthenticated])
 
   return (
     <header
@@ -72,7 +84,7 @@ export const Header = () => {
             }
           >
             <ul className="block lg:flex lg:space-x-6">
-              {menuData.map((menuItem) => (
+              {menuDataFiltered.map((menuItem) => (
                 <li key={menuItem.id} className="group relative">
                   <Link
                     href={menuItem.path || "/"}

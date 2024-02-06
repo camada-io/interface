@@ -1,7 +1,15 @@
+"use client"
+
 import Link from "next/link"
 import { HeroCard } from "./HeroCard"
+import { checkUserAuthenticated } from "@/utils/userAuth"
+import { BiWallet } from "react-icons/bi"
+import { useConnectWallet } from "@/stores/connectWallet"
 
 export const Hero = () => {
+  const isUserAuthenticated = checkUserAuthenticated()
+  const { onOpen } = useConnectWallet()
+
   return (
     <div className="w-full lg:mt-[80px] flex-col sm:flex-row sm:h-[454px] relative flex justify-between items-center sm:items-start gap-6 lg:gap-0 max-w-[1280px] mx-auto max-[1279px]:px-[32px] max-[1024px]:!gap-0">
       <div className="flex flex-col gap-6  w-full sm:w-[616px]">
@@ -15,20 +23,33 @@ export const Hero = () => {
           Transparency, accessibility, and innovation to financial markets.
         </p>
         <div className="flex gap-4 max-[1024px]:gap-4 flex-col sm:flex-row">
-          <Link
-            href={"/projects"}
-            className="px-6 py-4 bg-brandBlue-200 rounded-[5px] flex items-center justify-center gap-2.5"
-          >
-            <span className="text-white text-lg font-bold">
-              See all projects
-            </span>
-          </Link>
-          <Link
-            href={"/stake"}
-            className="px-6 py-4 border border-brandBlue-200 rounded-[5px] flex items-center  justify-center gap-2.5"
-          >
-            <span className="text-white text-lg font-bold">Stake now</span>
-          </Link>
+          {isUserAuthenticated ? (
+            <>
+              <Link
+                href={"/projects"}
+                className="px-6 py-4 bg-brandBlue-200 rounded-[5px] flex items-center justify-center gap-2.5"
+              >
+                <span className="text-white text-lg font-bold">
+                  See all projects
+                </span>
+              </Link>
+              <Link
+                href={"/stake"}
+                className="px-6 py-4 border border-brandBlue-200 rounded-[5px] flex items-center  justify-center gap-2.5"
+              >
+                <span className="text-white text-lg font-bold">Stake now</span>
+              </Link>
+            </>
+          ) : (
+            <button
+              type="button"
+              className="flex max-w-[212px] h-[45px] pl-4 pr-6 py-4 bg-brandBlue-200 rounded-[5px] justify-center items-center gap-4 text-sm"
+              onClick={onOpen}
+            >
+              <BiWallet size={"1.5rem"} />
+              <div className="text-white text-lg font-bold">Connect Wallet</div>
+            </button>
+          )}
         </div>
       </div>
       <HeroCard />
