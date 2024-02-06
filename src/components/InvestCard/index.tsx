@@ -37,6 +37,7 @@ type Props = {
   projectPrice?: number
   stableTokenBalance?: string
   claimBalance?: number
+  buyableTokens?: number
   refundBalance?: { usdc: number; usdt: number }
   availableToClaimBalance?: number
   onChangeData?: ({ token, amount }: ChangeData) => void
@@ -60,6 +61,7 @@ export const InvestCard = ({
   claimHandle,
   refundHandle,
   isLoading = false,
+  buyableTokens,
   projectTokenName,
   projectTokenSymbol,
   projectTokenIcon,
@@ -165,9 +167,32 @@ export const InvestCard = ({
             </div>
           </div>
         </div>
+        <div className="self-stretch justify-between items-start inline-flex">
+          <div className="text-white text-base font-normal leading-relaxed">
+            Buyable Tokens
+          </div>
+          <div className="h-[26px] justify-end items-center gap-2 flex">
+            <div className="w-6 h-6 relative flex justify-center items-center">
+              <Image
+                src={projectTokenIcon || "/images/icon_not_found.jpg"}
+                alt="symbol"
+                fill
+                className="rounded-full"
+              />
+            </div>
+            <div className="text-white text-base font-normal leading-relaxed">
+              {buyableTokens?.toFixed()} {projectTokenSymbol}
+            </div>
+          </div>
+        </div>
         <Button
           className="disabled:opacity-[0.5]"
-          disabled={isConnected && investmentData.amount <= 0}
+          disabled={
+            Number(investmentData.amount / (projectPrice || 0)) >
+              (buyableTokens || 0) ||
+            !Number(investmentData.amount / (projectPrice || 0)) ||
+            investmentData.amount <= 1
+          }
           text={isConnected ? "Invest now" : "Connect Wallet"}
           handle={() => investHandle?.()}
         />

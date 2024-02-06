@@ -167,6 +167,15 @@ export default function Project({ params }: { params: { address: string } }) {
     watch: !!account && !!investmentData.token.address,
   })
 
+  const { data: buyableTokens } = useContractRead({
+    address: address as Address,
+    abi: abi,
+    functionName: "getBuyableTokens",
+    args: [account as Address],
+    enabled: !!account && isAllowedChain,
+    watch: !!account && isAllowedChain,
+  })
+
   useEffect(() => {
     ;(async () => {
       const chainId = await connector?.getChainId()
@@ -215,6 +224,7 @@ export default function Project({ params }: { params: { address: string } }) {
           <InvestCard
             type={cardProjectType()}
             tokens={stableTokens}
+            buyableTokens={Number(buyableTokens) || 0}
             projectTokenName={project.tokenName}
             projectTokenSymbol={project.tokenSymbol}
             projectBalance={Number(projectBalance) || 0}
@@ -340,7 +350,7 @@ export default function Project({ params }: { params: { address: string } }) {
                     Initial Milestone
                   </div>
                   <div className="text-white text-base font-normal leading-relaxed">
-                    {Number(minimumSaleAmount) / 1e18} {project.tokenSymbol}
+                    {Number(minimumSaleAmount)} {project.tokenSymbol}
                   </div>
                 </div>
 
@@ -488,7 +498,7 @@ export default function Project({ params }: { params: { address: string } }) {
                     Initial Milestone
                   </div>
                   <div className="text-white text-base font-normal leading-relaxed">
-                    {Number(minimumSaleAmount) / 1e18} {project.tokenSymbol}
+                    {Number(minimumSaleAmount)} {project.tokenSymbol}
                   </div>
                 </div>
                 <div className="self-stretch py-2 justify-between items-center inline-flex">
