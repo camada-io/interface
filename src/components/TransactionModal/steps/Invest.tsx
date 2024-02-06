@@ -10,6 +10,7 @@ import { TransactionModalState } from "../../../stores/transactionModal"
 import abi from "@/contracts/saleAbi"
 import { Loading } from "@/components/Loading"
 import { Alert } from "@/components/Alert"
+import { apolloClient } from "@/Apollo/client"
 
 type InvestProps = {
   state: TransactionModalState
@@ -65,6 +66,7 @@ export function Invest({ state, amount, project, stableToken }: InvestProps) {
   useEffect(() => {
     if (transaction.isSuccess) {
       setTimeout(() => state.onClose(), 2000)
+      setTimeout(() => apolloClient.refetchQueries({ include: "active" }), 5000)
     }
   }, [transaction.isSuccess, state])
 
