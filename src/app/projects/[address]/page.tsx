@@ -224,10 +224,10 @@ export default function Project({ params }: { params: { address: string } }) {
           <InvestCard
             type={cardProjectType()}
             tokens={stableTokens}
-            buyableTokens={Number(buyableTokens) || 0}
+            buyableTokens={Number(buyableTokens) / 1e18 || 0}
             projectTokenName={project.tokenName}
             projectTokenSymbol={project.tokenSymbol}
-            projectBalance={Number(projectBalance) || 0}
+            projectBalance={Number(projectBalance) / 1e18 || 0}
             claimBalance={Number(claimBalance) || 0}
             refundBalance={{
               usdc: Number(refundBalance?.at(0)) || 0,
@@ -350,7 +350,7 @@ export default function Project({ params }: { params: { address: string } }) {
                     Initial Milestone
                   </div>
                   <div className="text-white text-base font-normal leading-relaxed">
-                    {Number(minimumSaleAmount)} {project.tokenSymbol}
+                    {Number(minimumSaleAmount) / 1e18} {project.tokenSymbol}
                   </div>
                 </div>
 
@@ -498,7 +498,7 @@ export default function Project({ params }: { params: { address: string } }) {
                     Initial Milestone
                   </div>
                   <div className="text-white text-base font-normal leading-relaxed">
-                    {Number(minimumSaleAmount)} {project.tokenSymbol}
+                    {Number(minimumSaleAmount) / 1e18} {project.tokenSymbol}
                   </div>
                 </div>
                 <div className="self-stretch py-2 justify-between items-center inline-flex">
