@@ -6,8 +6,8 @@ import { checkUserAuthenticated } from "@/utils/userAuth"
 import { useAccount } from "wagmi"
 
 export const Hero = () => {
-  const { isConnected } = useAccount()
-  const isUserAuthenticated = checkUserAuthenticated(isConnected)
+  const { isConnected, address } = useAccount()
+  const isUserAuthenticated = checkUserAuthenticated(isConnected, address)
 
   return (
     <div className="w-full lg:mt-[80px] flex-col sm:flex-row sm:h-[454px] relative flex justify-between items-center sm:items-start gap-6 lg:gap-0 max-w-[1280px] mx-auto max-[1279px]:px-[32px] max-[1024px]:!gap-0">

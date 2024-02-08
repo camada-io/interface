@@ -23,7 +23,7 @@ export const Header = () => {
   const [isClient, setIsClient] = useState(false)
   const [isAllowedChain, setIsAllowedChain] = useState(false)
 
-  const isUserAuthenticated = checkUserAuthenticated(isConnected)
+  const isUserAuthenticated = checkUserAuthenticated(isConnected, address)
   const appPublicRoutes = Object.values(APP_ROUTES.public)
 
   const { disconnect } = useDisconnect()
@@ -158,7 +158,10 @@ export const Header = () => {
                 </div>
                 <div className="flex group-hover:flex opacity-0 group-hover:opacity-100 group-hover:transition-opacity absolute bottom-[-50px] left-0 right-0 z-1">
                   <button
-                    onClick={() => disconnect()}
+                    onClick={() => {
+                      disconnect()
+                      localStorage.removeItem("idos_credential")
+                    }}
                     className="flex mt-2 gap-2 bg-gray-500 rounded-[5px] w-full h-[45px] justify-center items-center"
                   >
                     <RiLogoutBoxLine size={18} color="white" />
@@ -172,7 +175,11 @@ export const Header = () => {
       <TransactionModal>
         <ConnectWallet state={state} />
         <CheckNetwork state={state} />
-        <CheckFractalIdCredential state={state} isWhitelisted={isWhitelisted} />
+        <CheckFractalIdCredential
+          state={state}
+          isWhitelisted={isWhitelisted}
+          closeOnSuccess
+        />
       </TransactionModal>
     </header>
   )

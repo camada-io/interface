@@ -9,8 +9,8 @@ import { checkUserAuthenticated } from "@/utils/userAuth"
 import { useAccount } from "wagmi"
 
 export const Footer = () => {
-  const { isConnected } = useAccount()
-  const isUserAuthenticated = checkUserAuthenticated(isConnected)
+  const { isConnected, address } = useAccount()
+  const isUserAuthenticated = checkUserAuthenticated(isConnected, address)
 
   return (
     <footer className="flex w-full flex-col mb-[74px] lg:mb-[0px] bg-gray-600">

@@ -1,16 +1,19 @@
 "use client"
 
 import { useAccount } from "wagmi"
-import { TransactionModalState } from "../../../stores/transactionModal"
+import { IoMdCheckmark } from "react-icons/io"
 import { idOS } from "@idos-network/idos-sdk"
 import { ethers } from "ethers"
 import { useRef, useState, useEffect, useCallback } from "react"
+
+import { TransactionModalState } from "../../../stores/transactionModal"
 import { Button } from "@/components/Button"
 import { attest } from "@/utils/attest"
 
 type Props = {
   state: TransactionModalState
   isWhitelisted: boolean | undefined
+  closeOnSuccess?: boolean
 }
 
 type Credential = {
@@ -54,7 +57,11 @@ const notAllowedCountries = [
   "GBR",
 ]
 
-export function CheckFractalIdCredential({ state, isWhitelisted }: Props) {
+export function CheckFractalIdCredential({
+  state,
+  isWhitelisted,
+  closeOnSuccess = false,
+}: Props) {
   const { address } = useAccount()
   const [idos, setIdos] = useState<idOS | null>(null)
   const idosContainerRef = useRef(null)
@@ -62,6 +69,7 @@ export function CheckFractalIdCredential({ state, isWhitelisted }: Props) {
   const [isLoading, setIsLoading] = useState(true)
   const [credentialId, setCredentialId] = useState<string | null>(null)
   const [isOnError, setIsOnError] = useState(false)
+  const [loggedIn, setLoggedIn] = useState(false)
 
   const goToFractalId = () => {
     window.open("https://app.fractal.id/login", "_blank")
@@ -118,8 +126,18 @@ export function CheckFractalIdCredential({ state, isWhitelisted }: Props) {
           if (!isWhitelisted) {
             await attest(address as string)
           }
-          // TODO: add credential on localStorage
+
+          setIsLoading(false)
+
+          setLoggedIn(true)
+
+          localStorage.setItem("idos_credential", `${address}:${credentialId}`)
+
           state.dispatchStep({ type: "NEXT_STEP" })
+
+          if (closeOnSuccess) {
+            setTimeout(() => state.onClose(), 2000)
+          }
         }
       }
     }
@@ -190,12 +208,20 @@ export function CheckFractalIdCredential({ state, isWhitelisted }: Props) {
                 To continue, authorize us to read your Fractal ID credentials to
                 find out if you are able to invest in this project.
               </div>
-              <div ref={idosContainerRef} id="idos-container"></div>
-              <Button
-                onClick={getCrendential}
-                text="Authorize"
-                isLoading={isLoading}
-              />
+              {!loggedIn ? (
+                <>
+                  <div ref={idosContainerRef} id="idos-container"></div>
+                  <Button
+                    onClick={getCrendential}
+                    text="Authorize"
+                    isLoading={isLoading}
+                  />
+                </>
+              ) : (
+                <div className="flex w-full h-full justify-center items-center">
+                  <IoMdCheckmark size={50} color="green" />
+                </div>
+              )}
             </div>
           </div>
         </div>

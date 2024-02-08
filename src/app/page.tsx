@@ -10,8 +10,8 @@ import { checkUserAuthenticated } from "@/utils/userAuth"
 import { useAccount } from "wagmi"
 
 export default function Home() {
-  const { isConnected } = useAccount()
-  const isUserAuthenticated = checkUserAuthenticated(isConnected)
+  const { isConnected, address } = useAccount()
+  const isUserAuthenticated = checkUserAuthenticated(isConnected, address)
 
   return (
     <div className="flex flex-col gap-20 lg:gap-[120px]">

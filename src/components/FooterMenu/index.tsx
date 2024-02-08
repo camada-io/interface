@@ -15,7 +15,7 @@ export const FooterMenu = () => {
   const { address, isConnected } = useAccount()
 
   const pathname = usePathname()
-  const isUserAuthenticated = checkUserAuthenticated(isConnected)
+  const isUserAuthenticated = checkUserAuthenticated(isConnected, address)
   const appPublicRoutes = Object.values(APP_ROUTES.public)
   const modalConnectDisclosure = useDisclosure()
 
