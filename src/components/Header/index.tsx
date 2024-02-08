@@ -160,7 +160,7 @@ export const Header = () => {
                   <button
                     onClick={() => {
                       disconnect()
-                      localStorage.removeItem("idos_credential")
+                      localStorage?.removeItem("idos_credential")
                     }}
                     className="flex mt-2 gap-2 bg-gray-500 rounded-[5px] w-full h-[45px] justify-center items-center"
                   >

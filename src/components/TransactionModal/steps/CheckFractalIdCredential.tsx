@@ -131,7 +131,7 @@ export function CheckFractalIdCredential({
 
           setLoggedIn(true)
 
-          localStorage.setItem("idos_credential", `${address}:${credentialId}`)
+          localStorage?.setItem("idos_credential", `${address}:${credentialId}`)
 
           state.dispatchStep({ type: "NEXT_STEP" })
 
