@@ -2,24 +2,34 @@
 
 import Image from "next/image"
 import Link from "next/link"
-import { useEffect, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { menuData } from "./menuData"
 import { usePathname } from "next/navigation"
 import { BiWallet } from "react-icons/bi"
 import { RiUserLine, RiLogoutBoxLine } from "react-icons/ri"
-import { useAccount, useDisconnect } from "wagmi"
-import { useConnectWallet } from "@/stores/connectWallet"
+import { Address, useAccount, useContractRead, useDisconnect } from "wagmi"
+import { checkUserAuthenticated } from "@/utils/userAuth"
+import { APP_ROUTES } from "@/utils/appRoutes"
+import { TransactionModal } from "../TransactionModal"
+import { CheckNetwork } from "../TransactionModal/steps/CheckNetwork"
+import { CheckFractalIdCredential } from "../TransactionModal/steps/CheckFractalIdCredential"
+import { useTransactionModal } from "@/stores/transactionModal"
+import { ConnectWallet } from "../TransactionModal/steps/ConnectWallet"
+import launchpadAbi from "@/contracts/launchpadAbi"
 
 export const Header = () => {
   const pathname = usePathname()
+  const { address, isConnected, connector } = useAccount()
+  const [isClient, setIsClient] = useState(false)
+  const [isAllowedChain, setIsAllowedChain] = useState(false)
+
+  const isUserAuthenticated = checkUserAuthenticated(isConnected, address)
+  const appPublicRoutes = Object.values(APP_ROUTES.public)
 
   const { disconnect } = useDisconnect()
-
-  const { onOpen } = useConnectWallet()
-
-  const { address, isConnected } = useAccount()
-
-  const [isClient, setIsClient] = useState(false)
+  const state = useTransactionModal()
+  const lauchpadAdress = process.env.NEXT_PUBLIC_LAUNCHPAD_CONTRACT as Address
+  const appEnv = process.env.NEXT_PUBLIC_APP_ENV as string
 
   // Sticky Navbar
   const [sticky, setSticky] = useState(false)
@@ -38,6 +48,41 @@ export const Header = () => {
   useEffect(() => {
     window.addEventListener("scroll", handleStickyNavbar)
   })
+
+  useEffect(() => {
+    ;(async () => {
+      const chainId = await connector?.getChainId()
+
+      const allowedChain = {
+        development: 57000,
+        production: 570,
+      }[appEnv]
+
+      if (chainId === allowedChain) {
+        setIsAllowedChain(!isAllowedChain)
+      }
+    })()
+    // eslint-disable-next-line
+  }, [connector])
+
+  const { data: isWhitelisted } = useContractRead({
+    address: lauchpadAdress,
+    abi: launchpadAbi,
+    functionName: "isWhitelisted",
+    args: [address as Address],
+    enabled: !!address && isAllowedChain,
+    watch: !!address && isAllowedChain,
+  })
+
+  const menuDataFiltered = useMemo(() => {
+    if (!isUserAuthenticated) {
+      return menuData.filter((menuItem) =>
+        appPublicRoutes.includes(menuItem.path || "/"),
+      )
+    } else {
+      return menuData
+    }
+  }, [appPublicRoutes, isUserAuthenticated])
 
   return (
     <header
@@ -72,7 +117,7 @@ export const Header = () => {
             }
           >
             <ul className="block lg:flex lg:space-x-6">
-              {menuData.map((menuItem) => (
+              {menuDataFiltered.map((menuItem) => (
                 <li key={menuItem.id} className="group relative">
                   <Link
                     href={menuItem.path || "/"}
@@ -96,7 +141,7 @@ export const Header = () => {
               <button
                 type="button"
                 className="flex max-w-[212px] h-[45px] pl-4 pr-6 py-4 bg-brandBlue-200 rounded-[5px] justify-center items-center gap-4 text-sm"
-                onClick={onOpen}
+                onClick={state.onOpen}
               >
                 <BiWallet size={"1.5rem"} />
                 <div className="text-white text-lg font-bold">
@@ -113,7 +158,10 @@ export const Header = () => {
                 </div>
                 <div className="flex group-hover:flex opacity-0 group-hover:opacity-100 group-hover:transition-opacity absolute bottom-[-50px] left-0 right-0 z-1">
                   <button
-                    onClick={() => disconnect()}
+                    onClick={() => {
+                      disconnect()
+                      localStorage.removeItem("idos_credential")
+                    }}
                     className="flex mt-2 gap-2 bg-gray-500 rounded-[5px] w-full h-[45px] justify-center items-center"
                   >
                     <RiLogoutBoxLine size={18} color="white" />
@@ -124,6 +172,15 @@ export const Header = () => {
             ))}
         </div>
       </div>
+      <TransactionModal>
+        <ConnectWallet state={state} />
+        <CheckNetwork state={state} />
+        <CheckFractalIdCredential
+          state={state}
+          isWhitelisted={isWhitelisted}
+          closeOnSuccess
+        />
+      </TransactionModal>
     </header>
   )
 }

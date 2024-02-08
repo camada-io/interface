@@ -3,23 +3,35 @@ import { menuDataFooter } from "@/types/menu"
 import { colors } from "@/utils/colors"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { useEffect, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { RiHome2Line } from "react-icons/ri"
 import { useAccount } from "wagmi"
 import { ConnectWalletModal } from "../ConnectWallet"
+import { checkUserAuthenticated } from "@/utils/userAuth"
+import { APP_ROUTES } from "@/utils/appRoutes"
 
 export const FooterMenu = () => {
   const [isClient, setIsClient] = useState(false)
+  const { address, isConnected } = useAccount()
 
   const pathname = usePathname()
-
+  const isUserAuthenticated = checkUserAuthenticated(isConnected, address)
+  const appPublicRoutes = Object.values(APP_ROUTES.public)
   const modalConnectDisclosure = useDisclosure()
-
-  const { address, isConnected } = useAccount()
 
   useEffect(() => {
     setIsClient(true)
   }, [])
+
+  const menuDataFooterFiltered = useMemo(() => {
+    if (!isUserAuthenticated) {
+      return menuDataFooter.filter((menuItem) =>
+        appPublicRoutes.includes(menuItem.path || "/"),
+      )
+    } else {
+      return menuDataFooter
+    }
+  }, [appPublicRoutes, isUserAuthenticated])
 
   return (
     <div className="fixed bottom-0 w-full lg:hidden">
@@ -44,7 +56,7 @@ export const FooterMenu = () => {
       </div>
       <div className="w-full h-[74px] bg-gray-500 py-4 px-6">
         <div className="flex justify-center items-center gap-5">
-          {menuDataFooter.map((item) => (
+          {menuDataFooterFiltered.map((item) => (
             <Link
               key={item.id}
               className="flex flex-col items-center"

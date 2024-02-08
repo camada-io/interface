@@ -5,8 +5,13 @@ import Link from "next/link"
 import { FaTelegramPlane } from "react-icons/fa"
 import { FooterMenu } from "../FooterMenu"
 import { colors } from "@/utils/colors"
+import { checkUserAuthenticated } from "@/utils/userAuth"
+import { useAccount } from "wagmi"
 
 export const Footer = () => {
+  const { isConnected, address } = useAccount()
+  const isUserAuthenticated = checkUserAuthenticated(isConnected, address)
+
   return (
     <footer className="flex w-full flex-col mb-[74px] lg:mb-[0px] bg-gray-600">
       <div className="w-full pt-[30px] pb-[80px] lg:pb-[30px] lg:py-[60px] px-0 max-w-[1280px] mx-auto max-[1279px]:px-[32px] flex justify-between items-center flex-col xl:flex-row gap-6">
@@ -26,51 +31,90 @@ export const Footer = () => {
           </div>
         </div>
         <div className="flex gap-16">
-          <div className="hidden justify-between items-start lg:inline-flex">
-            <div className="flex-col justify-center items-start gap-3 inline-flex">
-              <Link
-                href={"/"}
-                className={"text-white text-base font-medium leading-relaxed"}
-              >
-                Home
-              </Link>
-              <Link
-                href={"/about"}
-                className={"text-white text-base font-medium leading-relaxed"}
-              >
-                About us
-              </Link>
-              <Link
-                href={"/stake"}
-                className={"text-white text-base font-medium leading-relaxed"}
-              >
-                Stake
-              </Link>
+          {isUserAuthenticated ? (
+            <>
+              {" "}
+              <div className="hidden justify-between items-start lg:inline-flex">
+                <div className="flex-col justify-center items-start gap-3 inline-flex">
+                  <Link
+                    href={"/"}
+                    className={
+                      "text-white text-base font-medium leading-relaxed"
+                    }
+                  >
+                    Home
+                  </Link>
+                  <Link
+                    href={"/about"}
+                    className={
+                      "text-white text-base font-medium leading-relaxed"
+                    }
+                  >
+                    About us
+                  </Link>
+                  <Link
+                    href={"/stake"}
+                    className={
+                      "text-white text-base font-medium leading-relaxed"
+                    }
+                  >
+                    Stake
+                  </Link>
+                </div>
+              </div>
+              <div className="hidden justify-between items-start lg:inline-flex">
+                <div className="flex-col justify-center items-start gap-3 inline-flex">
+                  <Link
+                    href={"/projects"}
+                    className={
+                      "text-white text-base font-medium leading-relaxed"
+                    }
+                  >
+                    Projects
+                  </Link>
+                  <Link
+                    href={"/apply"}
+                    className={
+                      "text-white text-base font-medium leading-relaxed"
+                    }
+                  >
+                    Apply your project
+                  </Link>
+                  <Link
+                    href={"/contact"}
+                    className={
+                      "text-white text-base font-medium leading-relaxed"
+                    }
+                  >
+                    Contact us
+                  </Link>
+                </div>
+              </div>
+            </>
+          ) : (
+            <div className="hidden justify-between items-start lg:inline-flex">
+              <div className="flex-col justify-center items-start gap-3 inline-flex">
+                <Link
+                  href={"/"}
+                  className={"text-white text-base font-medium leading-relaxed"}
+                >
+                  Home
+                </Link>
+                <Link
+                  href={"/about"}
+                  className={"text-white text-base font-medium leading-relaxed"}
+                >
+                  About us
+                </Link>
+                <Link
+                  href={"/contact"}
+                  className={"text-white text-base font-medium leading-relaxed"}
+                >
+                  Contact us
+                </Link>
+              </div>
             </div>
-          </div>
-
-          <div className="hidden justify-between items-start lg:inline-flex">
-            <div className="flex-col justify-center items-start gap-3 inline-flex">
-              <Link
-                href={"/projects"}
-                className={"text-white text-base font-medium leading-relaxed"}
-              >
-                Projects
-              </Link>
-              <Link
-                href={"/apply"}
-                className={"text-white text-base font-medium leading-relaxed"}
-              >
-                Apply your project
-              </Link>
-              <Link
-                href={"/contact"}
-                className={"text-white text-base font-medium leading-relaxed"}
-              >
-                Contact us
-              </Link>
-            </div>
-          </div>
+          )}
 
           <div className="w-[310px] justify-between items-start inline-flex">
             <div className="flex-col justify-center items-start gap-3 inline-flex">

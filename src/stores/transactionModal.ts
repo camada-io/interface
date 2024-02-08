@@ -10,11 +10,6 @@ export type TransactionModalState = {
   setStep?: (step: number) => void
 }
 
-type StepsState = {
-  currentStep: number
-  maxStep: number
-}
-
 type StepsAction =
   | { type: "NEXT_STEP" }
   | { type: "PREV_STEP" }
@@ -37,7 +32,7 @@ export const useTransactionModal = create<TransactionModalState>(
   }),
 )
 
-function stepsReducer(state: StepsState, action: StepsAction) {
+function stepsReducer(state: TransactionModalState, action: StepsAction) {
   switch (action.type) {
     case "NEXT_STEP":
       if (state.maxStep === state.currentStep + 1) return state
