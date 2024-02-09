@@ -228,12 +228,14 @@ export default function Project({ params }: { params: { address: string } }) {
             projectTokenName={project.tokenName}
             projectTokenSymbol={project.tokenSymbol}
             projectBalance={Number(projectBalance) / 1e18 || 0}
-            claimBalance={Number(claimBalance) || 0}
+            claimBalance={Number(claimBalance) / 1e18 || 0}
             refundBalance={{
               usdc: Number(refundBalance?.at(0)) || 0,
               usdt: Number(refundBalance?.at(1)) || 0,
             }}
-            availableToClaimBalance={Number(availableToClaimBalance) || 0}
+            availableToClaimBalance={
+              Number(availableToClaimBalance) / 1e18 || 0
+            }
             stableTokenBalance={
               stableTokenBalance ? `${formatUnits(stableTokenBalance, 6)}` : "0"
             }
