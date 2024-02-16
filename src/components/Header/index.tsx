@@ -47,7 +47,7 @@ export const Header = () => {
 
   useEffect(() => {
     window.addEventListener("scroll", handleStickyNavbar)
-  })
+  }, [])
 
   useEffect(() => {
     ;(async () => {

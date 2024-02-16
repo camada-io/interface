@@ -183,7 +183,7 @@ export function CheckFractalIdCredential({
             </div>
           )}
 
-          {!isLoading && !credentialId && (
+          {!isLoading && !credentialId && !hasFractalProfile && (
             <div className="flex mx-auto flex-col justify-between items-center h-full">
               <div className="text-md">
                 You don't have a KYC credential or it has not yet been approved.
