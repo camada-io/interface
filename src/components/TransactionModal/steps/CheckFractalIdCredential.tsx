@@ -191,18 +191,29 @@ export function CheckFractalIdCredential({
           )}
 
           {!isLoading && !credentialId && hasFractalProfile && (
-          <div className="flex mx-auto flex-col justify-between items-center h-full">
-            <div className="text-md">
-              <p>
-                You don't have a valid Fractal KYC credential. Click the link
-                below and go though their validation pipeline
-              <span className="font-bold"> After logging in on Fractal via the link -> My Data -> Identity -> Follow their instructions</span>.</p>
-              <br/>
-              <p>If you already did that, wait while they review your information.</p>
+            <div className="flex mx-auto flex-col justify-between items-center h-full">
+              <div className="text-md">
+                <p>
+                  You don't have a valid Fractal KYC credential. Click the link
+                  below and go though their validation pipeline
+                  <span className="font-bold">
+                    {" "}
+                    {`After logging in on Fractal via the link -> My Data -> Identity -> Follow their instructions`}
+                  </span>
+                  .
+                </p>
+                <br />
+                <p>
+                  If you already did that, wait while they review your
+                  information.
+                </p>
+              </div>
+              <br />
+              <Button
+                text="Get Credencials"
+                onClick={giveBasicCrendencialAccess}
+              />
             </div>
-            <br/>
-            <Button text="Get Credencials" onClick={giveBasicCrendencialAccess} />
-          </div>
           )}
 
           {!hasFractalProfile && !isLoading && (
