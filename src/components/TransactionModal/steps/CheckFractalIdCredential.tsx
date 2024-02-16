@@ -75,6 +75,13 @@ export function CheckFractalIdCredential({
     window.open("https://app.fractal.id/login", "_blank")
   }
 
+  const giveBasicCrendencialAccess = () => {
+    window.open(
+      "https://app.fractal.id/authorize?client_id=a14fc943a00b0711611691da42c956939ff8a9885e38f4a64eb35523ee807873&redirect_uri=https%3A%2F%2Fdemo.fractal.id%2Fapi%2Foauth%2Fcallback&response_type=code&scope=contact:read%20verification.basic:read%20verification.basic.details:read%20verification.liveness:read%20verification.liveness.details:read",
+      "_blank",
+    )
+  }
+
   const checkCredentials = useCallback(async (address: string) => {
     try {
       setIsOnError(false)
@@ -97,8 +104,8 @@ export function CheckFractalIdCredential({
 
       setIsLoading(false)
 
-      const credential = credentials.find(
-        (credential) => credential?.credential_level === "basic",
+      const credential = credentials.find((credential) =>
+        ["basic", "plus"].includes(credential?.credential_level as string),
       )
 
       if (credential) setCredentialId(credential.id as string)
@@ -183,17 +190,19 @@ export function CheckFractalIdCredential({
             </div>
           )}
 
-          {!isLoading && !credentialId && !hasFractalProfile && (
-            <div className="flex mx-auto flex-col justify-between items-center h-full">
-              <div className="text-md">
-                You don't have a KYC credential or it has not yet been approved.
-              </div>
-              <Button
-                text="Retry"
-                isLoading={isLoading && !isOnError}
-                onClick={() => checkCredentials(address as string)}
-              />
+          {!isLoading && !credentialId && hasFractalProfile && (
+          <div className="flex mx-auto flex-col justify-between items-center h-full">
+            <div className="text-md">
+              <p>
+                You don't have a valid Fractal KYC credential. Click the link
+                below and go though their validation pipeline
+              <span className="font-bold"> After logging in on Fractal via the link -> My Data -> Identity -> Follow their instructions</span>.</p>
+              <br/>
+              <p>If you already did that, wait while they review your information.</p>
             </div>
+            <br/>
+            <Button text="Get Credencials" onClick={giveBasicCrendencialAccess} />
+          </div>
           )}
 
           {!hasFractalProfile && !isLoading && (
