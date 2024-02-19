@@ -1,6 +1,6 @@
 "use client"
 
-import { useCallback, useState } from "react"
+import { useCallback, useMemo, useState } from "react"
 import { useQuery } from "@apollo/client"
 import { FaThList } from "react-icons/fa"
 import { BsGrid3X3GapFill } from "react-icons/bs"
@@ -12,6 +12,8 @@ import { ProjectList } from "./components/projectList"
 import { PROJECTS } from "@/Apollo/queries/sales"
 import Modal from "@/components/Modal"
 import { useDisclosure } from "@/hooks/useDisclosure"
+import { useStake } from "../stake/hooks/useStake"
+import Link from "next/link"
 
 type Sort = {
   name: string
@@ -33,6 +35,7 @@ export default function Projects() {
   const [sortList, setSortList] = useState<Sort[]>([])
   const [searchValue, setSearchValue] = useState("")
   const filterModal = useDisclosure()
+  const { tier, isLoading } = useStake()
 
   let timer: ReturnType<typeof setTimeout>
 
@@ -141,8 +144,20 @@ export default function Projects() {
     [],
   )
 
+  const hasTierAboveZero = useMemo(() => {
+    return !isLoading && tier > 0 ? true : false
+  }, [tier, isLoading])
+
   return (
     <>
+      {!hasTierAboveZero && (
+        <Link href={"/stake"}>
+          <div className="flex w-full h-10 justify-center items-center bg-brandBlue-100">
+            You are in tier 0, please go to the stake page and raise your tier
+            to be able to invest in the projects !
+          </div>
+        </Link>
+      )}
       <PageHeader
         title="Projects"
         description="Spend your Allocations to help other projects grow!"
@@ -151,7 +166,7 @@ export default function Projects() {
       <div className="py-[50px] sm:py-[100px] mx-auto flex gap-[60px] w-full flex-col max-[639px]:px-[32px] max-w-[1280px] max-[1279px]:px-[32px]">
         <div className="flex w-full gap-[24px]">
           <div className="flex w-full flex-col gap-4 lg:hidden">
-            <div className="flex gap-2 justify-between items-center items-center">
+            <div className="flex gap-2 justify-between items-center">
               <div
                 onClick={filterModal.onOpen}
                 className="w-[124px] h-[45px] pl-4 pr-6 py-4 rounded-[5px] border border-brandBlue-100 justify-center items-center gap-4 inline-flex cursor-pointer"
