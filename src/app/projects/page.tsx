@@ -153,8 +153,8 @@ export default function Projects() {
       {!hasTierAboveZero && (
         <Link href={"/stake"}>
           <div className="flex w-full h-10 justify-center items-center bg-brandBlue-100">
-            You are in tier 0, please go to the stake page and raise your tier
-            to be able to invest in the projects !
+            Your investment tier is too low at the moment. Please increase it by
+            staking $SYS on the stake page.
           </div>
         </Link>
       )}
