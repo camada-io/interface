@@ -1,14 +1,14 @@
-'use client'
+"use client"
 
-import { InputNumber } from '@/components/InputNumber'
-import { useCallback, useState } from 'react'
-import { useAccount } from 'wagmi'
-import { useStake } from '../hooks/useStake'
-import { TransactionModal } from '@/components/TransactionModal'
-import { CheckNetwork } from '@/components/TransactionModal/steps/CheckNetwork'
-import { ConnectWallet } from '@/components/TransactionModal/steps/ConnectWallet'
-import { useTransactionModal } from '@/stores/transactionModal'
-import { UnstakeToken } from '@/components/TransactionModal/steps/UnstakeToken'
+import { InputNumber } from "@/components/InputNumber"
+import { useCallback, useState } from "react"
+import { useAccount } from "wagmi"
+import { useStake } from "../hooks/useStake"
+import { TransactionModal } from "@/components/TransactionModal"
+import { CheckNetwork } from "@/components/TransactionModal/steps/CheckNetwork"
+import { ConnectWallet } from "@/components/TransactionModal/steps/ConnectWallet"
+import { useTransactionModal } from "@/stores/transactionModal"
+import { UnstakeToken } from "@/components/TransactionModal/steps/UnstakeToken"
 
 type StakeProps = ReturnType<typeof useStake>
 
@@ -24,7 +24,7 @@ export function UnstakeTab({ stakeProps }: { stakeProps: StakeProps }) {
   const { isLoading, stakedBalance, tier, allTiers } = stakeProps
 
   const getNextTier = useCallback(() => {
-    if (!tier) return allTiers.at(0)
+    if (!tier) return 0
 
     const nextTierAmount = stakedBalance - amount
 
@@ -37,7 +37,7 @@ export function UnstakeTab({ stakeProps }: { stakeProps: StakeProps }) {
 
       return acc
     }, 0)
-  }, [tier, amount])
+  }, [tier, amount, stakedBalance, allTiers])
 
   return !isLoading ? (
     <>
@@ -49,8 +49,8 @@ export function UnstakeTab({ stakeProps }: { stakeProps: StakeProps }) {
           balanceLabel="Your Balance:"
           tokens={[
             {
-              icon: '/images/spad.png',
-              name: 'spad',
+              icon: "/images/syscoin-logo.svg",
+              symbol: "SYS",
             },
           ]}
         />
@@ -76,7 +76,7 @@ export function UnstakeTab({ stakeProps }: { stakeProps: StakeProps }) {
           onClick={onOpen}
           disabled={!amount && isConnected}
         >
-          {isConnected ? 'Unstake now' : 'Connect Wallet'}
+          {isConnected ? "Unstake now" : "Connect Wallet"}
         </button>
       </div>
 

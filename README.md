@@ -1,36 +1,45 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Camada's Interface
 
-## Getting Started
+Welcome to Camada's Interface! This project provides instructions on how to set up and run Camada's Interface.
 
-First, run the development server:
+## Installation
+
+Before you can run the frontend, please follow these installation instructions:
+
+### Step 1: Install pnpm
+
+Camada's frontend uses pnpm as the package manager. If you don't have pnpm installed globally, you can install it using npm:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install -g pnpm
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Step 2: Install the Requirements
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+After installing pnpm, navigate to the project's root directory and install the project dependencies by running:
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+```bash
+pnpm install
+```
 
-## Learn More
+### Step 3: Create an .env File
 
-To learn more about Next.js, take a look at the following resources:
+In order to configure the environment for the frontend, create an `.env` file in the root of the project directory following the same pattern as the provided `.env.example` file. 
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Step 4: Run the Interface
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+To run the application, execute the following steps:
 
-## Deploy on Vercel
+3.1 For a development envinroment run:
+```bash
+pnpm dev 
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+3.2 For a production envinroment run:
+```bash
+pnpm build
+pnpm start
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+This command will start the backend server, enabling the application to handle requests and serve data.

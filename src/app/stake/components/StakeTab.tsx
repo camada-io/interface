@@ -1,24 +1,24 @@
-'use client'
+"use client"
 
-import { InputNumber } from '@/components/InputNumber'
-import { useCallback, useState } from 'react'
-import { useAccount } from 'wagmi'
-import { useStake } from '../hooks/useStake'
-import { useTransactionModal } from '@/stores/transactionModal'
-import { TransactionModal } from '@/components/TransactionModal'
-import { ApproveToken } from '@/components/TransactionModal/steps/ApproveToken'
-import { CheckNetwork } from '@/components/TransactionModal/steps/CheckNetwork'
-import { ConnectWallet } from '@/components/TransactionModal/steps/ConnectWallet'
-import { StakeToken } from '@/components/TransactionModal/steps/StakeToken'
+import { InputNumber } from "@/components/InputNumber"
+import { useCallback, useEffect, useState } from "react"
+import { useAccount } from "wagmi"
+import { useStake } from "../hooks/useStake"
+import { useTransactionModal } from "@/stores/transactionModal"
+import { TransactionModal } from "@/components/TransactionModal"
+import { ApproveToken } from "@/components/TransactionModal/steps/ApproveToken"
+import { CheckNetwork } from "@/components/TransactionModal/steps/CheckNetwork"
+import { ConnectWallet } from "@/components/TransactionModal/steps/ConnectWallet"
+import { StakeToken } from "@/components/TransactionModal/steps/StakeToken"
 
 type StakeProps = ReturnType<typeof useStake>
 
 export function StakeTab({ stakeProps }: { stakeProps: StakeProps }) {
   const { isConnected } = useAccount()
+  const [amount, setAmount] = useState(0)
+  const [isClient, setIsClient] = useState(false)
 
   const state = useTransactionModal()
-
-  const [amount, setAmount] = useState(0)
 
   const { onOpen } = state
 
@@ -29,17 +29,22 @@ export function StakeTab({ stakeProps }: { stakeProps: StakeProps }) {
     tier,
     allTiers,
     stakedBalance,
+    isWhitelisted,
   } = stakeProps
 
   const getNextTierMissingPoints = useCallback(() => {
-    if (!tier) return 0
+    if (!tier && !stakedBalance) return 0
 
     const nextTier = allTiers.at(tier) as number
 
     return nextTier - stakedBalance
-  }, [tier])
+  }, [tier, stakedBalance, allTiers])
 
-  return !isLoading ? (
+  useEffect(() => {
+    setIsClient(true)
+  }, [])
+
+  return (
     <>
       <div className="flex w-full flex-col gap-4">
         <InputNumber
@@ -49,17 +54,17 @@ export function StakeTab({ stakeProps }: { stakeProps: StakeProps }) {
           balanceLabel="Your Balance:"
           tokens={[
             {
-              icon: '/images/spad.png',
-              name: 'spad',
+              icon: "/images/syscoin-logo.svg",
+              symbol: "SYS",
             },
           ]}
         />
 
-        {isConnected && (
+        {isConnected && !isLoading && (
           <div className="flex flex-col w-full justify-between gap-[8px]">
             <div className="flex w-full justify-between">
               <p>Current Tier</p>
-              <p>Tier {!isLoading ? tier : 0}</p>
+              <p>Tier {tier}</p>
             </div>
 
             <div className="flex w-full justify-between">
@@ -75,12 +80,16 @@ export function StakeTab({ stakeProps }: { stakeProps: StakeProps }) {
 
         <button
           type="button"
-          disabled={!amount && isConnected}
+          disabled={!isWhitelisted || (!amount && isConnected)}
           className="flex w-full justify-center items-center gap-4 rounded-[5px] py-[16px] px-[24px]
           text-center text-[18px] font-bold text-white bg-brandBlue-200 disabled:opacity-[0.5] disabled:cursor-not-allowed hover:bg-brandBlue-100 transition:all duration-300"
           onClick={onOpen}
         >
-          {isConnected ? 'Stake now' : 'Connect Wallet'}
+          {isClient
+            ? isConnected
+              ? "Stake now"
+              : "Connect Wallet"
+            : "Stake Now"}
         </button>
       </div>
 
@@ -91,5 +100,5 @@ export function StakeTab({ stakeProps }: { stakeProps: StakeProps }) {
         <StakeToken state={state} amount={amount} />
       </TransactionModal>
     </>
-  ) : null
+  )
 }

@@ -1,14 +1,21 @@
-'use client'
+"use client"
 
-import { animated, useTransition } from '@react-spring/web'
+import { animated, useTransition } from "@react-spring/web"
 
-type ModalProps = {
+interface ModalProps extends React.HTMLAttributes<HTMLDivElement> {
   isOpen: boolean
   onClose?: () => void
   children: React.ReactNode
+  containerStyle?: string
+  contentContainerStyle?: string
 }
 
-export default function Modal({ isOpen = false, children }: ModalProps) {
+export default function Modal({
+  isOpen = false,
+  containerStyle = "",
+  contentContainerStyle = "",
+  children,
+}: ModalProps) {
   const transition = useTransition(isOpen, {
     config: { duration: 200 },
     from: { opacity: 0 },
@@ -24,8 +31,12 @@ export default function Modal({ isOpen = false, children }: ModalProps) {
             style={{ ...style }}
             className="fixed z-50 inset-0 bg-black bg-opacity-70 "
           >
-            <div className=" flex justify-center items-center h-screen max-[639px]:items-end">
-              <div className="rounded-[20px] shadow-lg min-w-[280px] max-[639px]:min-w-[100%]">
+            <div
+              className={`flex justify-center items-center h-screen max-[639px]:items-end ${containerStyle}`}
+            >
+              <div
+                className={`rounded-[20px] shadow-lg min-w-[280px] max-[639px]:min-w-[100%] ${contentContainerStyle}`}
+              >
                 {children}
               </div>
             </div>

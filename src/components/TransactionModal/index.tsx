@@ -4,23 +4,42 @@ import {
   cloneElement,
   useCallback,
   useEffect,
-} from 'react'
-import { XMarkIcon } from '@heroicons/react/24/solid'
+} from "react"
+import { XMarkIcon } from "@heroicons/react/24/solid"
 
-import Modal from '../Modal'
-import { useTransactionModal } from '@/stores/transactionModal'
+import Modal from "../Modal"
+import {
+  useTransactionModal,
+  TransactionModalState,
+} from "@/stores/transactionModal"
 
 type TransactionModalProps = {
   children: React.ReactNode
+  modalState?: TransactionModalState
 }
 
-export function TransactionModal({ children }: TransactionModalProps) {
-  const state = useTransactionModal()
+export function TransactionModal({
+  children,
+  modalState,
+}: TransactionModalProps) {
+  const defaultState = useTransactionModal()
+  const state = modalState || defaultState
   const { isOpen, onClose, dispatchStep, currentStep } = state
   const steps = Children.toArray(children) as React.ReactElement[]
 
   useEffect(() => {
-    dispatchStep({ type: 'SET_MAX_STEP', payload: steps.length })
+    if (isOpen) {
+      window.onscroll = function () {
+        window.scrollTo(0, 0)
+      }
+    } else {
+      window.onscroll = null
+    }
+  }, [isOpen])
+
+  useEffect(() => {
+    dispatchStep({ type: "SET_MAX_STEP", payload: steps.length })
+    // eslint-disable-next-line
   }, [])
 
   const renderComponent = useCallback(
@@ -32,8 +51,8 @@ export function TransactionModal({ children }: TransactionModalProps) {
   )
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose}>
-      <div className="bg-gray-700 relative flex w-full rounded-[20px] max-[639px]:rounded-b-[0px] sm:min-w-[650px] sm:min-h-[350px] justify-end">
+    <Modal isOpen={isOpen} onClose={onClose} className="overflow-hidden">
+      <div className="bg-gray-700 relative flex w-full rounded-[20px] max-[639px]:rounded-b-[0px] sm:min-w-[800px] sm:min-h-[320px] justify-end">
         <button className="fixed mt-[20px] mr-[20px] z-10">
           <XMarkIcon className="w-6 h-6" onClick={onClose} />
         </button>

@@ -1,14 +1,14 @@
-'use client'
+"use client"
 
-import { InputNumber } from '@/components/InputNumber'
-import { useState } from 'react'
-import { useAccount } from 'wagmi'
-import { useStake } from '../hooks/useStake'
-import { useTransactionModal } from '@/stores/transactionModal'
-import { TransactionModal } from '@/components/TransactionModal'
-import { CheckNetwork } from '@/components/TransactionModal/steps/CheckNetwork'
-import { ConnectWallet } from '@/components/TransactionModal/steps/ConnectWallet'
-import { Claim } from '@/components/TransactionModal/steps/Claim'
+import { InputNumber } from "@/components/InputNumber"
+import { useState } from "react"
+import { useAccount } from "wagmi"
+import { useStake } from "../hooks/useStake"
+import { useTransactionModal } from "@/stores/transactionModal"
+import { TransactionModal } from "@/components/TransactionModal"
+import { CheckNetwork } from "@/components/TransactionModal/steps/CheckNetwork"
+import { ConnectWallet } from "@/components/TransactionModal/steps/ConnectWallet"
+import { Claim } from "@/components/TransactionModal/steps/Claim"
 
 type StakeProps = ReturnType<typeof useStake>
 
@@ -34,9 +34,9 @@ export function ClaimTab({ stakeProps }: { stakeProps: StakeProps }) {
           disabled
           tokens={[
             {
-              address: '0x0000000000000000000000000000000000000000',
-              icon: '/images/spad.png',
-              name: 'spad',
+              address: "0x0000000000000000000000000000000000000000",
+              icon: "/images/syscoin-logo.svg",
+              symbol: "SYS",
             },
           ]}
         />
@@ -48,7 +48,7 @@ export function ClaimTab({ stakeProps }: { stakeProps: StakeProps }) {
           text-center text-[18px] font-bold text-white bg-brandBlue-200 disabled:opacity-[0.5] disabled:cursor-not-allowed hover:bg-brandBlue-100 transition:all duration-300"
           onClick={onOpen}
         >
-          {isConnected ? 'Claim now' : 'Connect Wallet'}
+          {isConnected ? "Claim now" : "Connect Wallet"}
         </button>
       </div>
 

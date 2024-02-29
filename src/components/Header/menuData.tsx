@@ -1,40 +1,40 @@
-import { Menu } from '@/types/menu'
+import { Menu } from "@/types/menu"
 
 export const menuData: Menu[] = [
   {
     id: 1,
-    title: 'Home',
-    path: '/',
+    title: "Home",
+    path: "/",
     newTab: false,
   },
   {
     id: 2,
-    title: 'About us',
-    path: '/about',
+    title: "About us",
+    path: "/about",
     newTab: false,
   },
   {
     id: 3,
-    title: 'Stake',
-    path: '/stake',
+    title: "Stake",
+    path: "/stake",
     newTab: false,
   },
   {
     id: 4,
-    title: 'Projects',
-    path: '/projects',
+    title: "Projects",
+    path: "/projects",
     newTab: false,
   },
   {
     id: 5,
-    title: 'Apply your project',
-    path: '/apply',
+    title: "Apply your project",
+    path: "/apply",
     newTab: false,
   },
   {
     id: 6,
-    title: 'Contact us',
-    path: '/contact',
+    title: "Contact us",
+    path: "/contact",
     newTab: false,
   },
 ]

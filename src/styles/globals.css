@@ -72,7 +72,7 @@
   width: 5px;
   height: 5px;
   background-color: rgba(255, 255, 255, 0.4);
-  border-radius: 50%; 
+  border-radius: 50%;
   margin: 0 2.5px;
 }
 
@@ -82,11 +82,24 @@
 
 .swiper-pagination {
   display: flex;
-  justify-content: center; 
+  justify-content: center;
   align-items: center;
   padding-top: 24px;
 }
 
 .swiper-slide:last-child {
   margin-right: 0 !important;
+}
+
+@keyframes rotate-260 {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(260deg);
+  }
+}
+
+.rotate-260 {
+  animation: rotate-260 1s linear infinite;
 }

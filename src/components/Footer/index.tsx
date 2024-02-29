@@ -1,15 +1,20 @@
-'use client'
+"use client"
 
-import Image from 'next/image'
-import Link from 'next/link'
-import { FaTelegramPlane } from 'react-icons/fa'
-import { FooterMenu } from '../FooterMenu'
-import { colors } from '@/utils/colors'
+import Image from "next/image"
+import Link from "next/link"
+import { FaTelegramPlane } from "react-icons/fa"
+import { FooterMenu } from "../FooterMenu"
+import { colors } from "@/utils/colors"
+import { checkUserAuthenticated } from "@/utils/userAuth"
+import { useAccount } from "wagmi"
 
 export const Footer = () => {
+  const { isConnected, address } = useAccount()
+  const isUserAuthenticated = checkUserAuthenticated(isConnected, address)
+
   return (
-    <footer className="bg-primary bg-opacity-5 mb-[74px] lg:mb-[0px]">
-      <div className="w-full pt-[30px] pb-[80px] lg:pb-[30px] lg:py-[60px] px-6 lg:px-[136px] bg-gray-600 flex justify-between items-center flex-col xl:flex-row gap-6">
+    <footer className="flex w-full flex-col mb-[74px] lg:mb-[0px] bg-gray-600">
+      <div className="w-full pt-[30px] pb-[80px] lg:pb-[30px] lg:py-[60px] px-0 max-w-[1280px] mx-auto max-[1279px]:px-[32px] flex justify-between items-center flex-col xl:flex-row gap-6">
         <div className="flex flex-col justify-center items-center lg:items-start gap-6 ">
           <div className="justify-start items-start inline-flex">
             <Link href="/">
@@ -26,74 +31,113 @@ export const Footer = () => {
           </div>
         </div>
         <div className="flex gap-16">
-          <div className="hidden justify-between items-start lg:inline-flex">
-            <div className="flex-col justify-center items-start gap-3 inline-flex">
-              <Link
-                href={'/'}
-                className={'text-white text-base font-medium leading-relaxed'}
-              >
-                Home
-              </Link>
-              <Link
-                href={'/about'}
-                className={'text-white text-base font-medium leading-relaxed'}
-              >
-                About us
-              </Link>
-              <Link
-                href={'/stake'}
-                className={'text-white text-base font-medium leading-relaxed'}
-              >
-                Stake
-              </Link>
+          {isUserAuthenticated ? (
+            <>
+              {" "}
+              <div className="hidden justify-between items-start lg:inline-flex">
+                <div className="flex-col justify-center items-start gap-3 inline-flex">
+                  <Link
+                    href={"/"}
+                    className={
+                      "text-white text-base font-medium leading-relaxed"
+                    }
+                  >
+                    Home
+                  </Link>
+                  <Link
+                    href={"/about"}
+                    className={
+                      "text-white text-base font-medium leading-relaxed"
+                    }
+                  >
+                    About us
+                  </Link>
+                  <Link
+                    href={"/stake"}
+                    className={
+                      "text-white text-base font-medium leading-relaxed"
+                    }
+                  >
+                    Stake
+                  </Link>
+                </div>
+              </div>
+              <div className="hidden justify-between items-start lg:inline-flex">
+                <div className="flex-col justify-center items-start gap-3 inline-flex">
+                  <Link
+                    href={"/projects"}
+                    className={
+                      "text-white text-base font-medium leading-relaxed"
+                    }
+                  >
+                    Projects
+                  </Link>
+                  <Link
+                    href={"/apply"}
+                    className={
+                      "text-white text-base font-medium leading-relaxed"
+                    }
+                  >
+                    Apply your project
+                  </Link>
+                  <Link
+                    href={"/contact"}
+                    className={
+                      "text-white text-base font-medium leading-relaxed"
+                    }
+                  >
+                    Contact us
+                  </Link>
+                </div>
+              </div>
+            </>
+          ) : (
+            <div className="hidden justify-between items-start lg:inline-flex">
+              <div className="flex-col justify-center items-start gap-3 inline-flex">
+                <Link
+                  href={"/"}
+                  className={"text-white text-base font-medium leading-relaxed"}
+                >
+                  Home
+                </Link>
+                <Link
+                  href={"/about"}
+                  className={"text-white text-base font-medium leading-relaxed"}
+                >
+                  About us
+                </Link>
+                <Link
+                  href={"/contact"}
+                  className={"text-white text-base font-medium leading-relaxed"}
+                >
+                  Contact us
+                </Link>
+              </div>
             </div>
-          </div>
-
-          <div className="hidden justify-between items-start lg:inline-flex">
-            <div className="flex-col justify-center items-start gap-3 inline-flex">
-              <Link
-                href={'/projects'}
-                className={'text-white text-base font-medium leading-relaxed'}
-              >
-                Projects
-              </Link>
-              <Link
-                href={'/apply'}
-                className={'text-white text-base font-medium leading-relaxed'}
-              >
-                Apply your project
-              </Link>
-              <Link
-                href={'/contact'}
-                className={'text-white text-base font-medium leading-relaxed'}
-              >
-                Contact us
-              </Link>
-            </div>
-          </div>
+          )}
 
           <div className="w-[310px] justify-between items-start inline-flex">
             <div className="flex-col justify-center items-start gap-3 inline-flex">
               <Link
-                href={'/documentation'}
-                className={'text-white text-base font-medium leading-relaxed'}
+                href={"/documentation"}
+                className={"text-white text-base font-medium leading-relaxed"}
               >
                 Documentation
               </Link>
               <Link
-                href={'/terms'}
-                className={'text-white text-base font-medium leading-relaxed'}
+                href={"/terms"}
+                className={"text-white text-base font-medium leading-relaxed"}
               >
                 Terms of privacy
               </Link>
               <Link
-                href={'/brand'}
-                className={'text-white text-base font-medium leading-relaxed'}
+                href={"/brand"}
+                className={"text-white text-base font-medium leading-relaxed"}
               >
                 Brand guide
               </Link>
             </div>
-            <div className="flex h-full justify-center items-center gap-5 inline-flex">
+            <div className="flex h-full justify-center items-center gap-5">
               <div className="w-[39.25px] flex h-10 relative justify-center items-center rounded-[25.29px] bg-brandBlue-100">
                 <svg
                   width="22"
@@ -109,25 +153,28 @@ export const Footer = () => {
                 </svg>
               </div>
               <div className="w-[39.25px] flex h-10 relative justify-center items-center rounded-[25.29px] bg-brandBlue-100 fill-black">
-                <FaTelegramPlane size={'1.375rem'} color={colors.gray[900]} />
+                <FaTelegramPlane size={"1.375rem"} color={colors.gray[900]} />
               </div>
             </div>
           </div>
         </div>
       </div>
-      <div className="hidden py-6 bg-brandBlue-100 px-[135px] lg:flex justify-between items-center text-gray-900">
-        <div className="text-sm font-normal leading-normal">
-          © 2023 SYSPAD, Inc. All rights reserved.
-        </div>
-        <div className="justify-start items-center gap-2 flex">
-          <div className="pt-1 justify-start items-center gap-2.5 flex">
-            <div className="w-4 h-4 relative"></div>
+      <div className="hidden py-6 bg-brandBlue-100 px-0 lg:flex text-gray-900">
+        <div className="flex w-full justify-between items-center max-w-[1280px] mx-auto max-[1279px]:px-[32px] ">
+          <div className="text-sm font-normal leading-normal">
+            © 2023 CAMADA, Inc. All rights reserved.
           </div>
-          <div className="text-base font-medium leading-relaxed">
-            contact@camada.io
+          <div className="justify-start items-center gap-2 flex">
+            <div className="pt-1 justify-start items-center gap-2.5 flex">
+              <div className="w-4 h-4 relative"></div>
+            </div>
+            <div className="text-base font-medium leading-relaxed">
+              contact@camada.io
+            </div>
           </div>
         </div>
       </div>
+
       <FooterMenu />
     </footer>
   )

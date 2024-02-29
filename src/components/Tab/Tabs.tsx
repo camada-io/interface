@@ -1,4 +1,4 @@
-'use client'
+"use client"
 
 import {
   useState,
@@ -7,7 +7,7 @@ import {
   DetailedHTMLProps,
   cloneElement,
   useMemo,
-} from 'react'
+} from "react"
 
 interface TabsProps
   extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
@@ -50,7 +50,7 @@ export function Tabs({ children, className, ...props }: TabsProps) {
           return (
             <button
               className={`px-[24px] py-[12px] text-[18px] max-[639px]:px-[16px] ${
-                activeTab === child.props.label && 'bg-gray-500 rounded-[5px]'
+                activeTab === child.props.label && "bg-gray-500 rounded-[5px]"
               }`}
               key={child.props.label}
               onClick={() => handleClick(child.props.label)}

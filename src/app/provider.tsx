@@ -1,12 +1,18 @@
-'use client'
-import { connectionConfig } from '@/connection'
-import { ThemeProvider } from 'next-themes'
-import { WagmiConfig } from 'wagmi'
+"use client"
+
+import { ThemeProvider } from "next-themes"
+import { WagmiConfig } from "wagmi"
+import { ApolloProvider } from "@apollo/client"
+
+import { connectionConfig } from "@/connection"
+import { apolloClient } from "@/Apollo/client"
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
     <ThemeProvider attribute="class" enableSystem={false} defaultTheme="dark">
-      <WagmiConfig config={connectionConfig}>{children}</WagmiConfig>
+      <WagmiConfig config={connectionConfig}>
+        <ApolloProvider client={apolloClient}>{children}</ApolloProvider>
+      </WagmiConfig>
     </ThemeProvider>
   )
 }

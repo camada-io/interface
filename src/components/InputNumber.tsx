@@ -1,14 +1,14 @@
-'use client'
+"use client"
 
-import { useEffect, useState } from 'react'
-import Image from 'next/image'
-import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/24/solid'
-import { useAccount } from 'wagmi'
+import { useEffect, useState } from "react"
+import Image from "next/image"
+import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/24/solid"
+import { useAccount } from "wagmi"
 
 type Token = {
   address?: string
   icon: string
-  name: string
+  symbol: string
 }
 
 type InputNumberProps = {
@@ -24,9 +24,9 @@ type InputNumberProps = {
 }
 
 export function InputNumber({
-  amountLabel = 'Amount',
-  balanceLabel = '',
-  balance = '',
+  amountLabel = "Amount",
+  balanceLabel = "",
+  balance = "",
   showTokenIcon = true,
   tokens = [],
   disabled = false,
@@ -34,7 +34,8 @@ export function InputNumber({
   onInputChange,
   isLoading,
 }: InputNumberProps) {
-  const [amount, setAmount] = useState<number | string>('')
+  const [amount, setAmount] = useState<number | string>("")
+  const [selectedToken, setSelectedToken] = useState(tokens[0])
   const { isConnected } = useAccount()
 
   useEffect(() => {
@@ -42,11 +43,12 @@ export function InputNumber({
       setAmount(+balance)
       !!onInputChange && onInputChange(+balance)
     }
+    // eslint-disable-next-line
   }, [])
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.value || +e.target.value <= +balance) {
-      setAmount(+e.target.value || '')
+      setAmount(+e.target.value || "")
       !!onInputChange && onInputChange(+e.target.value || 0)
     }
   }
@@ -56,19 +58,26 @@ export function InputNumber({
       {!!tokens.length && showTokenIcon && (
         <div
           className={` rounded-[10px] ${
-            tokens.length > 1 && 'bg-gray-600 p-[8px]'
+            tokens.length > 1 && "bg-gray-600 p-[8px]"
           }`}
         >
           {tokens.length > 1 ? (
-            <TokenSelector tokens={tokens} onSelectToken={onSelectToken} />
+            <TokenSelector
+              tokens={tokens}
+              onSelectToken={(token: Token) => {
+                onSelectToken?.(token)
+                setSelectedToken(token)
+              }}
+            />
           ) : (
             tokens.map((token) => (
-              <div className="w-[45px] h-[45px]" key={token.name}>
+              <div className="w-[45px] h-[45px]" key={token.symbol}>
                 <Image
                   src={token.icon}
-                  alt={token.name}
+                  alt={token.symbol}
                   width={45}
                   height={45}
+                  className="rounded-full"
                 />
               </div>
             ))
@@ -81,7 +90,7 @@ export function InputNumber({
             <p>{amountLabel}</p>
             <p className="max-[639px]:hidden">{`${balanceLabel} ${Number(
               balance,
-            ).toFixed()}`}</p>
+            ).toFixed()} ${selectedToken?.symbol}`}</p>
           </div>
         )}
         <div className="flex w-full gap-8">
@@ -91,7 +100,7 @@ export function InputNumber({
             className="flex w-full bg-transparent outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none
           text-whiteAlpha-100 text-whiteAlpha-1000 font-bold text-[18px]"
             placeholder="0"
-            value={amount ?? ''}
+            value={amount ?? ""}
             onChange={handleInputChange}
           />
           <button
@@ -135,9 +144,10 @@ function TokenSelector({
         <div className="w-[45px] h-[45px]">
           <Image
             src={selectedToken.icon}
-            alt={selectedToken.name}
+            alt={selectedToken.symbol}
             width={45}
             height={45}
+            className="rounded-full"
           />
         </div>
 
@@ -150,25 +160,26 @@ function TokenSelector({
 
       <div
         className={`absolute left-[-8px] top-[55px] w-[calc(100%+16px)] p-[8px] bg-gray-700 rounded-[10px] ${
-          isSelectorOpen ? 'flex' : 'hidden'
+          isSelectorOpen ? "flex" : "hidden"
         }`}
       >
         {tokens
-          .filter((token) => token.name !== selectedToken.name)
+          .filter((token) => token.symbol !== selectedToken.symbol)
           .map((token) => {
             return (
-              <div
-                className="cursor-pointer w-full"
-                key={token.name}
+              <button
+                className="w-full"
+                key={token.symbol}
                 onClick={() => handleSelectToken(token)}
               >
                 <Image
                   src={token.icon}
-                  alt={token.name}
+                  alt={token.symbol}
                   width={45}
                   height={45}
+                  className="rounded-full"
                 />
-              </div>
+              </button>
             )
           })}
       </div>
