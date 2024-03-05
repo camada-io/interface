@@ -3,11 +3,9 @@ export function checkUserAuthenticated(
   address: `0x${string}` | undefined,
 ) {
   if (typeof window !== "undefined") {
-    const credential = localStorage?.getItem("idos_credential")
+    const wallet = localStorage?.getItem("validated_wallet")
 
-    const credentialWallet = credential?.split(":")[0] ?? null
-
-    if (isConnected && credentialWallet === address) {
+    if (isConnected && wallet === address) {
       return true
     }
   }

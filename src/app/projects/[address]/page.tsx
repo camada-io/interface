@@ -19,7 +19,6 @@ import { Card } from "@/components/Card"
 import { PROJECT } from "@/Apollo/queries/sales"
 import { IconNames, SocialIcon } from "../components/SocialIcon"
 import abi from "@/contracts/saleAbi"
-import launchpadAbi from "@/contracts/launchpadAbi"
 import { TransactionModal } from "@/components/TransactionModal"
 import { ConnectWallet } from "@/components/TransactionModal/steps/ConnectWallet"
 import { CheckNetwork } from "@/components/TransactionModal/steps/CheckNetwork"
@@ -29,13 +28,12 @@ import { ApproveProject } from "@/components/TransactionModal/steps/ApproveProje
 import { formatUnits } from "ethers"
 import { ClaimProject } from "@/components/TransactionModal/steps/ClaimProject"
 import { Refund } from "@/components/TransactionModal/steps/Refund"
-import { CheckFractalIdCredential } from "@/components/TransactionModal/steps/CheckFractalIdCredential"
+// import { CheckKYCCredential } from "@/components/TransactionModal/steps/CheckKYCCredential"
 
 dayjs.extend(LocalizedFormart)
 
 const usdtContract = process.env.NEXT_PUBLIC_USDT_CONTRACT as string
 const usdcContract = process.env.NEXT_PUBLIC_USDC_CONTRACT as string
-const lauchpadAdress = process.env.NEXT_PUBLIC_LAUNCHPAD_CONTRACT as Address
 const appEnv = process.env.NEXT_PUBLIC_APP_ENV as string
 
 type Project = {
@@ -90,15 +88,6 @@ export default function Project({ params }: { params: { address: string } }) {
   const project = (data?.getSaleByAddress as Project) ?? null
 
   if (!project && !loading) notFound()
-
-  const { data: isWhitelisted } = useContractRead({
-    address: lauchpadAdress,
-    abi: launchpadAbi,
-    functionName: "isWhitelisted",
-    args: [account as Address],
-    enabled: !!account && isAllowedChain,
-    watch: !!account && isAllowedChain,
-  })
 
   const { data: projectBalance } = useContractRead({
     address: address as Address,
@@ -570,7 +559,7 @@ export default function Project({ params }: { params: { address: string } }) {
       <TransactionModal>
         <ConnectWallet state={state} />
         <CheckNetwork state={state} />
-        <CheckFractalIdCredential state={state} isWhitelisted={isWhitelisted} />
+        {/* <CheckKYCCredential state={state} /> */}
         {project?.status === "On going" && (
           <ApproveProject
             state={state}

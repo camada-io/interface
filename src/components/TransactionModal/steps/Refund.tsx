@@ -28,6 +28,7 @@ const parseErrors = (errorMessage: string) => {
 
 export function Refund({ state, refundAmount, saleAddress }: ApproveProps) {
   const [message, setMessage] = useState("")
+  const [isLoading, setIsLoading] = useState(false)
 
   const refund = useContractWrite({
     address: saleAddress as Address,
@@ -38,15 +39,25 @@ export function Refund({ state, refundAmount, saleAddress }: ApproveProps) {
     },
   })
 
+  const refundMutation = () => {
+    setIsLoading(true)
+    refund.writeAsync()
+  }
+
   const transaction = useWaitForTransaction({
     hash: refund.data?.hash,
   })
 
   useEffect(() => {
     if (transaction.isSuccess) {
+      setIsLoading(false)
       setTimeout(() => state.onClose(), 2000)
     }
-  }, [transaction.isSuccess, state])
+
+    if (refund.isError) {
+      setIsLoading(false)
+    }
+  }, [transaction.isSuccess, state, refund])
 
   useEffect(() => {
     if (!refundAmount.usdc && !refundAmount.usdt) {
@@ -56,10 +67,10 @@ export function Refund({ state, refundAmount, saleAddress }: ApproveProps) {
   }, [])
 
   const titleState = useCallback(() => {
-    if (transaction.isLoading) return "Refunding"
+    if (isLoading) return "Refunding"
     if (transaction.isSuccess) return "Refunded"
     return "Refund"
-  }, [transaction.isLoading, transaction.isSuccess])
+  }, [isLoading, transaction.isSuccess])
 
   return (
     <div className="bg-gray-700 w-full rounded-[20px] flex max-[639px]:min-h-[320px]">
@@ -71,18 +82,6 @@ export function Refund({ state, refundAmount, saleAddress }: ApproveProps) {
           <div className="flex w-full justify-between mt-4">
             <div className="flex w-full flex-col">
               <div className="w-full mx-auto mb-4">
-                {transaction.isLoading && !message && (
-                  <div className="w-[30px] mx-auto bg-brandBlue-100 rounded-full p-[3px] justify-center">
-                    <Loading size={24} />
-                  </div>
-                )}
-
-                {transaction.isSuccess && !message && (
-                  <div className="w-[30px] mx-auto bg-brandBlue-100 rounded-full p-[3px]">
-                    <BsCheckLg size={24} />
-                  </div>
-                )}
-
                 <Alert show={!!message} message={message} isError />
               </div>
 
@@ -132,12 +131,18 @@ export function Refund({ state, refundAmount, saleAddress }: ApproveProps) {
         </div>
 
         <button
-          onClick={() => refund.write()}
+          onClick={refundMutation}
           type="button"
-          className="p-[8px] rounded-[5px] bg-brandBlue-200 text-center w-full disabled:opacity-[0.5] disabled:cursor-not-allowed hover:bg-brandBlue-100 transition:all duration-300"
-          disabled={transaction.isLoading || transaction.isSuccess}
+          className="flex items-center justify-center p-[8px] rounded-[5px] bg-brandBlue-200 text-center w-full disabled:opacity-[0.5] disabled:cursor-not-allowed hover:bg-brandBlue-100 transition:all duration-300"
+          disabled={isLoading || (!isLoading && transaction.isSuccess)}
         >
-          Refund
+          {isLoading ? (
+            <Loading size={24} />
+          ) : !isLoading && transaction.isSuccess ? (
+            <BsCheckLg size={24} />
+          ) : (
+            "Refund"
+          )}
         </button>
       </div>
     </div>

@@ -40,6 +40,7 @@ const parseErrors = (errorMessage: string) => {
 
 export function ClaimProject({ state, amount, project }: ApproveProps) {
   const [message, setMessage] = useState("")
+  const [isLoading, setIsLoading] = useState(false)
 
   const claim = useContractWrite({
     address: project.address as Address,
@@ -50,26 +51,38 @@ export function ClaimProject({ state, amount, project }: ApproveProps) {
     },
   })
 
+  const claimMutation = () => {
+    setIsLoading(true)
+    claim.writeAsync()
+  }
+
   const transaction = useWaitForTransaction({
     hash: claim.data?.hash,
   })
 
   useEffect(() => {
+    if (claim.isSuccess) return
+
     if (!amount) state.onClose()
     // eslint-disable-next-line
   }, [])
 
   useEffect(() => {
     if (transaction.isSuccess) {
+      setIsLoading(false)
       setTimeout(() => state.onClose(), 2000)
     }
-  }, [transaction.isSuccess, state])
+
+    if (claim.isError) {
+      setIsLoading(false)
+    }
+  }, [transaction.isSuccess, state, claim])
 
   const titleState = useCallback(() => {
-    if (transaction.isLoading) return "Claiming"
+    if (isLoading) return "Claiming"
     if (transaction.isSuccess) return "Claimed"
     return "Claim"
-  }, [transaction.isLoading, transaction.isSuccess])
+  }, [isLoading, transaction.isSuccess])
 
   return (
     <div className="bg-gray-700 w-full rounded-[20px] flex max-[639px]:min-h-[320px]">
@@ -79,18 +92,6 @@ export function ClaimProject({ state, amount, project }: ApproveProps) {
 
         <div className="flex w-full flex-col">
           <div className="w-full mx-auto mb-4">
-            {transaction.isLoading && !message && (
-              <div className="w-[30px] mx-auto bg-brandBlue-100 rounded-full p-[3px] justify-center">
-                <Loading size={24} />
-              </div>
-            )}
-
-            {transaction.isSuccess && !message && (
-              <div className="w-[30px] mx-auto bg-brandBlue-100 rounded-full p-[3px]">
-                <BsCheckLg size={24} />
-              </div>
-            )}
-
             <Alert show={!!message} message={message} isError />
           </div>
 
@@ -136,12 +137,18 @@ export function ClaimProject({ state, amount, project }: ApproveProps) {
         </div>
 
         <button
-          onClick={() => claim.write()}
+          onClick={claimMutation}
           type="button"
-          className="p-[8px] rounded-[5px] bg-brandBlue-200 text-center w-full disabled:opacity-[0.5] disabled:cursor-not-allowed hover:bg-brandBlue-100 transition:all duration-300"
-          disabled={transaction.isLoading || transaction.isSuccess}
+          className="flex items-center justify-center p-[8px] rounded-[5px] bg-brandBlue-200 text-center w-full disabled:opacity-[0.5] disabled:cursor-not-allowed hover:bg-brandBlue-100 transition:all duration-300"
+          disabled={isLoading || (!isLoading && transaction.isSuccess)}
         >
-          Claim
+          {isLoading ? (
+            <Loading size={24} />
+          ) : !isLoading && transaction.isSuccess ? (
+            <BsCheckLg size={24} />
+          ) : (
+            "Claim"
+          )}
         </button>
       </div>
     </div>

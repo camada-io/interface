@@ -1,6 +1,6 @@
 "use client"
 
-import { useCallback, useEffect } from "react"
+import { useCallback, useEffect, useState } from "react"
 import Image from "next/image"
 import { useContractWrite, useWaitForTransaction } from "wagmi"
 import { BsCheckLg } from "react-icons/bs"
@@ -19,26 +19,40 @@ type Address = `0x${string}`
 const contractAddres = process.env.NEXT_PUBLIC_STAKE_CONTRACT as Address
 
 export function Claim({ state, amount }: ApproveProps) {
+  const [isLoading, setIsLoading] = useState(false)
+
   const claim = useContractWrite({
     address: contractAddres,
     abi: abi,
     functionName: "getReward",
   })
 
+  const claimMutation = () => {
+    setIsLoading(true)
+    claim.writeAsync()
+  }
+
   const transaction = useWaitForTransaction({
     hash: claim.data?.hash,
   })
 
   useEffect(() => {
+    if (claim.isSuccess) return
+
     if (!amount) state.onClose()
     // eslint-disable-next-line
   }, [])
 
   useEffect(() => {
     if (transaction.isSuccess) {
+      setIsLoading(false)
       setTimeout(() => state.onClose(), 2000)
     }
-  }, [transaction.isSuccess, state])
+
+    if (claim.isError) {
+      setIsLoading(false)
+    }
+  }, [transaction.isSuccess, state, claim])
 
   const titleState = useCallback(() => {
     if (transaction.isLoading) return "Claiming"
@@ -95,12 +109,18 @@ export function Claim({ state, amount }: ApproveProps) {
         </div>
 
         <button
-          onClick={() => claim.write()}
+          onClick={claimMutation}
           type="button"
-          className="p-[8px] rounded-[5px] bg-brandBlue-200 text-center w-full disabled:opacity-[0.5] disabled:cursor-not-allowed hover:bg-brandBlue-100 transition:all duration-300"
-          disabled={transaction.isLoading || transaction.isSuccess}
+          className="flex items-center justify-center p-[8px] rounded-[5px] bg-brandBlue-200 text-center w-full disabled:opacity-[0.5] disabled:cursor-not-allowed hover:bg-brandBlue-100 transition:all duration-300"
+          disabled={isLoading || (!isLoading && transaction.isSuccess)}
         >
-          Claim
+          {isLoading ? (
+            <Loading size={24} />
+          ) : !isLoading && transaction.isSuccess ? (
+            <BsCheckLg size={24} />
+          ) : (
+            "Claim"
+          )}
         </button>
       </div>
     </div>

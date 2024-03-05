@@ -52,7 +52,7 @@ export function TransactionModal({
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} className="overflow-hidden">
-      <div className="bg-gray-700 relative flex w-full rounded-[20px] max-[639px]:rounded-b-[0px] sm:min-w-[800px] sm:min-h-[320px] justify-end">
+      <div className="bg-gray-700 relative flex w-full rounded-[20px] max-[639px]:rounded-b-[0px] sm:min-w-[650px] sm:min-h-[320px] justify-end">
         <button className="fixed mt-[20px] mr-[20px] z-10">
           <XMarkIcon className="w-6 h-6" onClick={onClose} />
         </button>

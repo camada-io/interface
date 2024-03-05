@@ -7,15 +7,14 @@ import { menuData } from "./menuData"
 import { usePathname } from "next/navigation"
 import { BiWallet } from "react-icons/bi"
 import { RiUserLine, RiLogoutBoxLine } from "react-icons/ri"
-import { Address, useAccount, useContractRead, useDisconnect } from "wagmi"
+import { useAccount, useDisconnect } from "wagmi"
 import { checkUserAuthenticated } from "@/utils/userAuth"
 import { APP_ROUTES } from "@/utils/appRoutes"
 import { TransactionModal } from "../TransactionModal"
 import { CheckNetwork } from "../TransactionModal/steps/CheckNetwork"
-import { CheckFractalIdCredential } from "../TransactionModal/steps/CheckFractalIdCredential"
+import { CheckKYCCredential } from "../TransactionModal/steps/CheckKYCCredential"
 import { useTransactionModal } from "@/stores/transactionModal"
 import { ConnectWallet } from "../TransactionModal/steps/ConnectWallet"
-import launchpadAbi from "@/contracts/launchpadAbi"
 
 export const Header = () => {
   const pathname = usePathname()
@@ -28,7 +27,6 @@ export const Header = () => {
 
   const { disconnect } = useDisconnect()
   const state = useTransactionModal()
-  const lauchpadAdress = process.env.NEXT_PUBLIC_LAUNCHPAD_CONTRACT as Address
   const appEnv = process.env.NEXT_PUBLIC_APP_ENV as string
 
   // Sticky Navbar
@@ -64,15 +62,6 @@ export const Header = () => {
     })()
     // eslint-disable-next-line
   }, [connector])
-
-  const { data: isWhitelisted } = useContractRead({
-    address: lauchpadAdress,
-    abi: launchpadAbi,
-    functionName: "isWhitelisted",
-    args: [address as Address],
-    enabled: !!address && isAllowedChain,
-    watch: !!address && isAllowedChain,
-  })
 
   const menuDataFiltered = useMemo(() => {
     if (!isUserAuthenticated) {
@@ -160,7 +149,7 @@ export const Header = () => {
                   <button
                     onClick={() => {
                       disconnect()
-                      localStorage?.removeItem("idos_credential")
+                      localStorage?.removeItem("validated_wallet")
                     }}
                     className="flex mt-2 gap-2 bg-gray-500 rounded-[5px] w-full h-[45px] justify-center items-center"
                   >
@@ -175,11 +164,7 @@ export const Header = () => {
       <TransactionModal>
         <ConnectWallet state={state} />
         <CheckNetwork state={state} />
-        <CheckFractalIdCredential
-          state={state}
-          isWhitelisted={isWhitelisted}
-          closeOnSuccess
-        />
+        <CheckKYCCredential state={state} />
       </TransactionModal>
     </header>
   )
