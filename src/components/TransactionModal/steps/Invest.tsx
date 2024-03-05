@@ -44,6 +44,7 @@ const parseErrors = (errorMessage: string) => {
 
 export function Invest({ state, amount, project, stableToken }: InvestProps) {
   const [message, setMessage] = useState("")
+  const [isLoading, setIsLoading] = useState(false)
 
   const invest = useContractWrite({
     address: project.address as Address,
@@ -53,6 +54,13 @@ export function Invest({ state, amount, project, stableToken }: InvestProps) {
       setMessage(parseErrors(error.message))
     },
   })
+
+  const investMutation = () => {
+    setIsLoading(true)
+    invest.write({
+      args: [stableToken.address as Address, parseUnits(String(amount), 6)],
+    })
+  }
 
   const transaction = useWaitForTransaction({
     hash: invest.data?.hash,
@@ -65,16 +73,21 @@ export function Invest({ state, amount, project, stableToken }: InvestProps) {
 
   useEffect(() => {
     if (transaction.isSuccess) {
+      setIsLoading(false)
       setTimeout(() => state.onClose(), 2000)
       setTimeout(() => apolloClient.refetchQueries({ include: "active" }), 5000)
     }
-  }, [transaction.isSuccess, state])
+
+    if (invest.isError) {
+      setIsLoading(false)
+    }
+  }, [transaction.isSuccess, state, invest])
 
   const titleState = useCallback(() => {
-    if (transaction.isLoading) return "Investing"
+    if (isLoading) return "Investing"
     if (transaction.isSuccess) return "Invested"
     return "Invest"
-  }, [transaction.isLoading, transaction.isSuccess])
+  }, [isLoading, transaction.isSuccess])
 
   return (
     <div className="bg-gray-700 w-full rounded-[20px] flex max-[639px]:min-h-[320px]">
@@ -84,18 +97,6 @@ export function Invest({ state, amount, project, stableToken }: InvestProps) {
 
         <div className="flex w-full flex-col">
           <div className="w-full mx-auto mb-4">
-            {transaction.isLoading && !message && (
-              <div className="w-[30px] mx-auto bg-brandBlue-100 rounded-full p-[3px] justify-center">
-                <Loading size={24} />
-              </div>
-            )}
-
-            {transaction.isSuccess && !message && (
-              <div className="w-[30px] mx-auto bg-brandBlue-100 rounded-full p-[3px]">
-                <BsCheckLg size={24} />
-              </div>
-            )}
-
             <Alert show={!!message} message={message} isError />
           </div>
 
@@ -134,19 +135,18 @@ export function Invest({ state, amount, project, stableToken }: InvestProps) {
         </div>
 
         <button
-          onClick={() =>
-            invest.write({
-              args: [
-                stableToken.address as Address,
-                parseUnits(String(amount), 6),
-              ],
-            })
-          }
+          onClick={investMutation}
           type="button"
-          className="p-[8px] rounded-[5px] bg-brandBlue-200 text-center w-full disabled:opacity-[0.5] disabled:cursor-not-allowed hover:bg-brandBlue-100 transition:all duration-300"
-          disabled={transaction.isLoading || transaction.isSuccess}
+          className="flex items-center justify-center p-[8px] rounded-[5px] bg-brandBlue-200 text-center w-full disabled:opacity-[0.5] disabled:cursor-not-allowed hover:bg-brandBlue-100 transition:all duration-300"
+          disabled={isLoading || (!isLoading && transaction.isSuccess)}
         >
-          Invest
+          {isLoading ? (
+            <Loading size={24} />
+          ) : !isLoading && transaction.isSuccess ? (
+            <BsCheckLg size={24} />
+          ) : (
+            "Invest"
+          )}
         </button>
       </div>
     </div>

@@ -71,7 +71,7 @@ export function StakeTab({ stakeProps }: { stakeProps: StakeProps }) {
               <p>Next tier missing points</p>
               <p>
                 {!isLoading && getNextTierMissingPoints()
-                  ? `${getNextTierMissingPoints()} ${tokenSymbol}`
+                  ? `${getNextTierMissingPoints().toFixed()} ${tokenSymbol}`
                   : 0}
               </p>
             </div>
