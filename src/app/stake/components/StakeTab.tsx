@@ -2,7 +2,7 @@
 
 import { InputNumber } from "@/components/InputNumber"
 import { useCallback, useEffect, useState } from "react"
-import { useAccount } from "wagmi"
+import { useAccount, useNetwork } from "wagmi"
 import { useStake } from "../hooks/useStake"
 import { useTransactionModal } from "@/stores/transactionModal"
 import { TransactionModal } from "@/components/TransactionModal"
@@ -13,8 +13,11 @@ import { StakeToken } from "@/components/TransactionModal/steps/StakeToken"
 
 type StakeProps = ReturnType<typeof useStake>
 
+const networkId = process.env.NEXT_PUBLIC_CHAIN_ID as string
+
 export function StakeTab({ stakeProps }: { stakeProps: StakeProps }) {
   const { isConnected } = useAccount()
+  const { chain } = useNetwork()
   const [amount, setAmount] = useState(0)
   const [isClient, setIsClient] = useState(false)
 
@@ -43,6 +46,10 @@ export function StakeTab({ stakeProps }: { stakeProps: StakeProps }) {
   useEffect(() => {
     setIsClient(true)
   }, [])
+
+  const defautButtonText = useCallback(() => {
+    return +networkId === chain?.id ? "Stake" : "Unsuported Network"
+  }, [chain])()
 
   return (
     <>
@@ -87,9 +94,9 @@ export function StakeTab({ stakeProps }: { stakeProps: StakeProps }) {
         >
           {isClient
             ? isConnected
-              ? "Stake now"
+              ? defautButtonText
               : "Connect Wallet"
-            : "Stake Now"}
+            : defautButtonText}
         </button>
       </div>
 
