@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react"
 import { useAccount, useSignMessage } from "wagmi"
-import { IoMdCheckmark } from "react-icons/io"
+import { IoMdCheckmark, IoMdCloseCircle } from "react-icons/io"
 import axios from "axios"
 
 import { TransactionModalState } from "../../../stores/transactionModal"
@@ -17,25 +17,6 @@ type EventData = {
   request_id?: string
 }
 
-// const notAllowedCountries = [
-//   "ASM",
-//   "AIA",
-//   "ATG",
-//   "BHS",
-//   "BLZ",
-//   "FJI",
-//   "GUM",
-//   "PLW",
-//   "PAN",
-//   "IRN",
-//   "PRK",
-//   "CHN",
-//   "MMR",
-//   "USA",
-//   "CAN",
-//   "GBR",
-// ]
-
 export function CheckKYCCredential({ state }: Props) {
   const { address } = useAccount()
   const [isLoading, setIsLoading] = useState(false)
@@ -43,6 +24,10 @@ export function CheckKYCCredential({ state }: Props) {
   const [signingMessage, setSigningMessage] = useState<boolean>(false)
   const [verificationUrl, setVerificationUrl] = useState<string | null>(null)
   const [requestId, setRequestId] = useState<string | null>(null)
+  const [spReference, setSpReference] = useState<string | null>(null)
+  const [approvedRegistration, setApprovedRegistration] = useState<
+    boolean | null
+  >(null)
 
   const {
     data: signMessageData,
@@ -96,18 +81,25 @@ export function CheckKYCCredential({ state }: Props) {
   }
 
   const checkEventStatus = useCallback(
-    (event: { data: EventData }) => {
+    async (event: { data: EventData }) => {
       const { data } = event
 
       if (data?.verification_status === "verification.accepted") {
         if (data.request_id === requestId) {
+          await new Promise((resolve) => setTimeout(resolve, 5000))
+
+          if (spReference) {
+            await handleSignedMessage(signMessageData as string, spReference)
+          }
+
           setIsVerified(true)
           removeIframe()
           setIsLoading(false)
 
-          localStorage?.setItem("validated_wallet", `${address}`)
-
-          setTimeout(() => state.onClose(), 3000)
+          if (!spReference) {
+            localStorage?.setItem("validated_wallet", `${address}`)
+            setTimeout(() => state.onClose(), 3000)
+          }
         }
       }
     },
@@ -115,8 +107,10 @@ export function CheckKYCCredential({ state }: Props) {
     [address, requestId],
   )
 
-  async function handleSignedMessage(signature: string) {
-    const reference = `SP_REQUEST_${Math.random()}`
+  async function handleSignedMessage(signature: string, spRef?: string) {
+    const reference = spRef || `SP_REQUEST_${Math.random()}`
+
+    !spRef && setSpReference(reference)
 
     const { data } = await axios.post(
       "https://backend.camada.io/api/profile/auth",
@@ -127,7 +121,20 @@ export function CheckKYCCredential({ state }: Props) {
       },
     )
 
-    if (data.verified) {
+    if (spRef) {
+      if ((data.verified && !data.allowed) || !data.verified) {
+        setApprovedRegistration(false)
+        return
+      } else {
+        setApprovedRegistration(true)
+      }
+    }
+
+    if (data.allowed === false) {
+      setTimeout(() => state.onClose(), 1500)
+    }
+
+    if (data.verified && data.allowed) {
       localStorage?.setItem("validated_wallet", `${address}`)
 
       setSigningMessage(false)
@@ -162,10 +169,12 @@ export function CheckKYCCredential({ state }: Props) {
   }, [checkEventStatus])
 
   const titleState = useCallback(() => {
-    if (isVerified === null) return "Checking Profile"
+    if (isVerified === null || approvedRegistration === null)
+      return "Checking Profile"
     if (!isVerified) return "Create Profile"
+    if (approvedRegistration === false) return "Profile not approved"
     return "Profile approved"
-  }, [isVerified])
+  }, [isVerified, approvedRegistration])
 
   return (
     <div className="bg-gray-700 w-full rounded-[20px] flex max-[639px]:min-h-[320px]">
@@ -174,7 +183,7 @@ export function CheckKYCCredential({ state }: Props) {
         <h3 className="font-bold text-[24px]">{titleState()}</h3>
 
         <div className="my-4 flex h-full">
-          {isVerified === null && (
+          {isVerified === null && approvedRegistration === null && (
             <div className="flex mx-auto flex-col justify-between items-center h-full">
               <div className="text-md">
                 To continue, sign the message in the wallet to verify your
@@ -211,15 +220,30 @@ export function CheckKYCCredential({ state }: Props) {
             </div>
           )}
 
-          {isVerified && (
+          {isVerified &&
+            approvedRegistration !== null &&
+            approvedRegistration && (
+              <div className="flex mx-auto flex-col justify-between items-center h-full">
+                <div className="text-white text-md">
+                  Shuftipro credential created and verified.
+                </div>
+
+                <div className="flex w-full h-full justify-center items-center">
+                  <IoMdCheckmark size={50} color="green" />
+                </div>
+              </div>
+            )}
+
+          {approvedRegistration !== null && !approvedRegistration && (
             <div className="flex mx-auto flex-col justify-between items-center h-full">
               <div className="text-white text-md">
-                Shuftipro credential created and verified.
+                Your profile was not approved by shufti pro, perhaps due to
+                problems with documents or your country of origin is not allowed
+                on the platform.
               </div>
 
-              {/* <div className="flex w-full justify-between gap-[16px]"> */}
               <div className="flex w-full h-full justify-center items-center">
-                <IoMdCheckmark size={50} color="green" />
+                <IoMdCloseCircle size={50} color="red" />
               </div>
             </div>
           )}
