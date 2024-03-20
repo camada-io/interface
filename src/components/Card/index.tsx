@@ -17,7 +17,7 @@ type Data = {
   tokenAddress: string
   address: string
   icon: string
-  banner: string
+  bannerImage: string
   status: "On going" | "Finished" | "Coming soon"
   saleProgress: number
   categories: string[]
@@ -102,7 +102,7 @@ export const Card = ({
   return (
     <div
       className={`flex flex-col max-w-[${maxWidth}] w-full h-[${height}] min-h-[240px] bg-no-repeat pt-6 bg-cover rounded-[20px] justify-between`}
-      style={{ backgroundImage: `url(${defaultImage})` }}
+      style={{ backgroundImage: `url(${data?.bannerImage || defaultImage})` }}
     >
       <div className="w-full h-7 px-6 justify-start items-start gap-1 inline-flex">
         <Badge />

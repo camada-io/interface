@@ -47,7 +47,7 @@ export function StakeTab({ stakeProps }: { stakeProps: StakeProps }) {
     setIsClient(true)
   }, [])
 
-  const defautButtonText = useCallback(() => {
+  const defaultButtonText = useCallback(() => {
     return +networkId === chain?.id ? "Stake" : "Unsuported Network"
   }, [chain])()
 
@@ -94,9 +94,9 @@ export function StakeTab({ stakeProps }: { stakeProps: StakeProps }) {
         >
           {isClient
             ? isConnected
-              ? defautButtonText
+              ? defaultButtonText
               : "Connect Wallet"
-            : defautButtonText}
+            : defaultButtonText}
         </button>
       </div>
 

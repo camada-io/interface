@@ -43,7 +43,7 @@ type Project = {
   tokenAddress: string
   address: string
   icon: string
-  banner: string
+  bannerImage: string
   status: "On going" | "Finished" | "Coming soon"
   saleProgress: number
   categories: string[]
