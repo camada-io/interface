@@ -114,7 +114,7 @@ export const Card = ({
             alt="heroImage"
             width={20}
             height={20}
-            className="rounded-full"
+            className="rounded-full w-[20px] h-[20px]"
           />
           <div className="text-white text-sm font-bold leading-normal">
             {data?.tokenName ?? "Token Not Found"} {data?.tokenSymbol ?? ""}

@@ -37,7 +37,7 @@ export function ItemList({ project }: { project: Project }) {
             width={45}
             height={45}
             alt={project.tokenName}
-            className="rounded-full"
+            className="rounded-full w-[45px] h-[45px]"
           />
           <p className="font-bold uppercase">{project.tokenName}</p>
           <p>{project.tokenSymbol}</p>

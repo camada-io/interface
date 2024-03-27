@@ -26,7 +26,7 @@ export function PageHeader({
           <div className="flex items-center gap-4">
             {icon && (
               <Image
-                className="rounded-full"
+                className="rounded-full w-[45px] h-[45px]"
                 src={icon}
                 alt="Icon"
                 width={45}
