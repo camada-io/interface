@@ -8,7 +8,7 @@ type Project = {
   tokenName: string
   tokenSymbol: string
   icon: string
-  banner: string
+  bannerImage: string
   status: string
   saleProgress: number
   categories: string[]
